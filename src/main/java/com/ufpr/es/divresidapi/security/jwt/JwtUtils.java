@@ -17,16 +17,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
-/*
- * This class has 3 funtions:
-
-    generate a JWT from username, date, expiration, secret
-    get username from JWT
-    validate a JWT
-    
-    
-    Remember that we’ve added divresidapi.app.jwtSecret and divresidapi.app.jwtExpirationMs properties in application.properties file.
- */
 
 @Component
 public class JwtUtils {

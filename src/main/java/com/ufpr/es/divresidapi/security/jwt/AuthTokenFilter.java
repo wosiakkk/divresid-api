@@ -63,22 +63,5 @@ public class AuthTokenFilter extends OncePerRequestFilter{
 
 		return null;
 	}
-
 }
 
-/*
- * What we do inside doFilterInternal():
-– get JWT from the Authorization header (by removing Bearer prefix)
-– if the request has JWT, validate it, parse username from it
-– from username, get UserDetails to create an Authentication object
-– set the current UserDetails in SecurityContext using setAuthentication(authentication) method.
-
-After this, everytime you want to get UserDetails, just use SecurityContext like this:
-
-UserDetails userDetails =
-	(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-// userDetails.getUsername()
-// userDetails.getPassword()
-// userDetails.getAuthorities()
-*/

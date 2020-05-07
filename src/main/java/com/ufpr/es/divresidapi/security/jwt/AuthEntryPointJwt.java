@@ -10,15 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 
-/*
-Now we create AuthEntryPointJwt class that implements AuthenticationEntryPoint interface.
- Then we override the commence() method. This method will be triggerd anytime unauthenticated 
- User requests a secured HTTP resource and an AuthenticationException is thrown. 
- 
- HttpServletResponse.SC_UNAUTHORIZED is the 401 Status code. It indicates that the request requires HTTP authentication.
- */
 
+@Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint{
 
 	private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);

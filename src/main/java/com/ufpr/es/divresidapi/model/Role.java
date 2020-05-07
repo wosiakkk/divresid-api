@@ -1,5 +1,6 @@
 package com.ufpr.es.divresidapi.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,6 +18,7 @@ public class Role {
 	private Long id;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(length = 20)
 	private ERole name;
 	
 	public Role() {

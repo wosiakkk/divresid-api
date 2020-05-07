@@ -18,7 +18,7 @@ import com.ufpr.es.divresidapi.security.jwt.AuthEntryPointJwt;
 import com.ufpr.es.divresidapi.security.jwt.AuthTokenFilter;
 import com.ufpr.es.divresidapi.security.service.UserDetailsServiceImpl;
 
-/*https://bezkoder.com/spring-boot-jwt-authentication/*/
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	public AuthTokenFilter authenticationJwtTokenFilter() {
 		return new AuthTokenFilter();
 	}
-//userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+
 	@Override
 	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -66,15 +66,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 
 }
-/*
- * – @EnableWebSecurity allows Spring to find and automatically apply the class to the global Web Security.
-
-– @EnableGlobalMethodSecurity provides AOP security on methods. It enables @PreAuthorize, @PostAuthorize, it also supports JSR-250. You can find more parameters in configuration in Method Security Expressions.
-
-– We override the configure(HttpSecurity http) method from WebSecurityConfigurerAdapter interface. It tells Spring Security how we configure CORS and CSRF, when we want to require all users to be authenticated or not, which filter (AuthTokenFilter) and when we want it to work (filter before UsernamePasswordAuthenticationFilter), which Exception Handler is chosen (AuthEntryPointJwt).
-
-– Spring Security will load User details to perform authentication & authorization. So it has UserDetailsService interface that we need to implement.
-
-– The implementation of UserDetailsService will be used for configuring DaoAuthenticationProvider by AuthenticationManagerBuilder.userDetailsService() method.
-
-– We also need a PasswordEncoder for the DaoAuthenticationProvider. If we don’t specify, it will use plain text.*/
