@@ -1,0 +1,887 @@
+{
+	"info": {
+		"_postman_id": "dbc5d67f-acd4-4d84-bfe6-a1ccb6440f7e",
+		"name": "DivResid",
+		"description": "TCC da pós graduação em Engenharia de Software da UFPR 2020",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1 - Security Tests",
+			"item": [
+				{
+					"name": "Signup - Criação de usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "62cc4f39-77e6-4bed-8702-bb7050da1503",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"Verificando mensagem de retorno\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"User registered successfully!\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"user\",\n\t\"email\": \"user@divresid.com\",\n\t\"password\": \"12345678\",\n\t\"role\": [\"user\"]\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlSignup}}",
+							"host": [
+								"{{urlSignup}}"
+							]
+						},
+						"description": "Request para criar um user.\n\nRoles disponíveis:\n\nAdmin - \"admin\"\nModerador - \"mod\"\nUser - \"user\""
+					},
+					"response": []
+				},
+				{
+					"name": "Acessando conteúdo público",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "41b5904c-15f6-4f97-a1de-34089f421ac1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/test/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"test",
+								"all"
+							]
+						},
+						"description": "Requisição para testar acesso ao conteúdo público"
+					},
+					"response": []
+				},
+				{
+					"name": "Acessando conteúdo restrito",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "84a2a492-8836-4392-9918-3d65e7cf4a38",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"Verificando mensagem de retorno\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Error: Unauthorized\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/test/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"test",
+								"user"
+							]
+						},
+						"description": "Requisição para acessar conteúdo restrito sem autenticação."
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Logando com um usuário administrador",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "17e60494-b6e1-4840-b92b-bf21fa0d6f6a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"Verificando o username do usuário admin\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.username).to.eql(\"admin\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o email do usuário admin\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.email).to.eql(\"admin@divresid.com\");",
+									"});",
+									"",
+									"pm.test(\"Verificando role do usuário admin\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.roles[0]).to.eql(\"ROLE_ADMIN\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o tokentype\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.tokenType).to.eql(\"Bearer\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlSignin}}",
+							"host": [
+								"{{urlSignin}}"
+							]
+						},
+						"description": "Requisição para logar com credenciais válidas e receber o token de autorização."
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Logando com um usuário moderador",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "17e60494-b6e1-4840-b92b-bf21fa0d6f6a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"Verificando o username do usuário mod\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.username).to.eql(\"mod\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o email do usuário mod\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.email).to.eql(\"mod@divresid.com\");",
+									"});",
+									"",
+									"pm.test(\"Verificando role do usuário mod\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.roles[0]).to.eql(\"ROLE_MODERATOR\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o tokentype\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.tokenType).to.eql(\"Bearer\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"mod\",\n\t\"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlSignin}}",
+							"host": [
+								"{{urlSignin}}"
+							]
+						},
+						"description": "Requisição para logar com credenciais válidas e receber o token de autorização."
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Logando com um usuário comum",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "17e60494-b6e1-4840-b92b-bf21fa0d6f6a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"Verificando o username do usuário comum\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.username).to.eql(\"user\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o email do usuário comum\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.email).to.eql(\"user@divresid.com\");",
+									"});",
+									"",
+									"pm.test(\"Verificando role do usuário comum\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.roles[0]).to.eql(\"ROLE_USER\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o tokentype\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.tokenType).to.eql(\"Bearer\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"user\",\n\t\"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlSignin}}",
+							"host": [
+								"{{urlSignin}}"
+							]
+						},
+						"description": "Requisição para logar com credenciais válidas e receber o token de autorização."
+					},
+					"response": []
+				},
+				{
+					"name": "Login com credenciais inválidas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0ce9812d-1f85-4488-8be2-ceb9c8179d5c",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"Verificando a mensagem de retorno\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Error: Unauthorized\");",
+									"});",
+									"",
+									"pm.test(\"Verificando erro\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.error).to.eql(\"Unauthorized\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"1234567\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlSignin}}",
+							"host": [
+								"{{urlSignin}}"
+							]
+						},
+						"description": "Requisição com credenciais invalidas para checar o retorno de auth."
+					},
+					"response": []
+				},
+				{
+					"name": "Acessando conteúdo restrito user com token admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "916ded66-9851-4f0c-b574-a25a87967d8a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/test/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"test",
+								"user"
+							]
+						},
+						"description": "Acessando o conteúdo restrito de user com token admin"
+					},
+					"response": []
+				},
+				{
+					"name": "Acessando conteúdo restrito user com token user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "916ded66-9851-4f0c-b574-a25a87967d8a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/test/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"test",
+								"user"
+							]
+						},
+						"description": "Acessando o conteúdo restrito de user com token admin"
+					},
+					"response": []
+				},
+				{
+					"name": "Acessando conteúdo restrito user com token mod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "916ded66-9851-4f0c-b574-a25a87967d8a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenMod}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/test/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"test",
+								"user"
+							]
+						},
+						"description": "Acessando o conteúdo restrito de user com token admin"
+					},
+					"response": []
+				},
+				{
+					"name": "Acessando conteúdo restrito mod com token admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "80344c63-b0bc-4bd3-b3cb-b945e7521f46",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/test/mod",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"test",
+								"mod"
+							]
+						},
+						"description": "Acessando conteúdo restrito de moderador com token de adminsitrador"
+					},
+					"response": []
+				},
+				{
+					"name": "Acessando conteúdo restrito mod com token user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "80344c63-b0bc-4bd3-b3cb-b945e7521f46",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/test/mod",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"test",
+								"mod"
+							]
+						},
+						"description": "Acessando conteúdo restrito de moderador com token de adminsitrador"
+					},
+					"response": []
+				},
+				{
+					"name": "Acessando conteúdo restrito mod com token mod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "80344c63-b0bc-4bd3-b3cb-b945e7521f46",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenMod}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/test/mod",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"test",
+								"mod"
+							]
+						},
+						"description": "Acessando conteúdo restrito de moderador com token de adminsitrador"
+					},
+					"response": []
+				},
+				{
+					"name": "Acessando conteúdo restrido de admin com token admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6dfeebab-99e0-4084-80b7-cc5322e3f64c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/test/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"test",
+								"admin"
+							]
+						},
+						"description": "Requisição para acessar conteúdo restrido do adminstrador com chave de mesmo nível"
+					},
+					"response": []
+				},
+				{
+					"name": "Acessando conteúdo restrido de admin com token mod",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6dfeebab-99e0-4084-80b7-cc5322e3f64c",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenMod}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/test/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"test",
+								"admin"
+							]
+						},
+						"description": "Requisição para acessar conteúdo restrido do adminstrador com chave de mesmo nível"
+					},
+					"response": []
+				},
+				{
+					"name": "Acessando conteúdo restrido de admin com token user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6dfeebab-99e0-4084-80b7-cc5322e3f64c",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 250ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(250);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/test/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"test",
+								"admin"
+							]
+						},
+						"description": "Requisição para acessar conteúdo restrido do adminstrador com chave de mesmo nível"
+					},
+					"response": []
+				}
+			],
+			"description": "Requisições de testes para criação e login JWT e Spring Security",
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
