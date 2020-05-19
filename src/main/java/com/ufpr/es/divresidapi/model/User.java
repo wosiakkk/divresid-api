@@ -42,6 +42,10 @@ public class User {
 	@Size(max = 120)
 	private String password;
 	
+	@NotBlank
+	@Size(max = 50)
+	private String name;
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_roles", 
 				joinColumns = @JoinColumn(name = "user_id"), 
@@ -52,11 +56,12 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(@NotBlank String username, @NotBlank @Email String email, @NotBlank String password) {
+	public User(@NotBlank String username, @NotBlank @Email String email, @NotBlank String password, @NotBlank String name) {
 		super();
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.name = name;
 	}
 
 	public Long getId() {
@@ -89,6 +94,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 	public Set<Role> getRoles() {
