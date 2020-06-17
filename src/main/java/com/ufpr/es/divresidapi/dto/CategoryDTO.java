@@ -3,13 +3,15 @@ package com.ufpr.es.divresidapi.dto;
 public class CategoryDTO {
 	
 	private Long id;
+	private String name;
 	private String description;
 	
 	public CategoryDTO() { }
 	
-	public CategoryDTO(Long id, String description) {
+	public CategoryDTO(Long id,String name, String description) {
 		super();
 		this.id = id;
+		this.name = name;
 		this.description = description;
 	}
 
@@ -19,6 +21,15 @@ public class CategoryDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getDescription() {
 		return description;
 	}
