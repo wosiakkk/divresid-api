@@ -2,6 +2,10 @@ package com.ufpr.es.divresidapi.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,9 +21,11 @@ import com.ufpr.es.divresidapi.service.exception.ServiceException;
 
 
 
-public abstract class BaseRestController<TDTO, TID> {
+public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	
-	protected abstract BaseResourceService<TDTO, TID> getBaseResourceService();
+	protected abstract BaseResourceService<TENTITY, TDTO, TID> getBaseResourceService();
+	
+
 	
 	@GetMapping
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -30,6 +36,18 @@ public abstract class BaseRestController<TDTO, TID> {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@GetMapping(value = "/pagination")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<Page<TENTITY>> listAllPageable(Pageable pageable){
+		try {
+			Pageable sortedByIdDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),Sort.by("id").ascending());
+			return ResponseEntity.ok(this.getBaseResourceService().listAllPageable(sortedByIdDesc));
+		} catch (ServiceException e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
