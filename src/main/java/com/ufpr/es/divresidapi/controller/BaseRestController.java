@@ -17,16 +17,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ufpr.es.divresidapi.service.BaseResourceService;
+import com.ufpr.es.divresidapi.service.LazyTableService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
 
 
 
 public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	
-	protected abstract BaseResourceService<TENTITY, TDTO, TID> getBaseResourceService();
+	protected abstract BaseResourceService< TDTO, TID> getBaseResourceService();
+	protected abstract LazyTableService<TENTITY> getLazyTableService();
 	
 
-	
 	@GetMapping
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<List<TDTO>> listAll(){
@@ -39,15 +40,27 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	
 	@GetMapping(value = "/pagination")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<Page<TENTITY>> listAllPageable(Pageable pageable){
+	public ResponseEntity<Page<TENTITY>> listAllPageable(Pageable pageable, String name){
 		try {
-			Pageable sortedByIdDesc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),Sort.by("id").ascending());
-			return ResponseEntity.ok(this.getBaseResourceService().listAllPageable(sortedByIdDesc));
+			if(isFilteredSearch(name))
+				return ResponseEntity.ok(this.getLazyTableService().findAllByNameContaining(name, pageable));
+				
+			Pageable sortedByNameAsc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("name").ascending());
+			return ResponseEntity.ok(this.getLazyTableService().listAllPageable(sortedByNameAsc));
 		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
+	@GetMapping(value = "/pagination/count")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<Long> getNumberOfEntities(){
+		try {
+			return ResponseEntity.ok(this.getLazyTableService().getNumberOfEntities());
+		} catch (ServiceException e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -90,5 +103,7 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 		}
 	}
 	
-
+	private boolean isFilteredSearch(String param) {
+		return !param.equalsIgnoreCase("not");
+	}
 }

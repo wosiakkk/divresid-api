@@ -4,8 +4,6 @@ package com.ufpr.es.divresidapi.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ufpr.es.divresidapi.converter.ResourceConverter;
@@ -13,15 +11,11 @@ import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
 
 
-public abstract class BaseResourceServiceImpl<TENTITY, TDTO, TID> implements BaseResourceService<TENTITY,TDTO, TID> {
+public abstract class BaseResourceServiceImpl<TENTITY, TDTO, TID> implements BaseResourceService<TDTO, TID> {
 
 	protected abstract ResourceConverter<TENTITY, TDTO> getConverter();
 	protected abstract JpaRepository<TENTITY,TID> getRepository();
 	
-	@Override
-	public Page<TENTITY> listAllPageable(Pageable pageable) throws ServiceException {
-		return this.listAllPageable(pageable);
-	}
 	
 	@Override
 	public List<TDTO> listAll() throws ServiceException {

@@ -9,6 +9,7 @@ import com.ufpr.es.divresidapi.dto.CategoryDTO;
 import com.ufpr.es.divresidapi.model.Category;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.CategoryService;
+import com.ufpr.es.divresidapi.service.LazyTableService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -17,10 +18,17 @@ public class CategoryController extends BaseRestController<Category, CategoryDTO
 
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private LazyTableService<Category> lazyTableService;
 	
 	@Override
-	protected BaseResourceService<Category,CategoryDTO, Long> getBaseResourceService() {
+	protected BaseResourceService<CategoryDTO, Long> getBaseResourceService() {
 		return this.categoryService;
+	}
+
+	@Override
+	protected LazyTableService<Category> getLazyTableService() {
+		return this.lazyTableService;
 	}
 
 }
