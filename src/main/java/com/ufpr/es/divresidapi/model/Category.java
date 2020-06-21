@@ -20,7 +20,6 @@ public class Category {
 	@Size(max = 50)
 	private String name;
 	
-	@NotBlank
 	@Size(max = 150)
 	private String description;
 	
