@@ -25,7 +25,7 @@
 									"",
 									"pm.test(\"Verificando mensagem de retorno\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.message).to.eql(\"User registered successfully!\");",
+									"    pm.expect(jsonData.message).to.eql(\"Usuário cadastrado com sucesso!\");",
 									"});",
 									"",
 									"",
@@ -42,7 +42,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": \"postman\",\n\t\"email\": \"postman@divresid.com\",\n\t\"password\": \"12345678\",\n\t\"role\": [\"user\"]\n}\n\n",
+							"raw": "{\n\t\"username\": \"postman\",\n\t\"name\":\"postmantest\",\n\t\"email\": \"postman@divresid.com\",\n\t\"password\": \"12345678\",\n\t\"role\": [\"user\"]\n}\n\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -936,6 +936,298 @@
 				}
 			],
 			"description": "Requisições de testes para criação e login JWT e Spring Security",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "1 - Criando Categoria",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "24108390-1020-4b84-ad2f-1b0c955a8133",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"var idCreated = jsonData.id;",
+									"",
+									"postman.setEnvironmentVariable(\"idCreated\", idCreated);",
+									"",
+									"pm.test(\"Verificando nome Categoria\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Categoria teste Postman\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Categoria teste Postman\",\n\t\"description\": \"Cadastro para teste Postman\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlAuthApi}}categories",
+							"host": [
+								"{{urlAuthApi}}categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2 - Buscando Categoria criada",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "845c47fc-660a-462c-bf74-1185b1dd2560",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verificando nome Categoria\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Categoria teste Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando desrição Categoria\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.description).to.eql(\"Cadastro para teste Postman\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}categories/{{idCreated}}",
+							"host": [
+								"{{urlAuthApi}}categories"
+							],
+							"path": [
+								"{{idCreated}}"
+							]
+						},
+						"description": "REquisição para buscar uma categoria por id"
+					},
+					"response": []
+				},
+				{
+					"name": "3 - Listar Categorias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d90e6436-2fd3-4cc6-82ce-c80286c61011",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"A resposta é um array array\", function () {",
+									"        pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}categories",
+							"host": [
+								"{{urlAuthApi}}categories"
+							]
+						},
+						"description": "Requisição para listar todas as categorias cadastradas."
+					},
+					"response": []
+				},
+				{
+					"name": "4 - Atualizar Categoria",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0404b3a4-289a-4404-9fc5-6129a984659e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verificando nome Categoria\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Postman Teste Update name\");",
+									"});",
+									"",
+									"pm.test(\"Verificando descrição Categoria\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.description).to.eql(\"Postman Teste Update description\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":\"{{idCreated}}\",\n\t\"name\":\"Postman Teste Update name\",\n\t\"description\":\"Postman Teste Update description\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlAuthApi}}categories/{{idCreated}}",
+							"host": [
+								"{{urlAuthApi}}categories"
+							],
+							"path": [
+								"{{idCreated}}"
+							]
+						},
+						"description": "Requisição para atualizar uma categoria"
+					},
+					"response": []
+				},
+				{
+					"name": "5 - Excluir Categoria",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "89fe457d-69b5-44b3-9e44-7bed81224da0",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}categories/{{idCreated}}",
+							"host": [
+								"{{urlAuthApi}}categories"
+							],
+							"path": [
+								"{{idCreated}}"
+							]
+						},
+						"description": "Requisição para excluir uma categoria por id"
+					},
+					"response": []
+				}
+			],
+			"description": "Requisições apara tratar da entidade categoria.",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{tokenUser}}",
+						"type": "string"
+					}
+				]
+			},
 			"protocolProfileBehavior": {}
 		}
 	],
