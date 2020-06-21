@@ -82,7 +82,7 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 		}
 	}
 	
-	@PutMapping
+	@PutMapping(value = "/{id}")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<TDTO> update(@RequestBody TDTO dto){
 		try {
