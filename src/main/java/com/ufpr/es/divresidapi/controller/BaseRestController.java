@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.LazyTableService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
@@ -40,13 +41,13 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	
 	@GetMapping(value = "/pagination")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<Page<TENTITY>> listAllPageable(Pageable pageable, String name){
+	public ResponseEntity<Page<TENTITY>> listAllPageable(Pageable pageable, String name,User user){
 		try {
 			if(isFilteredSearch(name))
-				return ResponseEntity.ok(this.getLazyTableService().findAllByNameContaining(name, pageable));
+				return ResponseEntity.ok(this.getLazyTableService().findAllByNameContainingAndUser(name,user, pageable));
 				
 			Pageable sortedByNameAsc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("name").ascending());
-			return ResponseEntity.ok(this.getLazyTableService().listAllPageable(sortedByNameAsc));
+			return ResponseEntity.ok(this.getLazyTableService().listAllPageableAndUser(sortedByNameAsc, user));
 		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

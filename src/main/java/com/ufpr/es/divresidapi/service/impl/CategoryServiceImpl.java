@@ -10,6 +10,7 @@ import com.ufpr.es.divresidapi.converter.CategoryConverter;
 import com.ufpr.es.divresidapi.converter.ResourceConverter;
 import com.ufpr.es.divresidapi.dto.CategoryDTO;
 import com.ufpr.es.divresidapi.model.Category;
+import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.repository.CategoryRepository;
 import com.ufpr.es.divresidapi.service.CategoryService;
 import com.ufpr.es.divresidapi.service.LazyTableService;
@@ -34,13 +35,13 @@ public class CategoryServiceImpl extends BaseResourceServiceImpl<Category, Categ
 	}
 
 	@Override
-	public Page<Category> listAllPageable(Pageable pageable) throws ServiceException {
-		return categoryRepository.findAll(pageable);
+	public Page<Category> listAllPageableAndUser(Pageable pageable, User user) throws ServiceException {
+		return categoryRepository.findAllByUser(pageable,user);
 	}
 	
 	@Override
-	public Page<Category> findAllByNameContaining(String name, Pageable pageable) {
-		return categoryRepository.findAllByNameContaining(name, pageable);
+	public Page<Category> findAllByNameContainingAndUser(String name,User user, Pageable pageable) {
+		return categoryRepository.findAllByNameContainingAndUser(name,user, pageable);
 	}
 
 	@Override

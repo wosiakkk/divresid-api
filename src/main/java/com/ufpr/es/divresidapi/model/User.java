@@ -63,6 +63,10 @@ public class User {
 		this.password = password;
 		this.name = name;
 	}
+	
+	public User(Long id) {
+		this.id = id;
+	}
 
 	public Long getId() {
 		return id;

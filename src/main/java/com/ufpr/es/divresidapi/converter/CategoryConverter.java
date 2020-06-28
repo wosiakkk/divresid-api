@@ -9,12 +9,12 @@ public class CategoryConverter implements ResourceConverter<Category, CategoryDT
 
 	@Override
 	public Category convertToModel(CategoryDTO dto) {
-		return new Category(dto.getId(),dto.getName(), dto.getDescription());
+		return new Category(dto.getId(),dto.getName(), dto.getDescription(),dto.getUser());
 	}
 
 	@Override
 	public CategoryDTO convertToDTO(Category model) {
-		return new CategoryDTO(model.getId(), model.getName(), model.getDescription());
+		return new CategoryDTO(model.getId(), model.getName(), model.getDescription(), model.getUser());
 	}
 
 }
