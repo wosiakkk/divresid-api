@@ -55,9 +55,9 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	
 	@GetMapping(value = "/pagination/count")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<Long> getNumberOfEntities(){
+	public ResponseEntity<Long> getNumberOfEntities(User user){
 		try {
-			return ResponseEntity.ok(this.getLazyTableService().getNumberOfEntities());
+			return ResponseEntity.ok(this.getLazyTableService().getNumberOfEntities(user));
 		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

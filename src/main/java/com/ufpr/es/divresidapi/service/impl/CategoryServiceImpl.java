@@ -45,7 +45,7 @@ public class CategoryServiceImpl extends BaseResourceServiceImpl<Category, Categ
 	}
 
 	@Override
-	public Long getNumberOfEntities() throws ServiceException {
-		return categoryRepository.count();
+	public Long getNumberOfEntities(User user) throws ServiceException {
+		return categoryRepository.countByUser(user);
 	}
 }

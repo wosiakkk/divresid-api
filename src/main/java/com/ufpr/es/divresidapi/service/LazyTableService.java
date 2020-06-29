@@ -10,6 +10,6 @@ public interface LazyTableService<TENTITY> {
 	
 	Page<TENTITY> listAllPageableAndUser(Pageable pageable, User user)throws ServiceException;
 	Page<TENTITY> findAllByNameContainingAndUser(String name,User user, Pageable pageable);
-	Long getNumberOfEntities() throws ServiceException;
+	Long getNumberOfEntities(User user) throws ServiceException;
 	
 }
