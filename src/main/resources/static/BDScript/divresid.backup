@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.22
 -- Dumped by pg_dump version 9.5.22
 
--- Started on 2020-05-18 21:52:05 -03
+-- Started on 2020-06-29 22:20:54 -03
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,66 +18,451 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 2162 (class 0 OID 16650)
+-- TOC entry 1 (class 3079 OID 12399)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2198 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 181 (class 1259 OID 16385)
+-- Name: categories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.categories (
+    id bigint NOT NULL,
+    description character varying(150),
+    name character varying(50),
+    user_id bigint
+);
+
+
+ALTER TABLE public.categories OWNER TO postgres;
+
+--
+-- TOC entry 188 (class 1259 OID 16429)
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.categories_id_seq
+    START WITH 18
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.categories_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 16439)
+-- Name: entries; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.entries (
+    id bigint NOT NULL,
+    amount bigint,
+    date timestamp without time zone,
+    description character varying(250),
+    name character varying(255),
+    paid boolean,
+    type character varying(255),
+    category_id bigint,
+    user_id bigint
+);
+
+
+ALTER TABLE public.entries OWNER TO postgres;
+
+--
+-- TOC entry 187 (class 1259 OID 16415)
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.hibernate_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hibernate_sequence OWNER TO postgres;
+
+--
+-- TOC entry 183 (class 1259 OID 16392)
+-- Name: roles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.roles (
+    id bigint NOT NULL,
+    name character varying(20)
+);
+
+
+ALTER TABLE public.roles OWNER TO postgres;
+
+--
+-- TOC entry 182 (class 1259 OID 16390)
+-- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.roles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.roles_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2199 (class 0 OID 0)
 -- Dependencies: 182
+-- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
+
+
+--
+-- TOC entry 184 (class 1259 OID 16398)
+-- Name: user_roles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_roles (
+    user_id bigint NOT NULL,
+    role_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.user_roles OWNER TO postgres;
+
+--
+-- TOC entry 186 (class 1259 OID 16405)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id bigint NOT NULL,
+    email character varying(50),
+    name character varying(50),
+    password character varying(120),
+    username character varying(20)
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 16403)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2200 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- TOC entry 2046 (class 2604 OID 16395)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_id_seq'::regclass);
+
+
+--
+-- TOC entry 2047 (class 2604 OID 16408)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- TOC entry 2181 (class 0 OID 16385)
+-- Dependencies: 181
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.categories (id, description, name, user_id) FROM stdin;
+35	aaaaaaaa	aaaaaaa	\N
+36	aaa bb cc	aaa bbb ccc	24
+1	Gastos com alimentação fora do cartão alimentação	Alimentação	1
+2	Gastos com churrasco aos domingos	Churrasco	1
+3	Gastos com remédios	Farmácia	1
+4	Gastos com jogos de videogame	Playstation	1
+5	Gastos com jpedidos no Ifood	Ifood	1
+6	Gastos com uber	Uber App	1
+7	Gastos com jogos do coxa	Futebol	1
+8	Gastos gerais com a Kitnet	Kitnet	1
+9	Gastos come-books e livros físicos	Kindle e Livros	1
+10	Gastos gerais com a bike	Bicicleta	1
+11	Gastos gerais com saídas	Saídas e Happyhour	1
+12	Gastos gerais com bebidas	Bedidas	1
+13	Gastos com eletrônicos no geral	Eletrônicos	1
+14	Gastos com assinaturas de softwares utilizados no cotidiano.	Assinatura de Softwares	1
+15	Gasto com manutenções, combustível, etc.	Carro HB20	1
+16	Gastos com itens de decoração.	Decoração	1
+19	asdasd	post novo	1
+20	zzzz	zzzz	1
+22	teste bd	test new bd	1
+24	Gastos gerais com materiais para nosso escritório	Material de Escritório	1
+32	asdasd	caralho	1
+33	dfsdfdf	caralho2222	1
+34	asd	aabbbccc	1
+\.
+
+
+--
+-- TOC entry 2201 (class 0 OID 0)
+-- Dependencies: 188
+-- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.categories_id_seq', 18, false);
+
+
+--
+-- TOC entry 2189 (class 0 OID 16439)
+-- Dependencies: 189
+-- Data for Name: entries; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.entries (id, amount, date, description, name, paid, type, category_id, user_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2202 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.hibernate_sequence', 37, true);
+
+
+--
+-- TOC entry 2183 (class 0 OID 16392)
+-- Dependencies: 183
 -- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.roles (id, name) VALUES (1, 'ROLE_USER');
-INSERT INTO public.roles (id, name) VALUES (2, 'ROLE_MODERATOR');
-INSERT INTO public.roles (id, name) VALUES (3, 'ROLE_ADMIN');
+COPY public.roles (id, name) FROM stdin;
+1	ROLE_USER
+2	ROLE_MODERATOR
+3	ROLE_ADMIN
+\.
 
 
 --
--- TOC entry 2177 (class 0 OID 0)
--- Dependencies: 181
+-- TOC entry 2203 (class 0 OID 0)
+-- Dependencies: 182
 -- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.roles_id_seq', 3, true);
+SELECT pg_catalog.setval('public.roles_id_seq', 1, false);
 
 
 --
--- TOC entry 2163 (class 0 OID 16656)
--- Dependencies: 183
+-- TOC entry 2184 (class 0 OID 16398)
+-- Dependencies: 184
 -- Data for Name: user_roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.user_roles (user_id, role_id) VALUES (1, 3);
-INSERT INTO public.user_roles (user_id, role_id) VALUES (2, 2);
-INSERT INTO public.user_roles (user_id, role_id) VALUES (2, 1);
-INSERT INTO public.user_roles (user_id, role_id) VALUES (3, 1);
-INSERT INTO public.user_roles (user_id, role_id) VALUES (4, 1);
-INSERT INTO public.user_roles (user_id, role_id) VALUES (20, 1);
-INSERT INTO public.user_roles (user_id, role_id) VALUES (21, 1);
-INSERT INTO public.user_roles (user_id, role_id) VALUES (22, 1);
+COPY public.user_roles (user_id, role_id) FROM stdin;
+1	3
+2	2
+2	1
+3	1
+4	1
+20	1
+21	1
+22	1
+23	1
+24	1
+\.
 
 
 --
--- TOC entry 2165 (class 0 OID 16663)
--- Dependencies: 185
+-- TOC entry 2186 (class 0 OID 16405)
+-- Dependencies: 186
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.users (id, email, password, username, name) VALUES (1, 'admin@divresid.com', '$2a$10$LFM/.KrkMRfHViMMfv9O9eDcEKasa0JVOaE0Jxzm5S28/VCJ385mG', 'admin', 'Administrador');
-INSERT INTO public.users (id, email, password, username, name) VALUES (2, 'mod@divresid.com', '$2a$10$/jiOvV3ktm0TShSLy8QPveKBSy99Bc06X9PmM0K.rKBqZZBPqF692', 'mod', 'Moderador');
-INSERT INTO public.users (id, email, password, username, name) VALUES (3, 'user@divresid.com', '$2a$10$j8KCoJhVgGzZDF/qfQNua.kEPl7VVTQ/hx5X9wsdu8Qnkbyso3qJO', 'user', 'Usuário Teste');
-INSERT INTO public.users (id, email, password, username, name) VALUES (4, 'angularuser@divresid.com', '$2a$10$IUwFkpbs4Od3I1LDPclXHuNCHkcDQELLqU62diW58./F0aWRyzt86', 'angularuser', 'Usuário Angular');
-INSERT INTO public.users (id, email, password, username, name) VALUES (20, 'angular2@divresid.com', '$2a$10$zbb21Scw5PG6aC462DkOMuC/EVVbABRwizfAE0eGTsrHkMd3NIrBu', 'angular2', 'Usuário Angular 2');
-INSERT INTO public.users (id, email, password, username, name) VALUES (21, 'angular3@divresid.com', '$2a$10$A2PShquCg39bfEEsUH06RuwsjzTnjbUjiALVt44hClzakJ15L4IR2', 'angular3', 'Usuário Angular 3');
-INSERT INTO public.users (id, email, password, username, name) VALUES (22, 'angular4@divrresid.com', '$2a$10$cOC1yHpSfeIPoA.mhL89quIl039qpBMpvYKhRTDu3Tr8HBJVV7GMq', 'angular4', 'Usuário Angular 4');
+COPY public.users (id, email, name, password, username) FROM stdin;
+1	admin@divresid.com	Administrador	$2a$10$LFM/.KrkMRfHViMMfv9O9eDcEKasa0JVOaE0Jxzm5S28/VCJ385mG	admin
+2	mod@divresid.com	Moderador	$2a$10$/jiOvV3ktm0TShSLy8QPveKBSy99Bc06X9PmM0K.rKBqZZBPqF692	mod
+3	user@divresid.com	Usuário Teste	$2a$10$j8KCoJhVgGzZDF/qfQNua.kEPl7VVTQ/hx5X9wsdu8Qnkbyso3qJO	user
+4	angularuser@divresid.com	Usuário Angular	$2a$10$IUwFkpbs4Od3I1LDPclXHuNCHkcDQELLqU62diW58./F0aWRyzt86	angularuser
+20	angular2@divresid.com	Usuário Angular 2	$2a$10$zbb21Scw5PG6aC462DkOMuC/EVVbABRwizfAE0eGTsrHkMd3NIrBu	angular2
+21	angular3@divresid.com	Usuário Angular 3	$2a$10$A2PShquCg39bfEEsUH06RuwsjzTnjbUjiALVt44hClzakJ15L4IR2	angular3
+22	angular4@divrresid.com	Usuário Angular 4	$2a$10$cOC1yHpSfeIPoA.mhL89quIl039qpBMpvYKhRTDu3Tr8HBJVV7GMq	angular4
+23	angular10@divresid.com	Angular 10	$2a$10$nKJeWqRgorUeX7w39KuxAOFu5QeF1UuEfQsyK/bMseoFLbjCRt0pu	angular10update
+24	angular102@divresid.com	Angular 10 2	$2a$10$OnlulbbXW6Q3PDLx9/poZeBS1QaA9zuh0K1mXFxmwS8UUpaxMZuWy	angular10update2
+\.
 
 
 --
--- TOC entry 2178 (class 0 OID 0)
--- Dependencies: 184
+-- TOC entry 2204 (class 0 OID 0)
+-- Dependencies: 185
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 22, true);
+SELECT pg_catalog.setval('public.users_id_seq', 24, true);
 
 
--- Completed on 2020-05-18 21:52:06 -03
+--
+-- TOC entry 2049 (class 2606 OID 16389)
+-- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2061 (class 2606 OID 16446)
+-- Name: entries_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.entries
+    ADD CONSTRAINT entries_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2051 (class 2606 OID 16397)
+-- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.roles
+    ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2055 (class 2606 OID 16414)
+-- Name: uk6dotkott2kjsp8vw4d0m25fb7; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT uk6dotkott2kjsp8vw4d0m25fb7 UNIQUE (email);
+
+
+--
+-- TOC entry 2057 (class 2606 OID 16412)
+-- Name: ukr43af9ap4edm43mmtq01oddj6; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT ukr43af9ap4edm43mmtq01oddj6 UNIQUE (username);
+
+
+--
+-- TOC entry 2053 (class 2606 OID 16402)
+-- Name: user_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_roles
+    ADD CONSTRAINT user_roles_pkey PRIMARY KEY (user_id, role_id);
+
+
+--
+-- TOC entry 2059 (class 2606 OID 16410)
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2065 (class 2606 OID 16447)
+-- Name: fkfc6r6cf8c0hq0s2n3i5unfgss; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.entries
+    ADD CONSTRAINT fkfc6r6cf8c0hq0s2n3i5unfgss FOREIGN KEY (category_id) REFERENCES public.categories(id);
+
+
+--
+-- TOC entry 2062 (class 2606 OID 16431)
+-- Name: fkghuylkwuedgl2qahxjt8g41kb; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT fkghuylkwuedgl2qahxjt8g41kb FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- TOC entry 2063 (class 2606 OID 16417)
+-- Name: fkh8ciramu9cc9q3qcqiv4ue8a6; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_roles
+    ADD CONSTRAINT fkh8ciramu9cc9q3qcqiv4ue8a6 FOREIGN KEY (role_id) REFERENCES public.roles(id);
+
+
+--
+-- TOC entry 2064 (class 2606 OID 16422)
+-- Name: fkhfh9dx7w3ubf1co1vdev94g3f; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_roles
+    ADD CONSTRAINT fkhfh9dx7w3ubf1co1vdev94g3f FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- TOC entry 2066 (class 2606 OID 16452)
+-- Name: fkoia5s1p9sk4x5fld87yjqpjg9; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.entries
+    ADD CONSTRAINT fkoia5s1p9sk4x5fld87yjqpjg9 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- TOC entry 2197 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2020-06-29 22:20:54 -03
 
 --
 -- PostgreSQL database dump complete
