@@ -5,16 +5,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ufpr.es.divresidapi.model.Category;
+import com.ufpr.es.divresidapi.model.Entry;
 import com.ufpr.es.divresidapi.model.User;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+public interface EntryRepository extends JpaRepository<Entry, Long>{
 	
-	Page<Category> findAllByNameContainingAndUser(String name,User user, 
+	Page<Entry> findAllByNameContainingAndUser(String name,User user, 
 			Pageable pageable);
-	
-	Page<Category> findAllByUser(Pageable pageable,User user);
+
+	Page<Entry> findAllByUser(Pageable pageable,User user);
 	long countByUser(User user);
-	
+
 }
