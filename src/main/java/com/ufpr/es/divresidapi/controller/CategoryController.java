@@ -13,7 +13,8 @@ import com.ufpr.es.divresidapi.service.LazyTableService;
 
 @RestController
 @RequestMapping("api/auth/categories")
-public class CategoryController extends BaseRestController<Category, CategoryDTO, Long>{
+public class CategoryController 
+	extends BaseRestController<Category, CategoryDTO, Long>{
 
 	@Autowired
 	private CategoryService categoryService;

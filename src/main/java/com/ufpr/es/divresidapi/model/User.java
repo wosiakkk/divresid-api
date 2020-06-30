@@ -1,5 +1,6 @@
 package com.ufpr.es.divresidapi.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,8 +24,10 @@ import javax.validation.constraints.Size;
 			@UniqueConstraint(columnNames = "username"),
 			@UniqueConstraint(columnNames = "email") 
 		})
-public class User {
+public class User implements Serializable{
 	
+	private static final long serialVersionUID = 398440705996215873L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -56,7 +59,10 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(@NotBlank String username, @NotBlank @Email String email, @NotBlank String password, @NotBlank String name) {
+	public User(
+			@NotBlank String username, @NotBlank @Email String email, 
+			@NotBlank String password, @NotBlank String name
+		) {
 		super();
 		this.username = username;
 		this.email = email;
@@ -115,6 +121,30 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 	
 }

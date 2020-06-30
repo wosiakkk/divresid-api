@@ -17,7 +17,9 @@ import com.ufpr.es.divresidapi.service.LazyTableService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
 
 @Service
-public class CategoryServiceImpl extends BaseResourceServiceImpl<Category, CategoryDTO, Long> implements CategoryService, LazyTableService<Category> {
+public class CategoryServiceImpl 
+	extends BaseResourceServiceImpl<Category, CategoryDTO, Long> 
+	implements CategoryService, LazyTableService<Category> {
 	
 	@Autowired
 	private CategoryConverter categoryConverter;
@@ -35,13 +37,17 @@ public class CategoryServiceImpl extends BaseResourceServiceImpl<Category, Categ
 	}
 
 	@Override
-	public Page<Category> listAllPageableAndUser(Pageable pageable, User user) throws ServiceException {
+	public Page<Category> listAllPageableAndUser(Pageable pageable, User user) 
+			throws ServiceException {
 		return categoryRepository.findAllByUser(pageable,user);
 	}
 	
 	@Override
-	public Page<Category> findAllByNameContainingAndUser(String name,User user, Pageable pageable) {
-		return categoryRepository.findAllByNameContainingAndUser(name,user, pageable);
+	public Page<Category> findAllByNameContainingAndUser(
+			String name,User user, Pageable pageable
+		) {
+		return categoryRepository
+						.findAllByNameContainingAndUser(name,user, pageable);
 	}
 
 	@Override
