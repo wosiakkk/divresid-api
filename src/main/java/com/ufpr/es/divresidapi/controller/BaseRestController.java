@@ -39,7 +39,7 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 		}
 	}
 	
-	@GetMapping
+	@GetMapping(value = "/resources/user")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<List<TDTO>> listAllByUser(User user){
 		try {
