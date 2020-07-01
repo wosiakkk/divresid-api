@@ -18,7 +18,7 @@ public abstract class BaseResourceServiceImpl<TENTITY, TDTO, TID> implements Bas
 	
 	
 	@Override
-	public List<TDTO> listAll() throws ServiceException {
+	public List<TDTO> findAll() throws ServiceException {
 		List<TDTO> dtos = new ArrayList<TDTO>();
 		Iterable<TENTITY> elements = this.getRepository().findAll();
 		elements.forEach(e -> dtos.add(this.getConverter().convertToDTO(e)));

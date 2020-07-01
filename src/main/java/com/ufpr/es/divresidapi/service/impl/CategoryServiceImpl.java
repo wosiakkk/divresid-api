@@ -1,5 +1,7 @@
 package com.ufpr.es.divresidapi.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,5 +55,11 @@ public class CategoryServiceImpl
 	@Override
 	public Long getNumberOfEntities(User user) throws ServiceException {
 		return categoryRepository.countByUser(user);
+	}
+
+	@Override
+	public List<CategoryDTO> findAllByUser(User user) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,5 +1,8 @@
 package com.ufpr.es.divresidapi.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,6 +54,14 @@ public class EntryServiceImpl
 	@Override
 	protected JpaRepository<Entry, Long> getRepository() {
 		return this.entryRepository;
+	}
+
+	@Override
+	public List<EntryDTO> findAllByUser(User user) throws ServiceException {
+		List<EntryDTO> dtos = new ArrayList<>();
+		List<Entry> model =this.entryRepository.findAllByUser(user);
+		model.forEach(entry -> dtos.add(this.getConverter().convertToDTO(entry)));
+		return dtos;
 	}
 
 }
