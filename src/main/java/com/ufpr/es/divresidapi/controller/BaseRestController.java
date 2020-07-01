@@ -33,7 +33,17 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<List<TDTO>> listAll(){
 		try {
-			return ResponseEntity.ok(this.getBaseResourceService().listAll());
+			return ResponseEntity.ok(this.getBaseResourceService().findAll());
+		} catch (ServiceException e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<List<TDTO>> listAllByUser(User user){
+		try {
+			return ResponseEntity.ok(this.getBaseResourceService().findAllByUser(user));
 		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
