@@ -1,6 +1,7 @@
 package com.ufpr.es.divresidapi.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -37,10 +38,10 @@ public class Entry implements Serializable {
 	private String type;
 	
 	@Column
-	private Long amount;
+	private float amount;
 	
 	@Column
-	private Date date;
+	private LocalDate date;
 	
 	@Column
 	private boolean paid;
@@ -56,7 +57,7 @@ public class Entry implements Serializable {
 	public Entry() {}
 	
 	public Entry(Long id, @NotBlank String name, @Max(250) String description,
-				 String type, Long amount, Date date,
+				 String type, float amount, LocalDate date,
 				 boolean paid, Category category, User user
 				) {
 		super();
@@ -103,19 +104,19 @@ public class Entry implements Serializable {
 		this.type = type;
 	}
 
-	public Long getAmount() {
+	public float getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Long amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 

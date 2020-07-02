@@ -1,5 +1,6 @@
 package com.ufpr.es.divresidapi.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,12 @@ public class CategoryServiceImpl
 
 	@Override
 	public List<CategoryDTO> findAllByUser(User user) throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		List<CategoryDTO> dtos = new ArrayList<>();
+		List<Category> models = this.categoryRepository.findAllByUser(user);
+		models.forEach(
+			model -> 
+			dtos.add(this.categoryConverter.convertToDTO(model))
+		);
+		return dtos;
 	}
 }

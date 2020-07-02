@@ -43,7 +43,7 @@ public class EntryServiceImpl
 
 	@Override
 	public Long getNumberOfEntities(User user) throws ServiceException {
-		return this.getNumberOfEntities(user);
+		return this.entryRepository.countByUser(user);
 	}
 
 	@Override
