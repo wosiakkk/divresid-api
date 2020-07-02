@@ -1,5 +1,7 @@
 package com.ufpr.es.divresidapi.dto;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import com.ufpr.es.divresidapi.model.Category;
@@ -11,8 +13,8 @@ public class EntryDTO {
 	private String name;
 	private String description;
 	private String type;
-	private Long amount;
-	private Date date;
+	private float amount;
+	private LocalDate date;
 	private boolean paid;
 	private Category category;
 	private User user;
@@ -21,7 +23,7 @@ public class EntryDTO {
 	
 	public EntryDTO(
 			Long id, String name, String description, 
-			String type, Long amount, Date date, boolean paid,
+			String type, float amount, LocalDate date, boolean paid,
 			Category category, User user
 		) {
 		super();
@@ -35,6 +37,7 @@ public class EntryDTO {
 		this.category = category;
 		this.user = user;
 	}
+	
 
 	public Long getId() {
 		return id;
@@ -60,16 +63,16 @@ public class EntryDTO {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Long getAmount() {
+	public float getAmount() {
 		return amount;
 	}
-	public void setAmount(Long amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 	public boolean isPaid() {
