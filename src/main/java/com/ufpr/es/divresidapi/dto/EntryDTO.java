@@ -17,6 +17,7 @@ public class EntryDTO {
 	private LocalDate date;
 	private boolean paid;
 	private Category category;
+	private Long categoryId;
 	private User user;
 	
 	public EntryDTO() {}
@@ -35,6 +36,7 @@ public class EntryDTO {
 		this.date = date;
 		this.paid = paid;
 		this.category = category;
+		this.categoryId = category.getId();
 		this.user = user;
 	}
 	
@@ -86,6 +88,13 @@ public class EntryDTO {
 	}
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
 	public User getUser() {
 		return user;
