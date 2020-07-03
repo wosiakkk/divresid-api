@@ -939,7 +939,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Categories",
+			"name": "2 - Categories",
 			"item": [
 				{
 					"name": "1 - Criando Categoria",
@@ -1224,6 +1224,396 @@
 					{
 						"key": "token",
 						"value": "{{tokenUser}}",
+						"type": "string"
+					}
+				]
+			},
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "3 - Entries",
+			"item": [
+				{
+					"name": "1 - Criando Lançamento",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "60cccdf1-022e-475e-9e89-7b56ff5801fd",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"var idCreated = jsonData.id;",
+									"",
+									"postman.setEnvironmentVariable(\"idCreated\", idCreated);",
+									"",
+									"pm.test(\"Verificando nome do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Lançamento Teste Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a descrição do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.description).to.eql(\"Lançamento para teste\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o tipo do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.type).to.eql(\"expense\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o valor do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.amount).to.eql(123.50);",
+									"});",
+									"",
+									"pm.test(\"Verificando a data do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.date).to.eql(\"2020-07-02\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o pago do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.paid).to.eql(false);",
+									"});",
+									"",
+									"pm.test(\"Verificando a categoryId do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.categoryId).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Verificando o user id do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.user.id).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": null,  \n  \"name\": \"Lançamento Teste Postman\",\n  \"description\": \"Lançamento para teste\",\n  \"type\": \"expense\",\n  \"amount\": 123.50,\n  \"date\": \"2020-07-02\",\n  \"paid\": false,\n  \"categoryId\": 1,\n  \"category\":{\n      \"id\":1\n  },\n  \"user\": {\n    \"id\": 1\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlAuthApi}}entries",
+							"host": [
+								"{{urlAuthApi}}entries"
+							]
+						},
+						"description": "Requisição para criar um Lançamento no sistema"
+					},
+					"response": []
+				},
+				{
+					"name": "2 - Buscando Lançamento criado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7ae34d91-0608-4bf5-a568-d5a66c903318",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verificando nome do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Lançamento Teste Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a descrição do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.description).to.eql(\"Lançamento para teste\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o tipo do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.type).to.eql(\"expense\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o valor do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.amount).to.eql(123.50);",
+									"});",
+									"",
+									"pm.test(\"Verificando a data do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.date).to.eql(\"2020-07-02\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o pago do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.paid).to.eql(false);",
+									"});",
+									"",
+									"pm.test(\"Verificando a categoryId do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.categoryId).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Verificando o user id do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.user.id).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}entries/{{idCreated}}",
+							"host": [
+								"{{urlAuthApi}}entries"
+							],
+							"path": [
+								"{{idCreated}}"
+							]
+						},
+						"description": "Requisição para buscar um Lançamento"
+					},
+					"response": []
+				},
+				{
+					"name": "3 - Listar Lançamentos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9f8b712c-25e2-4c6e-8a08-e4bce13a17ba",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"A resposta é um array array\", function () {",
+									"        pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}entries",
+							"host": [
+								"{{urlAuthApi}}entries"
+							]
+						},
+						"description": "Requisição para listagem de Lançamentos"
+					},
+					"response": []
+				},
+				{
+					"name": "4 - Atualizar Lançamento",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "afab44aa-8e5e-493c-accf-36c9ad587dd3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test(\"Verificando nome do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Lançamento Teste Postman Update\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a descrição do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.description).to.eql(\"Lançamento para teste Update\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o tipo do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.type).to.eql(\"expense\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o valor do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.amount).to.eql(50);",
+									"});",
+									"",
+									"pm.test(\"Verificando a data do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.date).to.eql(\"2020-07-02\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o pago do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.paid).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Verificando a categoryId do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.categoryId).to.eql(2);",
+									"});",
+									"",
+									"pm.test(\"Verificando o user id do Lançamento\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.user.id).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"{{idCreated}}\",  \n  \"name\": \"Lançamento Teste Postman Update\",\n  \"description\": \"Lançamento para teste Update\",\n  \"type\": \"expense\",\n  \"amount\": 50,\n  \"date\": \"2020-07-02\",\n  \"paid\": true,\n  \"categoryId\": 2,\n  \"category\":{\n      \"id\":2\n  },\n  \"user\": {\n    \"id\": 1\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlAuthApi}}entries/{{idCreated}}",
+							"host": [
+								"{{urlAuthApi}}entries"
+							],
+							"path": [
+								"{{idCreated}}"
+							]
+						},
+						"description": "Requisição para atualizar um Lançamento"
+					},
+					"response": []
+				},
+				{
+					"name": "5 - Excluir Lançamento",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9582cb8f-7866-4477-9e9c-a913423c72f4",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}entries/{{idCreated}}",
+							"host": [
+								"{{urlAuthApi}}entries"
+							],
+							"path": [
+								"{{idCreated}}"
+							]
+						},
+						"description": "Requisição para excluir Lançamento"
+					},
+					"response": []
+				}
+			],
+			"description": "Requisições referentes a entidade Entry do sistema",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{tokenAdmin}}",
 						"type": "string"
 					}
 				]
