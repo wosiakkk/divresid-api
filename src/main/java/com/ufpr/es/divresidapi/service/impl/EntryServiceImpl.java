@@ -38,7 +38,8 @@ public class EntryServiceImpl
 	@Override
 	public Page<Entry> findAllByNameContainingAndUser(String name, User user, 
 			Pageable pageable) {
-		return this.findAllByNameContainingAndUser(name, user, pageable);
+		return this.entryRepository
+				.findAllByNameContainingAndUser(name, user, pageable);
 	}
 
 	@Override
