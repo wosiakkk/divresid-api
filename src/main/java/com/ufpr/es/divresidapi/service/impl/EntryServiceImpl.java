@@ -65,4 +65,11 @@ public class EntryServiceImpl
 		return dtos;
 	}
 
+	@Override
+	public List<Entry> findAllByUserAndMonthAndYear
+		(Long user, Integer month, Integer year) throws ServiceException {
+		return this.entryRepository
+				.findAllByUserAndMonthAndYear(user, month, year);
+	}
+
 }
