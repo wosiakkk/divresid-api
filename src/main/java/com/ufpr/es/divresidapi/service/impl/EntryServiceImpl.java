@@ -65,4 +65,17 @@ public class EntryServiceImpl
 		return dtos;
 	}
 
+	@Override
+	public List<EntryDTO> findAllByUserAndMonthAndYear
+		(Long user, Integer month, Integer year) throws ServiceException {
+		List<EntryDTO> dtos = new ArrayList<EntryDTO>();
+		List<Entry> models = new ArrayList<Entry>();
+		models = this.entryRepository
+				.findAllByUserAndMonthAndYear(user, month, year);
+		models.forEach(m -> {
+			dtos.add(this.getConverter().convertToDTO(m));
+		});
+		return dtos;
+	}
+
 }

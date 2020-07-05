@@ -1,8 +1,6 @@
 package com.ufpr.es.divresidapi.dto;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import com.ufpr.es.divresidapi.model.Category;
 import com.ufpr.es.divresidapi.model.User;

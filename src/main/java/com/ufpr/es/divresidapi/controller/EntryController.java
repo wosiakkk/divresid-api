@@ -1,7 +1,14 @@
 package com.ufpr.es.divresidapi.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ufpr.es.divresidapi.dto.EntryDTO;
@@ -9,6 +16,7 @@ import com.ufpr.es.divresidapi.model.Entry;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.EntryService;
 import com.ufpr.es.divresidapi.service.LazyTableService;
+import com.ufpr.es.divresidapi.service.exception.ServiceException;
 
 @RestController
 @RequestMapping(value = "api/auth/entries")
@@ -28,5 +36,24 @@ public class EntryController  extends BaseRestController<Entry, EntryDTO, Long>{
 	protected LazyTableService<Entry> getLazyTableService() {
 		return this.lazyTableService;
 	}
-
+	
+	@GetMapping(value = "/byDate")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<List<EntryDTO>> 
+		findAllByUserAndMonthAndYear(
+				@RequestParam() String userId,
+				@RequestParam() String month,
+				@RequestParam() String year){
+		try {
+			return ResponseEntity
+					.ok(this.entryService
+							.findAllByUserAndMonthAndYear(
+									Long.valueOf(userId),
+									Integer.valueOf(month),
+									Integer.valueOf(year))
+							);
+		} catch (ServiceException e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
