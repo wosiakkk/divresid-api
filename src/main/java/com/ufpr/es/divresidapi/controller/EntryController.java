@@ -3,6 +3,8 @@ package com.ufpr.es.divresidapi.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,6 +53,28 @@ public class EntryController  extends BaseRestController<Entry, EntryDTO, Long>{
 									Long.valueOf(userId),
 									Integer.valueOf(month),
 									Integer.valueOf(year))
+							);
+		} catch (ServiceException e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping(value = "/pagination/filtered")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<Page<Entry>> 
+		findAllByUserAndMonthAndYearPagination(
+				Pageable pageable,
+				@RequestParam() String userId,
+				@RequestParam() String month,
+				@RequestParam() String year){
+		try {
+			return ResponseEntity
+					.ok(this.lazyTableService
+							.listAllPageableByMonthAndYearAndUser(
+									pageable,
+									Integer.valueOf(month),
+									Integer.valueOf(year),
+									Long.valueOf(userId))
 							);
 		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

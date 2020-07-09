@@ -14,7 +14,7 @@ import com.ufpr.es.divresidapi.model.User;
 @Repository
 public interface EntryRepository extends JpaRepository<Entry, Long>{
 	
-	Page<Entry> findAllByNameContainingAndUser(String name,User user, 
+	Page<Entry> findAllByNameContainingAndUser(String name,User user,
 			Pageable pageable);
 	
 	Page<Entry> findAllByUser(Pageable pageable,User user);
@@ -32,5 +32,15 @@ public interface EntryRepository extends JpaRepository<Entry, Long>{
 	)
 	List<Entry> findAllByUserAndMonthAndYear
 		(Long userId, Integer month, Integer year);
+	
+	@Query(
+			nativeQuery = true,
+			value = "SELECT * FROM entries e "
+					+ "WHERE e.user_id=?1 "
+					+ "AND EXTRACT(MONTH FROM e.date)=?2 "
+					+ "AND EXTRACT(YEAR FROM e.date)=?3 /*#{#pageable}*/"
+		)
+	Page<Entry> findAllByUserAndMonthAndYear
+			(Long userId, Integer month, Integer year,Pageable pageable);
 
 }

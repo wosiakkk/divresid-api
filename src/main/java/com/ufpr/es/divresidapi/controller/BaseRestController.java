@@ -51,10 +51,10 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	
 	@GetMapping(value = "/pagination")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<Page<TENTITY>> listAllPageable(Pageable pageable, String name,User user){
+	public ResponseEntity<Page<TENTITY>> listAllPageable(Pageable pageable, String searchString,User user){
 		try {
-			if(isFilteredSearch(name))
-				return ResponseEntity.ok(this.getLazyTableService().findAllByNameContainingAndUser(name,user, pageable));
+			if(isFilteredSearch(searchString))
+				return ResponseEntity.ok(this.getLazyTableService().findAllByNameContainingAndUser(searchString,user, pageable));
 				
 			Pageable sortedByNameAsc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("name").ascending());
 			return ResponseEntity.ok(this.getLazyTableService().listAllPageableAndUser(sortedByNameAsc, user));

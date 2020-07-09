@@ -9,7 +9,8 @@ import com.ufpr.es.divresidapi.service.exception.ServiceException;
 public interface LazyTableService<TENTITY> {
 	
 	Page<TENTITY> listAllPageableAndUser(Pageable pageable, User user)throws ServiceException;
-	Page<TENTITY> findAllByNameContainingAndUser(String name,User user, Pageable pageable);
+	Page<TENTITY> listAllPageableByMonthAndYearAndUser(Pageable pageable,Integer month, Integer year, Long user)throws ServiceException;
+	Page<TENTITY> findAllByNameContainingAndUser(String searchString,User user, Pageable pageable);
 	Long getNumberOfEntities(User user) throws ServiceException;
 	
 }

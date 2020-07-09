@@ -78,4 +78,10 @@ public class EntryServiceImpl
 		return dtos;
 	}
 
+	@Override
+	public Page<Entry> listAllPageableByMonthAndYearAndUser(Pageable pageable, Integer month, Integer year, Long user)
+			throws ServiceException {
+		return this.entryRepository.findAllByUserAndMonthAndYear(user, month, year, pageable);
+	}
+
 }
