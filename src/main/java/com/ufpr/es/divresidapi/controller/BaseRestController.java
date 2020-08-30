@@ -43,7 +43,8 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<List<TDTO>> listAllByUser(User user){
 		try {
-			return ResponseEntity.ok(this.getBaseResourceService().findAllByUser(user));
+			return ResponseEntity.ok(this.getBaseResourceService()
+					.findAllByUser(user));
 		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -51,13 +52,21 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	
 	@GetMapping(value = "/pagination")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<Page<TENTITY>> listAllPageable(Pageable pageable, String searchString,User user){
+	public ResponseEntity<Page<TENTITY>> listAllPageable(Pageable pageable,
+			String searchString,User user){
 		try {
 			if(isFilteredSearch(searchString))
-				return ResponseEntity.ok(this.getLazyTableService().findAllByNameContainingAndUser(searchString,user, pageable));
+				return ResponseEntity
+						.ok(this.getLazyTableService()
+								.findAllByNameContainingAndUser(searchString,
+																user, 
+																pageable));
 				
-			Pageable sortedByNameAsc = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("name").ascending());
-			return ResponseEntity.ok(this.getLazyTableService().listAllPageableAndUser(sortedByNameAsc, user));
+			Pageable sortedByNameAsc = PageRequest
+					.of(pageable.getPageNumber(), pageable.getPageSize(),
+							Sort.by("name").ascending());
+			return ResponseEntity.ok(this.getLazyTableService()
+						.listAllPageableAndUser(sortedByNameAsc, user));
 		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -67,7 +76,8 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<Long> getNumberOfEntities(User user){
 		try {
-			return ResponseEntity.ok(this.getLazyTableService().getNumberOfEntities(user));
+			return ResponseEntity.ok(this.getLazyTableService()
+					.getNumberOfEntities(user));
 		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -87,7 +97,8 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<TDTO> save(@RequestBody TDTO dto){
 		try {
-			return ResponseEntity.status(HttpStatus.CREATED).body(this.getBaseResourceService().save(dto));
+			return ResponseEntity.status(HttpStatus.CREATED)
+					.body(this.getBaseResourceService().save(dto));
 		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

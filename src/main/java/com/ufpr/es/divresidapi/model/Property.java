@@ -91,6 +91,55 @@ public class Property implements Serializable{
 	
 	@Column
 	private boolean active;
+	
+	public Property() {}
+	
+	public Property(Long id,
+			@NotBlank(message = "Campo deve ser preenchido!")
+			@Size(max = 50, message = "Máximo 50 caracteres!")
+			String name,
+			@NotBlank(message = "Campo deve ser preenchido!") 
+			@Size(max = 150, message = "Máximo 150 caracteres!") 
+			String description,
+			@Size(max = 50, message = "Máximo 50 caracteres!") 
+			String landLordName,
+			@Size(max = 50, message = "Máximo 50 caracteres!") 
+			String landLordPhone,
+			@NotBlank(message = "Campo deve ser preenchido!") 
+			@Size(max = 50, message = "Máximo 50 caracteres!") 
+			String zipCode,
+			@NotBlank(message = "Campo deve ser preenchido!") 
+			@Size(max = 150, message = "Máximo 150 caracteres!") 
+			String street,
+			@Size(max = 150, message = "Máximo 150 caracteres!") 
+			String addressDetails,
+			@NotBlank(message = "Campo deve ser preenchido!") 
+			@Size(max = 50, message = "Máximo 50 caracteres!") 
+			String number,
+			@NotBlank(message = "Campo deve ser preenchido!") 
+			@Size(max = 150, message = "Máximo 50 caracteres!") 
+			String city,
+			@NotBlank(message = "Campo deve ser preenchido!") 
+			@Size(max = 150, message = "Máximo 150 caracteres!") 
+			String state,
+			User user, List<User> residents, boolean active) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.landLordName = landLordName;
+		this.landLordPhone = landLordPhone;
+		this.zipCode = zipCode;
+		this.street = street;
+		this.addressDetails = addressDetails;
+		this.number = number;
+		this.city = city;
+		this.state = state;
+		this.user = user;
+		this.residents = residents;
+		this.active = active;
+	}
+
 
 	public Long getId() {
 		return id;
