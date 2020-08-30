@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,38 +33,48 @@ public class Property implements Serializable{
 	
 	@NotBlank(message = "Campo deve ser preenchido!")
 	@Size(max = 50, message = "Máximo 50 caracteres!")
+	@Column
 	private String name;
 	
 	@NotBlank(message = "Campo deve ser preenchido!")
 	@Size(max = 150, message = "Máximo 150 caracteres!")
+	@Column
 	private String description;
 	
 	@Size(max = 50, message = "Máximo 50 caracteres!")
+	@Column
 	private String landLordName;
 	
 	@Size(max = 50, message = "Máximo 50 caracteres!")
+	@Column
 	private String landLordPhone;
 	
 	@NotBlank(message = "Campo deve ser preenchido!")
 	@Size(max = 50, message = "Máximo 50 caracteres!")
+	@Column
 	private String zipCode;
 	@NotBlank(message = "Campo deve ser preenchido!")
 	@Size(max = 150, message = "Máximo 150 caracteres!")
+	@Column
 	private String street;
 	
 	@Size(max = 150, message = "Máximo 150 caracteres!")
+	@Column
 	private String addressDetails;
 	
 	@NotBlank(message = "Campo deve ser preenchido!")
 	@Size(max = 50, message = "Máximo 50 caracteres!")
+	@Column
 	private String number;
 	
 	@NotBlank(message = "Campo deve ser preenchido!")
 	@Size(max = 150, message = "Máximo 50 caracteres!")
+	@Column
 	private String city;
 	
 	@NotBlank(message = "Campo deve ser preenchido!")
 	@Size(max = 150, message = "Máximo 150 caracteres!")
+	@Column
 	private String state;
 	
 	@ManyToOne
@@ -78,6 +89,7 @@ public class Property implements Serializable{
 	@JsonIgnore
 	private List<User> residents;
 	
+	@Column
 	private boolean active;
 
 	public Long getId() {
