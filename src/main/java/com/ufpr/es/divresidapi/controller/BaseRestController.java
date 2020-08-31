@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
-import com.ufpr.es.divresidapi.service.LazyTableService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 
 
 

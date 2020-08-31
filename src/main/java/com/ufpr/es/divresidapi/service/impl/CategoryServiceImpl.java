@@ -16,13 +16,15 @@ import com.ufpr.es.divresidapi.model.Category;
 import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.repository.CategoryRepository;
 import com.ufpr.es.divresidapi.service.CategoryService;
-import com.ufpr.es.divresidapi.service.LazyTableService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableWithDateFilterService;
 
 @Service
 public class CategoryServiceImpl 
 	extends BaseResourceServiceImpl<Category, CategoryDTO, Long> 
-	implements CategoryService, LazyTableService<Category> {
+	implements	CategoryService, 
+				LazyTableService<Category> {
 	
 	@Autowired
 	private CategoryConverter categoryConverter;
@@ -64,15 +66,9 @@ public class CategoryServiceImpl
 		List<Category> models = this.categoryRepository.findAllByUser(user);
 		models.forEach(
 			model -> 
-			dtos.add(this.categoryConverter.convertToDTO(model))
+				dtos.add(this.categoryConverter.convertToDTO(model))
 		);
 		return dtos;
 	}
 
-	@Override
-	public Page<Category> listAllPageableByMonthAndYearAndUser(Pageable pageable, Integer month, Integer year,
-			Long user) throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

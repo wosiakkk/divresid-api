@@ -8,7 +8,7 @@ import com.ufpr.es.divresidapi.dto.CategoryDTO;
 import com.ufpr.es.divresidapi.model.Category;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.CategoryService;
-import com.ufpr.es.divresidapi.service.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 
 
 @RestController

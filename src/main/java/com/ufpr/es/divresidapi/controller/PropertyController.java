@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ufpr.es.divresidapi.dto.PropertyDTO;
 import com.ufpr.es.divresidapi.model.Property;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
-import com.ufpr.es.divresidapi.service.LazyTableService;
 import com.ufpr.es.divresidapi.service.PropertyService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 
 @RestController
 @RequestMapping("api/auth/properties")
@@ -17,6 +17,8 @@ public class PropertyController
 	
 	@Autowired
 	private PropertyService propertyService;
+	@Autowired
+	private LazyTableService<Property> lazyTableservice;
 
 	@Override
 	protected BaseResourceService<PropertyDTO, Long> getBaseResourceService() {
@@ -25,8 +27,7 @@ public class PropertyController
 
 	@Override
 	protected LazyTableService<Property> getLazyTableService() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.lazyTableservice;
 	}
 
 }
