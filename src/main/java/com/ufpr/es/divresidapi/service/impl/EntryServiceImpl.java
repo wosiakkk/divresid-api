@@ -16,14 +16,16 @@ import com.ufpr.es.divresidapi.model.Entry;
 import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.repository.EntryRepository;
 import com.ufpr.es.divresidapi.service.EntryService;
-import com.ufpr.es.divresidapi.service.LazyTableService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableWithDateFilterService;
 
 @Service
 public class EntryServiceImpl 
 	extends BaseResourceServiceImpl<Entry, EntryDTO, Long> 
-	implements EntryService, LazyTableService<Entry>{
-	
+	implements	EntryService, 
+				LazyTableWithDateFilterService<Entry>{
+			
 	@Autowired
 	private EntryRepository entryRepository;
 	@Autowired

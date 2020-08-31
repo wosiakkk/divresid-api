@@ -22,11 +22,11 @@ public class Category implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id; 
 	
-	@NotBlank
-	@Size(max = 50)
+	@NotBlank(message = "Campo deve ser preenchido!")
+	@Size(max = 50,  message = "Máximo 50 caracteres!")
 	private String name;
 	
-	@Size(max = 150)
+	@Size(max = 150,  message = "Máximo 150 caracteres!")
 	private String description;
 	
 	@ManyToOne

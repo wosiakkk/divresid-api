@@ -32,21 +32,21 @@ public class User implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank
-	@Size(max = 20)
+	@NotBlank(message = "Campo deve ser preenchido!")
+	@Size(max = 20, message = "Máximo 20 caracteres!")
 	private String username;
 	
-	@NotBlank
-	@Size(max = 50)
+	@NotBlank(message = "Campo deve ser preenchido!")
+	@Size(max = 50, message = "Máximo 50 caracteres!")
 	@Email
 	private String email;
 	
-	@NotBlank
-	@Size(max = 120)
+	@NotBlank(message = "Campo deve ser preenchido!")
+	@Size(max = 120, message = "Máximo 120 caracteres!")
 	private String password;
 	
-	@NotBlank
-	@Size(max = 50)
+	@NotBlank(message = "Campo deve ser preenchido!")
+	@Size(max = 50, message = "Máximo 50 caracteres!")
 	private String name;
 	
 	@ManyToMany(fetch = FetchType.LAZY)

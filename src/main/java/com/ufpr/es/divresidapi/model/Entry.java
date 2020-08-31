@@ -25,12 +25,12 @@ public class Entry implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@NotBlank
+	@NotBlank(message = "Campo deve ser preenchido!")
 	@Column
 	private String name;
 	
 	@Column
-	@Size(max = 250)
+	@Size(max = 250, message = "Máximo 250 caracteres!")
 	private String description;
 	
 	@Column
