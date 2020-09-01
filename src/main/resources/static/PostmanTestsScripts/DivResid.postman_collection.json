@@ -1619,6 +1619,485 @@
 				]
 			},
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "4 - Property",
+			"item": [
+				{
+					"name": "1 - Criando um Imóvel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "94995d8e-a9cf-4573-bf19-022bcb44f3df",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"var idCreated = jsonData.id;",
+									"",
+									"postman.setEnvironmentVariable(\"idCreated\", idCreated);",
+									"",
+									"pm.test(\"Verificando nome do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Imóvel de Teste Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a descrição do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.description).to.eql(\"Imóvel usado para teste\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o nome do dono do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.landLordName).to.eql(\"Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o telefone do dono do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.landLordPhone).to.eql(\"41999837800\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o CEP do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.zipCode).to.eql(\"80630200\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a rua do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.street).to.eql(\"Rua Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o complemento do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.addressDetails).to.eql(\"Complemento Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o número do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.number).to.eql(\"100\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a cidade do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.city).to.eql(\"Curitiba\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o estado da cidade do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.state).to.eql(\"Paraná\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o status do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.active).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Verificando o user id do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.user.id).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Verificando o moradores do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.residents[0].id).to.eql(20);",
+									"    pm.expect(jsonData.residents[1].id).to.eql(21);",
+									"    pm.expect(jsonData.residents[2].id).to.eql(22);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": null,  \n  \"name\": \"Imóvel de Teste Postman\",\n  \"description\": \"Imóvel usado para teste\",\n  \"landLordName\": \"Postman\",\n  \"landLordPhone\": \"41999837800\",\n  \"zipCode\": \"80630200\",\n  \"street\": \"Rua Postman\",\n  \"addressDetails\": \"Complemento Postman\",\n  \"number\": \"100\",\n  \"city\": \"Curitiba\",\n  \"state\": \"Paraná\",\n  \"active\": true,\n  \"user\": {\n    \"id\": 1\n  },\n  \"residents\": [\n      {\"id\": 20},\n      {\"id\": 21},\n      {\"id\": 22}\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlAuthApi}}properties",
+							"host": [
+								"{{urlAuthApi}}properties"
+							]
+						},
+						"description": "Requisição para cadastrar um imóvel."
+					},
+					"response": []
+				},
+				{
+					"name": "2 - Buscando um Imóvel criado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "15e75c63-5c38-442f-9de1-30ce442409a4",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"var idCreated = jsonData.id;",
+									"",
+									"postman.setEnvironmentVariable(\"idCreated\", idCreated);",
+									"",
+									"pm.test(\"Verificando nome do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Imóvel de Teste Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a descrição do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.description).to.eql(\"Imóvel usado para teste\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o nome do dono do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.landLordName).to.eql(\"Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o telefone do dono do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.landLordPhone).to.eql(\"41999837800\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o CEP do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.zipCode).to.eql(\"80630200\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a rua do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.street).to.eql(\"Rua Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o complemento do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.addressDetails).to.eql(\"Complemento Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o número do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.number).to.eql(\"100\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a cidade do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.city).to.eql(\"Curitiba\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o estado da cidade do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.state).to.eql(\"Paraná\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o status do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.active).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Verificando o user id do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.user.id).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Verificando o moradores do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.residents[0].id).to.eql(20);",
+									"    pm.expect(jsonData.residents[1].id).to.eql(21);",
+									"    pm.expect(jsonData.residents[2].id).to.eql(22);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}properties/{{idCreated}}",
+							"host": [
+								"{{urlAuthApi}}properties"
+							],
+							"path": [
+								"{{idCreated}}"
+							]
+						},
+						"description": "Requisição para buscar um imóvel por id"
+					},
+					"response": []
+				},
+				{
+					"name": "3 - Listar Imóveis",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4bc2309e-4f40-4017-afda-39f736c1ffd1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"A resposta é um array array\", function () {",
+									"        pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}properties",
+							"host": [
+								"{{urlAuthApi}}properties"
+							]
+						},
+						"description": "Requisição para listar imóveis cadastrados"
+					},
+					"response": []
+				},
+				{
+					"name": "4 - Atualizar Imóvel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6ceb8d12-7c0a-4a7c-adc2-9486bff55a60",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"var idCreated = jsonData.id;",
+									"",
+									"postman.setEnvironmentVariable(\"idCreated\", idCreated);",
+									"",
+									"pm.test(\"Verificando nome do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Imóvel de Teste Postman Update\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a descrição do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.description).to.eql(\"Imóvel usado para teste Update\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o nome do dono do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.landLordName).to.eql(\"Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o telefone do dono do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.landLordPhone).to.eql(\"41999837800\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o CEP do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.zipCode).to.eql(\"80630200\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a rua do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.street).to.eql(\"Rua Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o complemento do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.addressDetails).to.eql(\"Complemento Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o número do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.number).to.eql(\"100\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a cidade do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.city).to.eql(\"Curitiba\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o estado da cidade do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.state).to.eql(\"Paraná\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o status do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.active).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Verificando o user id do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.user.id).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Verificando o moradores do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.residents[0].id).to.eql(20);",
+									"    pm.expect(jsonData.residents[1].id).to.eql(21);",
+									"    pm.expect(jsonData.residents[2].id).to.eql(22);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"{{idCreated}}\",  \n  \"name\": \"Imóvel de Teste Postman Update\",\n  \"description\": \"Imóvel usado para teste Update\",\n  \"landLordName\": \"Postman\",\n  \"landLordPhone\": \"41999837800\",\n  \"zipCode\": \"80630200\",\n  \"street\": \"Rua Postman\",\n  \"addressDetails\": \"Complemento Postman\",\n  \"number\": \"100\",\n  \"city\": \"Curitiba\",\n  \"state\": \"Paraná\",\n  \"active\": true,\n  \"user\": {\n    \"id\": 1\n  },\n  \"residents\": [\n      {\"id\": 20},\n      {\"id\": 21},\n      {\"id\": 22}\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlAuthApi}}properties/{{idCreated}}",
+							"host": [
+								"{{urlAuthApi}}properties"
+							],
+							"path": [
+								"{{idCreated}}"
+							]
+						},
+						"description": "Requisição para atualizar um imóvel cadastrado"
+					},
+					"response": []
+				},
+				{
+					"name": "5 - Excluir Imóvel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9368ca81-09ec-4491-8d86-1b891836066b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}properties/{{idCreated}}",
+							"host": [
+								"{{urlAuthApi}}properties"
+							],
+							"path": [
+								"{{idCreated}}"
+							]
+						},
+						"description": "Requisição para excluir um imóvel cadastrado"
+					},
+					"response": []
+				}
+			],
+			"description": "Requisições para testar end points de Properties.",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{tokenAdmin}}",
+						"type": "string"
+					}
+				]
+			},
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}
