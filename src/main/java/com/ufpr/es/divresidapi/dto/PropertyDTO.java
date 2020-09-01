@@ -24,8 +24,11 @@ public class PropertyDTO {
 	
 	public PropertyDTO() { }
 	
-	public PropertyDTO(Long id, String name, String description, String landLordName, String landLordPhone,
-			String zipCode, String street, String addressDetails, String number, String city, String state, User user,
+	public PropertyDTO(
+			Long id, String name, String description, 
+			String landLordName, String landLordPhone,
+			String zipCode, String street, String addressDetails, 
+			String number, String city, String state, User user,
 			List<User> residents, boolean active) {
 		super();
 		this.id = id;
