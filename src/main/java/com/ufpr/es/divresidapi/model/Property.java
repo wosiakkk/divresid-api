@@ -42,16 +42,16 @@ public class Property implements Serializable{
 	private String description;
 	
 	@Size(max = 50, message = "Máximo 50 caracteres!")
-	@Column
+	@Column(name = "land_lord_name")
 	private String landLordName;
 	
 	@Size(max = 50, message = "Máximo 50 caracteres!")
-	@Column
+	@Column(name = "land_lord_phone")
 	private String landLordPhone;
 	
 	@NotBlank(message = "Campo deve ser preenchido!")
 	@Size(max = 50, message = "Máximo 50 caracteres!")
-	@Column
+	@Column(name = "zip_code")
 	private String zipCode;
 	@NotBlank(message = "Campo deve ser preenchido!")
 	@Size(max = 150, message = "Máximo 150 caracteres!")
@@ -59,7 +59,7 @@ public class Property implements Serializable{
 	private String street;
 	
 	@Size(max = 150, message = "Máximo 150 caracteres!")
-	@Column
+	@Column(name = "address_details")
 	private String addressDetails;
 	
 	@NotBlank(message = "Campo deve ser preenchido!")
