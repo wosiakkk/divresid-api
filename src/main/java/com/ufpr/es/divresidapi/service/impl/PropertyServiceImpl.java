@@ -23,7 +23,7 @@ import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 public class PropertyServiceImpl 
 	extends BaseResourceServiceImpl<Property, PropertyDTO, Long> 
 	implements	PropertyService,
-				LazyTableService<Property> {
+				LazyTableService<Property, User> {
 	
 	@Autowired
 	private PropertyConverter propertyConverter;

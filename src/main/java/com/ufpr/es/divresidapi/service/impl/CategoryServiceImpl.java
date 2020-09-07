@@ -24,7 +24,7 @@ import com.ufpr.es.divresidapi.service.lazyloading.LazyTableWithDateFilterServic
 public class CategoryServiceImpl 
 	extends BaseResourceServiceImpl<Category, CategoryDTO, Long> 
 	implements	CategoryService, 
-				LazyTableService<Category> {
+				LazyTableService<Category, User> {
 	
 	@Autowired
 	private CategoryConverter categoryConverter;

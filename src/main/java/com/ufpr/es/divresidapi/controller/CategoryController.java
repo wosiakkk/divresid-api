@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ufpr.es.divresidapi.dto.CategoryDTO;
 import com.ufpr.es.divresidapi.model.Category;
+import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.CategoryService;
 import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
@@ -14,12 +15,12 @@ import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 @RestController
 @RequestMapping("api/auth/categories")
 public class CategoryController 
-	extends BaseRestController<Category, CategoryDTO, Long>{
+	extends BaseRestController<Category, CategoryDTO,User, Long>{
 
 	@Autowired
 	private CategoryService categoryService;
 	@Autowired
-	private LazyTableService<Category> lazyTableService;
+	private LazyTableService<Category, User> lazyTableService;
 	
 	@Override
 	protected BaseResourceService<CategoryDTO, Long> getBaseResourceService() {
@@ -27,7 +28,7 @@ public class CategoryController
 	}
 
 	@Override
-	protected LazyTableService<Category> getLazyTableService() {
+	protected LazyTableService<Category,User> getLazyTableService() {
 		return this.lazyTableService;
 	}
 

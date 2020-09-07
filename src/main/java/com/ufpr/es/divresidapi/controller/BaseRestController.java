@@ -23,10 +23,10 @@ import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 
 
 
-public abstract class BaseRestController<TENTITY, TDTO, TID> {
+public abstract class BaseRestController<TENTITY, TDTO,TENTITYCOUNT, TID> {
 	
 	protected abstract BaseResourceService< TDTO, TID> getBaseResourceService();
-	protected abstract LazyTableService<TENTITY> getLazyTableService();
+	protected abstract LazyTableService<TENTITY,TENTITYCOUNT> getLazyTableService();
 	
 
 	@GetMapping
@@ -74,10 +74,10 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	
 	@GetMapping(value = "/pagination/count")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<Long> getNumberOfEntities(User user){
+	public ResponseEntity<Long> getNumberOfEntities(TENTITYCOUNT t){
 		try {
 			return ResponseEntity.ok(this.getLazyTableService()
-					.getNumberOfEntities(user));
+					.getNumberOfEntities(t));
 		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
