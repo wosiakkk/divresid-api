@@ -23,11 +23,11 @@ public class Invite implements Serializable{
 	private Long id;
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="user_id_from")
 	private User idFrom;
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="user_id_to")
 	private User idTo;
 	@NotNull
 	@ManyToOne
