@@ -1,8 +1,11 @@
 package com.ufpr.es.divresidapi.converter;
 
+import org.springframework.stereotype.Component;
+
 import com.ufpr.es.divresidapi.dto.UserDTO;
 import com.ufpr.es.divresidapi.model.User;
 
+@Component
 public class UserConverter implements ResourceConverter<User, UserDTO>{
 
 	@Override

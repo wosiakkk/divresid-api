@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
 import com.ufpr.es.divresidapi.converter.ResourceConverter;
 import com.ufpr.es.divresidapi.converter.UserConverter;
@@ -17,6 +18,7 @@ import com.ufpr.es.divresidapi.service.UserService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
 import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 
+@Service
 public class UserServiceImpl 
 	extends BaseResourceServiceImpl<User, UserDTO, Long>
 	implements UserService, LazyTableService<User, Property>{
@@ -26,7 +28,7 @@ public class UserServiceImpl
 	@Autowired
 	private UserRepository userRepository;
 	
-	
+	@Override
 	public UserDTO findUserByEmail(String email) throws ServiceException {
 		return this.userConverter
 				.convertToDTO(this.userRepository.findByEmail(email).get());
