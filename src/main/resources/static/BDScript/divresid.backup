@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.23
 -- Dumped by pg_dump version 9.5.23
 
--- Started on 2020-09-05 15:25:10 -03
+-- Started on 2020-09-07 16:53:04 -03
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,7 +19,7 @@ SET row_security = off;
 
 DROP DATABASE divresid;
 --
--- TOC entry 2215 (class 1262 OID 16384)
+-- TOC entry 2225 (class 1262 OID 16384)
 -- Name: divresid; Type: DATABASE; Schema: -; Owner: postgres
 --
 
@@ -49,7 +49,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2218 (class 0 OID 0)
+-- TOC entry 2228 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -125,6 +125,22 @@ CREATE SEQUENCE public.hibernate_sequence
 
 
 ALTER TABLE public.hibernate_sequence OWNER TO postgres;
+
+--
+-- TOC entry 193 (class 1259 OID 16580)
+-- Name: invites; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.invites (
+    id bigint NOT NULL,
+    user_id_from bigint NOT NULL,
+    user_id_to bigint NOT NULL,
+    property_id bigint NOT NULL,
+    accepted boolean NOT NULL
+);
+
+
+ALTER TABLE public.invites OWNER TO postgres;
 
 --
 -- TOC entry 192 (class 1259 OID 16490)
@@ -207,7 +223,7 @@ CREATE SEQUENCE public.roles_id_seq
 ALTER TABLE public.roles_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2219 (class 0 OID 0)
+-- TOC entry 2229 (class 0 OID 0)
 -- Dependencies: 182
 -- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -260,7 +276,7 @@ CREATE SEQUENCE public.users_id_seq
 ALTER TABLE public.users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2220 (class 0 OID 0)
+-- TOC entry 2230 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -269,7 +285,7 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- TOC entry 2057 (class 2604 OID 16395)
+-- TOC entry 2061 (class 2604 OID 16395)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -277,7 +293,7 @@ ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_
 
 
 --
--- TOC entry 2058 (class 2604 OID 16408)
+-- TOC entry 2062 (class 2604 OID 16408)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -285,7 +301,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- TOC entry 2198 (class 0 OID 16385)
+-- TOC entry 2207 (class 0 OID 16385)
 -- Dependencies: 181
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -317,7 +333,7 @@ INSERT INTO public.categories (id, description, name, user_id) VALUES (24, 'Gast
 
 
 --
--- TOC entry 2221 (class 0 OID 0)
+-- TOC entry 2231 (class 0 OID 0)
 -- Dependencies: 188
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -326,7 +342,7 @@ SELECT pg_catalog.setval('public.categories_id_seq', 18, false);
 
 
 --
--- TOC entry 2206 (class 0 OID 16439)
+-- TOC entry 2215 (class 0 OID 16439)
 -- Dependencies: 189
 -- Data for Name: entries; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -341,7 +357,7 @@ INSERT INTO public.entries (id, amount, date, description, name, paid, type, cat
 
 
 --
--- TOC entry 2222 (class 0 OID 0)
+-- TOC entry 2232 (class 0 OID 0)
 -- Dependencies: 187
 -- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -350,7 +366,15 @@ SELECT pg_catalog.setval('public.hibernate_sequence', 68, true);
 
 
 --
--- TOC entry 2207 (class 0 OID 16464)
+-- TOC entry 2219 (class 0 OID 16580)
+-- Dependencies: 193
+-- Data for Name: invites; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2216 (class 0 OID 16464)
 -- Dependencies: 190
 -- Data for Name: property; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -359,7 +383,7 @@ INSERT INTO public.property (id, name, description, land_lord_name, land_lord_ph
 
 
 --
--- TOC entry 2223 (class 0 OID 0)
+-- TOC entry 2233 (class 0 OID 0)
 -- Dependencies: 192
 -- Name: property_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -368,7 +392,7 @@ SELECT pg_catalog.setval('public.property_id_seq', 1, false);
 
 
 --
--- TOC entry 2208 (class 0 OID 16477)
+-- TOC entry 2217 (class 0 OID 16477)
 -- Dependencies: 191
 -- Data for Name: property_residents; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -376,7 +400,7 @@ SELECT pg_catalog.setval('public.property_id_seq', 1, false);
 
 
 --
--- TOC entry 2200 (class 0 OID 16392)
+-- TOC entry 2209 (class 0 OID 16392)
 -- Dependencies: 183
 -- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -387,7 +411,7 @@ INSERT INTO public.roles (id, name) VALUES (3, 'ROLE_ADMIN');
 
 
 --
--- TOC entry 2224 (class 0 OID 0)
+-- TOC entry 2234 (class 0 OID 0)
 -- Dependencies: 182
 -- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -396,7 +420,7 @@ SELECT pg_catalog.setval('public.roles_id_seq', 1, false);
 
 
 --
--- TOC entry 2201 (class 0 OID 16398)
+-- TOC entry 2210 (class 0 OID 16398)
 -- Dependencies: 184
 -- Data for Name: user_roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -414,7 +438,7 @@ INSERT INTO public.user_roles (user_id, role_id) VALUES (24, 1);
 
 
 --
--- TOC entry 2203 (class 0 OID 16405)
+-- TOC entry 2212 (class 0 OID 16405)
 -- Dependencies: 186
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -431,7 +455,7 @@ INSERT INTO public.users (id, email, name, password, username) VALUES (24, 'angu
 
 
 --
--- TOC entry 2225 (class 0 OID 0)
+-- TOC entry 2235 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -440,7 +464,7 @@ SELECT pg_catalog.setval('public.users_id_seq', 28, true);
 
 
 --
--- TOC entry 2061 (class 2606 OID 16389)
+-- TOC entry 2065 (class 2606 OID 16389)
 -- Name: categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -449,7 +473,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 2073 (class 2606 OID 16446)
+-- TOC entry 2077 (class 2606 OID 16446)
 -- Name: entries_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -458,7 +482,16 @@ ALTER TABLE ONLY public.entries
 
 
 --
--- TOC entry 2075 (class 2606 OID 16471)
+-- TOC entry 2081 (class 2606 OID 16584)
+-- Name: invites_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.invites
+    ADD CONSTRAINT invites_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2079 (class 2606 OID 16471)
 -- Name: property_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -467,7 +500,7 @@ ALTER TABLE ONLY public.property
 
 
 --
--- TOC entry 2063 (class 2606 OID 16397)
+-- TOC entry 2067 (class 2606 OID 16397)
 -- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -476,7 +509,7 @@ ALTER TABLE ONLY public.roles
 
 
 --
--- TOC entry 2067 (class 2606 OID 16414)
+-- TOC entry 2071 (class 2606 OID 16414)
 -- Name: uk6dotkott2kjsp8vw4d0m25fb7; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -485,7 +518,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2069 (class 2606 OID 16412)
+-- TOC entry 2073 (class 2606 OID 16412)
 -- Name: ukr43af9ap4edm43mmtq01oddj6; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -494,7 +527,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2065 (class 2606 OID 16402)
+-- TOC entry 2069 (class 2606 OID 16402)
 -- Name: user_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -503,7 +536,7 @@ ALTER TABLE ONLY public.user_roles
 
 
 --
--- TOC entry 2071 (class 2606 OID 16410)
+-- TOC entry 2075 (class 2606 OID 16410)
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -512,7 +545,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2079 (class 2606 OID 16447)
+-- TOC entry 2085 (class 2606 OID 16447)
 -- Name: fkfc6r6cf8c0hq0s2n3i5unfgss; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -521,7 +554,7 @@ ALTER TABLE ONLY public.entries
 
 
 --
--- TOC entry 2076 (class 2606 OID 16431)
+-- TOC entry 2082 (class 2606 OID 16431)
 -- Name: fkghuylkwuedgl2qahxjt8g41kb; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -530,7 +563,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 2077 (class 2606 OID 16417)
+-- TOC entry 2083 (class 2606 OID 16417)
 -- Name: fkh8ciramu9cc9q3qcqiv4ue8a6; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -539,7 +572,7 @@ ALTER TABLE ONLY public.user_roles
 
 
 --
--- TOC entry 2078 (class 2606 OID 16422)
+-- TOC entry 2084 (class 2606 OID 16422)
 -- Name: fkhfh9dx7w3ubf1co1vdev94g3f; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -548,7 +581,7 @@ ALTER TABLE ONLY public.user_roles
 
 
 --
--- TOC entry 2080 (class 2606 OID 16452)
+-- TOC entry 2086 (class 2606 OID 16452)
 -- Name: fkoia5s1p9sk4x5fld87yjqpjg9; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -557,7 +590,16 @@ ALTER TABLE ONLY public.entries
 
 
 --
--- TOC entry 2082 (class 2606 OID 16480)
+-- TOC entry 2092 (class 2606 OID 16595)
+-- Name: property_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.invites
+    ADD CONSTRAINT property_fk FOREIGN KEY (property_id) REFERENCES public.property(id);
+
+
+--
+-- TOC entry 2088 (class 2606 OID 16480)
 -- Name: property_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -566,7 +608,7 @@ ALTER TABLE ONLY public.property_residents
 
 
 --
--- TOC entry 2081 (class 2606 OID 16472)
+-- TOC entry 2087 (class 2606 OID 16472)
 -- Name: user_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -575,7 +617,25 @@ ALTER TABLE ONLY public.property
 
 
 --
--- TOC entry 2083 (class 2606 OID 16485)
+-- TOC entry 2090 (class 2606 OID 16585)
+-- Name: user_fk_from; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.invites
+    ADD CONSTRAINT user_fk_from FOREIGN KEY (user_id_from) REFERENCES public.users(id);
+
+
+--
+-- TOC entry 2091 (class 2606 OID 16590)
+-- Name: user_fk_to; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.invites
+    ADD CONSTRAINT user_fk_to FOREIGN KEY (user_id_to) REFERENCES public.users(id);
+
+
+--
+-- TOC entry 2089 (class 2606 OID 16485)
 -- Name: user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -584,7 +644,7 @@ ALTER TABLE ONLY public.property_residents
 
 
 --
--- TOC entry 2217 (class 0 OID 0)
+-- TOC entry 2227 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -595,7 +655,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2020-09-05 15:25:10 -03
+-- Completed on 2020-09-07 16:53:04 -03
 
 --
 -- PostgreSQL database dump complete

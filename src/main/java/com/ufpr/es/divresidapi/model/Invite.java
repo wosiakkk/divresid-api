@@ -37,7 +37,8 @@ public class Invite implements Serializable{
 	
 	public Invite() {}
 
-	public Invite(Long id, User idFrom, User idTo, Property idProperty, boolean accepted) {
+	public Invite(Long id, User idFrom, User idTo, Property idProperty, 
+			boolean accepted) {
 		super();
 		this.id = id;
 		this.idFrom = idFrom;
