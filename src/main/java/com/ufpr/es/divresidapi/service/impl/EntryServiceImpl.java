@@ -24,7 +24,7 @@ import com.ufpr.es.divresidapi.service.lazyloading.LazyTableWithDateFilterServic
 public class EntryServiceImpl 
 	extends BaseResourceServiceImpl<Entry, EntryDTO, Long> 
 	implements	EntryService, 
-				LazyTableWithDateFilterService<Entry>{
+				LazyTableWithDateFilterService<Entry,User>{
 			
 	@Autowired
 	private EntryRepository entryRepository;

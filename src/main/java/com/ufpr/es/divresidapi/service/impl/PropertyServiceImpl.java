@@ -23,7 +23,7 @@ import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 public class PropertyServiceImpl 
 	extends BaseResourceServiceImpl<Property, PropertyDTO, Long> 
 	implements	PropertyService,
-				LazyTableService<Property> {
+				LazyTableService<Property, User> {
 	
 	@Autowired
 	private PropertyConverter propertyConverter;
@@ -67,6 +67,11 @@ public class PropertyServiceImpl
 	@Override
 	public Long getNumberOfEntities(User user) throws ServiceException {
 		return this.propertyrepository.countByUser(user);
+	}
+
+	@Override
+	public boolean existsResident(Long userId, Long propertyId) {
+		return this.propertyrepository.existsResident(userId, propertyId);
 	}
 
 }

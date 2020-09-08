@@ -70,6 +70,17 @@ public class User implements Serializable{
 		this.name = name;
 	}
 	
+	public User(
+			Long id, @NotBlank String username,  
+			@NotBlank @Email String email, @NotBlank String name
+		) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.name = name;
+	}
+	
 	public User(Long id) {
 		this.id = id;
 	}

@@ -23,14 +23,14 @@ import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 
 
 
-public abstract class BaseRestController<TENTITY, TDTO, TID> {
+public abstract class BaseRestController<TENTITY, TDTO,TENTITYCOUNT, TID> {
 	
 	protected abstract BaseResourceService< TDTO, TID> getBaseResourceService();
-	protected abstract LazyTableService<TENTITY> getLazyTableService();
+	protected abstract LazyTableService<TENTITY,TENTITYCOUNT> getLazyTableService();
 	
 
 	@GetMapping
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<List<TDTO>> listAll(){
 		try {
 			return ResponseEntity.ok(this.getBaseResourceService().findAll());
@@ -40,7 +40,7 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	}
 	
 	@GetMapping(value = "/resources/user")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<List<TDTO>> listAllByUser(User user){
 		try {
 			return ResponseEntity.ok(this.getBaseResourceService()
@@ -51,7 +51,7 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	}
 	
 	@GetMapping(value = "/pagination")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<Page<TENTITY>> listAllPageable(Pageable pageable,
 			String searchString,User user){
 		try {
@@ -73,18 +73,18 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	}
 	
 	@GetMapping(value = "/pagination/count")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<Long> getNumberOfEntities(User user){
+	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<Long> getNumberOfEntities(TENTITYCOUNT t){
 		try {
 			return ResponseEntity.ok(this.getLazyTableService()
-					.getNumberOfEntities(user));
+					.getNumberOfEntities(t));
 		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<TDTO> findById(@PathVariable(name = "id") TID id ){
 		try {
 			return ResponseEntity.ok(this.getBaseResourceService().findById(id));
@@ -94,7 +94,7 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<TDTO> save(@RequestBody TDTO dto){
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED)
@@ -105,7 +105,7 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	}
 	
 	@PutMapping(value = "/{id}")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<TDTO> update(@RequestBody TDTO dto){
 		try {
 			return ResponseEntity.ok(this.getBaseResourceService().save(dto));
@@ -115,7 +115,7 @@ public abstract class BaseRestController<TENTITY, TDTO, TID> {
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<TDTO> delete(@PathVariable(name = "id") TID id){
 		try {
 			this.getBaseResourceService().delete(id);
