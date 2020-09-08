@@ -8,11 +8,16 @@ import org.springframework.stereotype.Service;
 
 import com.ufpr.es.divresidapi.converter.InviteConverter;
 import com.ufpr.es.divresidapi.converter.ResourceConverter;
+import com.ufpr.es.divresidapi.converter.UserConverter;
 import com.ufpr.es.divresidapi.dto.InviteDTO;
+import com.ufpr.es.divresidapi.dto.PropertyDTO;
 import com.ufpr.es.divresidapi.model.Invite;
+import com.ufpr.es.divresidapi.model.Property;
 import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.repository.InviteRepository;
 import com.ufpr.es.divresidapi.service.InviteService;
+import com.ufpr.es.divresidapi.service.PropertyService;
+import com.ufpr.es.divresidapi.service.UserService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
 
 @Service
@@ -24,6 +29,12 @@ public class InviteServiceImpl
 	private InviteConverter inviteConverter;
 	@Autowired
 	private InviteRepository inviteRepository;
+	@Autowired
+	private PropertyService propertyService;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private UserConverter userConverter;
 	
 	@Override
 	public List<InviteDTO> findAllByUser(User user) throws ServiceException {
@@ -38,6 +49,26 @@ public class InviteServiceImpl
 	@Override
 	protected JpaRepository<Invite, Long> getRepository() {
 		return this.inviteRepository;
+	}
+
+	@Override
+	public InviteDTO acceptInvite(Invite invite) throws ServiceException {
+		boolean alreadyExistsInProperty = this.propertyService
+				.existsResident(invite.getIdTo().getId(),
+								invite.getIdProperty().getId());
+		if(!alreadyExistsInProperty) { 
+			this.update(this.inviteConverter.convertToDTO(invite));
+			PropertyDTO property = this
+					.propertyService.findById(invite.getIdProperty().getId());
+			property.getResidents()
+				.add(this.userConverter
+							.convertToModel(this.userService
+									.findById(invite.getIdTo().getId())));
+			this.propertyService.update(property);
+		}
+		else
+			throw new ServiceException("Usuário já existe nesse imóvel");
+		return this.inviteConverter.convertToDTO(invite);
 	}
 	
 }

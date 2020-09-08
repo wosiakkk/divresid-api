@@ -69,4 +69,9 @@ public class PropertyServiceImpl
 		return this.propertyrepository.countByUser(user);
 	}
 
+	@Override
+	public boolean existsResident(Long userId, Long propertyId) {
+		return this.propertyrepository.existsResident(userId, propertyId);
+	}
+
 }

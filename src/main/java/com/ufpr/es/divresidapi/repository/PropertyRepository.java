@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ufpr.es.divresidapi.model.Property;
@@ -19,4 +20,12 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 	List<Property> findAllByUser(User user);
 	long countByUser(User user);
 	
+	@Query(
+		nativeQuery = true,
+		value = "SELECT CASE WHEN COUNT(p)>0 "
+				+ "THEN TRUE ELSE FALSE END "
+				+ "FROM property_residents p "
+				+ "WHERE p.user_id = ?1 and p.property_id= ?2"
+	)
+	boolean existsResident(Long userId, Long propertyId);
 }
