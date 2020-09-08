@@ -88,7 +88,7 @@ public class AuthController {
 		Set<Role> roles = new HashSet<>();
 
 		if (strRoles == null) {
-			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+			Role userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
 					.orElseThrow(() -> new RuntimeException("Error: Role não encontrada."));
 			roles.add(userRole);
 		} else {
@@ -106,8 +106,12 @@ public class AuthController {
 					roles.add(modRole);
 
 					break;
+				case "resident":
+					Role residentRole = roleRepository.findByName(ERole.ROLE_RESIDENT)
+						.orElseThrow(() -> new RuntimeException("Error: Role não encontrada"));
+					roles.add(residentRole);
 				default:
-					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+					Role userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
 							.orElseThrow(() -> new RuntimeException("Error: Role não encontrada."));
 					roles.add(userRole);
 				}

@@ -11,8 +11,8 @@ import com.ufpr.es.divresidapi.converter.ResourceConverter;
 import com.ufpr.es.divresidapi.converter.UserConverter;
 import com.ufpr.es.divresidapi.dto.InviteDTO;
 import com.ufpr.es.divresidapi.dto.PropertyDTO;
+import com.ufpr.es.divresidapi.dto.UserDTO;
 import com.ufpr.es.divresidapi.model.Invite;
-import com.ufpr.es.divresidapi.model.Property;
 import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.repository.InviteRepository;
 import com.ufpr.es.divresidapi.service.InviteService;
@@ -53,9 +53,11 @@ public class InviteServiceImpl
 
 	@Override
 	public InviteDTO acceptInvite(Invite invite) throws ServiceException {
+		
 		boolean alreadyExistsInProperty = this.propertyService
 				.existsResident(invite.getIdTo().getId(),
 								invite.getIdProperty().getId());
+		
 		if(!alreadyExistsInProperty) { 
 			this.update(this.inviteConverter.convertToDTO(invite));
 			PropertyDTO property = this
@@ -66,8 +68,14 @@ public class InviteServiceImpl
 									.findById(invite.getIdTo().getId())));
 			this.propertyService.update(property);
 		}
-		else
+		else {
 			throw new ServiceException("Usuário já existe nesse imóvel");
+		}
+		
+		UserDTO dto = this.userService.setNewRole("resident", invite.getIdTo().getId());
+		
+		System.out.println(dto);
+		
 		return this.inviteConverter.convertToDTO(invite);
 	}
 	
