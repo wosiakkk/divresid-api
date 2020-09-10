@@ -23,8 +23,8 @@ public class InviteController
 	
 	@Autowired
 	private InviteService inviteService;
-	/*@Autowired
-	private LazyTableService<Invite, User> lazyTableService;*/
+	@Autowired
+	private LazyTableService<Invite, User> lazyTableService;
 	
 	@Override
 	protected BaseResourceService<InviteDTO, Long> getBaseResourceService() {
@@ -33,7 +33,7 @@ public class InviteController
 
 	@Override
 	protected LazyTableService<Invite, User> getLazyTableService() {
-		return null;
+		return this.lazyTableService;
 	}
 	
 	@PostMapping(value = "/accept")

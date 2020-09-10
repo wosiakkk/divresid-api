@@ -1,8 +1,11 @@
 package com.ufpr.es.divresidapi.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +22,13 @@ import com.ufpr.es.divresidapi.service.InviteService;
 import com.ufpr.es.divresidapi.service.PropertyService;
 import com.ufpr.es.divresidapi.service.UserService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 
 @Service
 public class InviteServiceImpl 
 	extends BaseResourceServiceImpl<Invite, InviteDTO, Long>
-	implements InviteService {
+	implements InviteService,
+				LazyTableService<Invite, User>{
 	
 	@Autowired
 	private InviteConverter inviteConverter;
@@ -38,7 +43,13 @@ public class InviteServiceImpl
 	
 	@Override
 	public List<InviteDTO> findAllByUser(User user) throws ServiceException {
-		return null;
+		List<InviteDTO> dtos =  new ArrayList<InviteDTO>();
+		List<Invite> models = this.inviteRepository
+									.findAllByIdFromOrIdTo(user,user);
+		models.forEach(i -> {
+			dtos.add(this.inviteConverter.convertToDTO(i));
+		});
+		return dtos;
 	}
 
 	@Override
@@ -77,6 +88,24 @@ public class InviteServiceImpl
 		System.out.println(dto);
 		
 		return this.inviteConverter.convertToDTO(invite);
+	}
+
+	@Override
+	public Page<Invite> listAllPageableAndUser(Pageable pageable, User user) throws ServiceException {
+		return this.inviteRepository
+				.findAllByIdFromOrIdTo(pageable, user,user);
+	}
+
+	@Override
+	public Page<Invite> findAllByNameContainingAndUser(String searchString, 
+			User user, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getNumberOfEntities(User t) throws ServiceException {
+		return this.inviteRepository.countByIdFromOrIdTo(t, t);
 	}
 	
 }
