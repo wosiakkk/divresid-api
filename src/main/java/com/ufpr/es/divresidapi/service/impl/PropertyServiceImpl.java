@@ -75,7 +75,7 @@ public class PropertyServiceImpl
 	}
 	
 	@Override
-	public Long getCurrentActiveProperty(Long userId) {
+	public Property getCurrentActiveProperty(Long userId) {
 		return this.propertyrepository.getCurrentActiveProperty(userId);
 	}
 

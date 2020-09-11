@@ -31,8 +31,8 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 	
 	@Query(
 		nativeQuery = true,
-		value = "SELECT id FROM property "
+		value = "SELECT * FROM property "
 				+ "WHERE active = true AND property.user_id = ?1"
 	)
-	Long getCurrentActiveProperty(Long userId);
+	Property getCurrentActiveProperty(Long userId);
 }
