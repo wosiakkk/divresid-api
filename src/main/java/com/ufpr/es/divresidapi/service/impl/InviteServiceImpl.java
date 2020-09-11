@@ -64,34 +64,21 @@ public class InviteServiceImpl
 
 	@Override
 	public InviteDTO acceptInvite(Invite invite) throws ServiceException {
-		
-		boolean alreadyExistsInProperty = this.propertyService
-				.existsResident(invite.getIdTo().getId(),
-								invite.getIdProperty().getId());
-		
-		if(!alreadyExistsInProperty) { 
+		if(!alreadyExistsInProperty(invite)) {
+			invite.setAcceted(true);
 			this.update(this.inviteConverter.convertToDTO(invite));
-			PropertyDTO property = this
-					.propertyService.findById(invite.getIdProperty().getId());
-			property.getResidents()
-				.add(this.userConverter
-							.convertToModel(this.userService
-									.findById(invite.getIdTo().getId())));
-			this.propertyService.update(property);
+			addResidentToProperty(invite);
 		}
 		else {
 			throw new ServiceException("Usuário já existe nesse imóvel");
 		}
-		
-		UserDTO dto = this.userService.setNewRole("resident", invite.getIdTo().getId());
-		
-		System.out.println(dto);
-		
+		updateResidentRole(invite);
 		return this.inviteConverter.convertToDTO(invite);
 	}
-
+	
 	@Override
-	public Page<Invite> listAllPageableAndUser(Pageable pageable, User user) throws ServiceException {
+	public Page<Invite> listAllPageableAndUser(Pageable pageable, User user)
+			throws ServiceException {
 		return this.inviteRepository
 				.findAllByIdFromOrIdTo(pageable, user,user);
 	}
@@ -106,6 +93,26 @@ public class InviteServiceImpl
 	@Override
 	public Long getNumberOfEntities(User t) throws ServiceException {
 		return this.inviteRepository.countByIdFromOrIdTo(t, t);
+	}
+	
+	private boolean alreadyExistsInProperty(Invite invite) {
+		return this.propertyService
+						.existsResident(invite.getIdTo().getId(),
+										invite.getIdProperty().getId());
+	}
+	
+	private void addResidentToProperty(Invite invite) throws ServiceException {
+		PropertyDTO property = this.propertyService
+				.findById(invite.getIdProperty().getId());
+		property.getResidents().add(this.userConverter
+				.convertToModel(this.userService
+				.findById(invite.getIdTo().getId())));
+		
+		this.propertyService.update(property);
+	}
+	
+	private void updateResidentRole(Invite invite) throws ServiceException {
+		this.userService.setNewRole("resident", invite.getIdTo().getId());
 	}
 	
 }
