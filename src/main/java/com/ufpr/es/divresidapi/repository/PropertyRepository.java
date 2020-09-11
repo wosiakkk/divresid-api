@@ -28,4 +28,11 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 				+ "WHERE p.user_id = ?1 and p.property_id= ?2"
 	)
 	boolean existsResident(Long userId, Long propertyId);
+	
+	@Query(
+		nativeQuery = true,
+		value = "SELECT id FROM property "
+				+ "WHERE active = true AND property.user_id = ?1"
+	)
+	Long getCurrentActiveProperty(Long userId);
 }
