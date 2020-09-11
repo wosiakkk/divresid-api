@@ -125,7 +125,7 @@ public abstract class BaseRestController<TENTITY, TDTO,TENTITYCOUNT, TID> {
 		}
 	}
 	
-	private boolean isFilteredSearch(String param) {
+	protected boolean isFilteredSearch(String param) {
 		return !param.equalsIgnoreCase("not");
 	}
 }

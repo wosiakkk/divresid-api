@@ -73,5 +73,10 @@ public class PropertyServiceImpl
 	public boolean existsResident(Long userId, Long propertyId) {
 		return this.propertyrepository.existsResident(userId, propertyId);
 	}
+	
+	@Override
+	public Long getCurrentActiveProperty(Long userId) {
+		return this.propertyrepository.getCurrentActiveProperty(userId);
+	}
 
 }
