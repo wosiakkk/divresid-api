@@ -7,5 +7,6 @@ public interface PropertyService extends BaseResourceService<PropertyDTO, Long>{
 	
 	boolean existsResident(Long userId, Long propertyId);
 	Property getCurrentActiveProperty(Long userId);
+	void setNonActivePropertiesToFalse(Long idActive);
 	
 }

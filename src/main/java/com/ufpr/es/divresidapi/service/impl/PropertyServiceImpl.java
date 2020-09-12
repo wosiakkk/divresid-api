@@ -79,4 +79,9 @@ public class PropertyServiceImpl
 		return this.propertyrepository.getCurrentActiveProperty(userId);
 	}
 
+	@Override
+	public void setNonActivePropertiesToFalse(Long idActive) {
+		this.propertyrepository.setNonActivePropertiesToFalse(idActive);
+	}
+
 }
