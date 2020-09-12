@@ -2084,6 +2084,63 @@
 						"description": "Requisição para excluir um imóvel cadastrado"
 					},
 					"response": []
+				},
+				{
+					"name": "6 - Buscar imóvel ativo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "763f918f-af8d-49cc-8078-aec266495fac",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verificando id de remetente\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.active).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}properties/currentActive?userId=1",
+							"host": [
+								"{{urlAuthApi}}properties"
+							],
+							"path": [
+								"currentActive"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Requisição para buscar o imóvel atual ativo de um usuário"
+					},
+					"response": []
 				}
 			],
 			"description": "Requisições para testar end points de Properties.",
@@ -2097,6 +2154,398 @@
 					}
 				]
 			},
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "5 - Invites",
+			"item": [
+				{
+					"name": "1 - Criando Convite",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8fdb30e8-811e-4a66-b316-76e1fa5860c5",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"var idCreated = jsonData.id;",
+									"",
+									"postman.setEnvironmentVariable(\"idCreated\", idCreated);",
+									"",
+									"pm.test(\"Verificando id de remetente\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.idFrom.id).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Verificando id de destinatário\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.idTo.id).to.eql(20);",
+									"});",
+									"",
+									"pm.test(\"Verificando id de imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.idProperty.id).to.eql(68);",
+									"});",
+									"",
+									"pm.test(\"Verificando status\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.accepted).to.eql(false);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": null,\n    \"idFrom\": {\n        \"id\": 1\n    },\n    \"idTo\": {\n        \"id\": 20\n    },\n    \"idProperty\": {\n        \"id\": 68\n    },\n    \"accepted\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlAuthApi}}invites",
+							"host": [
+								"{{urlAuthApi}}invites"
+							]
+						},
+						"description": "Requisição para criar um convite"
+					},
+					"response": []
+				},
+				{
+					"name": "2 - Buscando Convite criado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "04270067-4c0b-4655-9f5e-f157bfcba1d5",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verificando id de remetente\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.idFrom.id).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Verificando id de destinatário\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.idTo.id).to.eql(20);",
+									"});",
+									"",
+									"pm.test(\"Verificando id de imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.idProperty.id).to.eql(68);",
+									"});",
+									"",
+									"pm.test(\"Verificando status\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.accepted).to.eql(false);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}invites/{{idCreated}}",
+							"host": [
+								"{{urlAuthApi}}invites"
+							],
+							"path": [
+								"{{idCreated}}"
+							]
+						},
+						"description": "Requisição para buscar um convite criado"
+					},
+					"response": []
+				},
+				{
+					"name": "3 - Aceitar convite",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9c0ca893-6300-4b86-840f-90030fc7bd2a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verificando id de remetente\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.idFrom.id).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Verificando id de destinatário\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.idTo.id).to.eql(20);",
+									"});",
+									"",
+									"pm.test(\"Verificando id de imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.idProperty.id).to.eql(68);",
+									"});",
+									"",
+									"pm.test(\"Verificando status\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.accepted).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{idCreated}}\",\n    \"idFrom\": {\n        \"id\": 1\n    },\n    \"idTo\": {\n        \"id\": 20\n    },\n    \"idProperty\": {\n        \"id\": 68\n    },\n    \"accepted\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlAuthApi}}invites/accept",
+							"host": [
+								"{{urlAuthApi}}invites"
+							],
+							"path": [
+								"accept"
+							]
+						},
+						"description": "Requisição para aceitar convite"
+					},
+					"response": []
+				},
+				{
+					"name": "4 - Listar Convites",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8cf03fbe-c467-40d7-acc5-a6a766964858",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"A resposta é um array array\", function () {",
+									"        pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}invites",
+							"host": [
+								"{{urlAuthApi}}invites"
+							]
+						},
+						"description": "Requisição para listar os convites cadastrados"
+					},
+					"response": []
+				},
+				{
+					"name": "5 - Excluir Convite",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1c228541-f872-44c0-b2f8-0d5cd1bab5ca",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}invites/{{idCreated}}",
+							"host": [
+								"{{urlAuthApi}}invites"
+							],
+							"path": [
+								"{{idCreated}}"
+							]
+						},
+						"description": "Requisição para excluir convite"
+					},
+					"response": []
+				}
+			],
+			"description": "Requisições de convites para usários",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "6 - Residents",
+			"item": [
+				{
+					"name": "1 - Buscar user por email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e9910e3c-1b54-410f-962f-20ab5341c528",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verificando username do User\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.username).to.eql(\"admin\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o email do User\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.email).to.eql(\"admin@divresid.com\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o nome do User\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Administrador\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}residents/byEmail?email=admin@divresid.com",
+							"host": [
+								"{{urlAuthApi}}residents"
+							],
+							"path": [
+								"byEmail"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "admin@divresid.com"
+								}
+							]
+						},
+						"description": "Requisição para buscar user por email para envio de convite"
+					},
+					"response": []
+				}
+			],
+			"description": "Requisições para moradores de imóveis",
 			"protocolProfileBehavior": {}
 		}
 	],

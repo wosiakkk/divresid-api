@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -35,4 +36,12 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 				+ "WHERE active = true AND property.user_id = ?1"
 	)
 	Property getCurrentActiveProperty(Long userId);
+	
+	@Modifying
+	@Query(
+		nativeQuery = true,
+		value = "UPDATE property SET active = false "
+				+ "WHERE id != ?1"
+	)
+	void setNonActivePropertiesToFalse(Long idActive);
 }
