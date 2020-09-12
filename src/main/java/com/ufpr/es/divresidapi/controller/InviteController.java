@@ -47,7 +47,7 @@ public class InviteController
 	public ResponseEntity<InviteDTO> acceptInvite(@RequestBody Invite invite){
 		try {
 			return ResponseEntity
-					.status(HttpStatus.HTTP_VERSION_NOT_SUPPORTED.CREATED)
+					.status(HttpStatus.OK)
 					.body(this.inviteService.acceptInvite(invite));
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
