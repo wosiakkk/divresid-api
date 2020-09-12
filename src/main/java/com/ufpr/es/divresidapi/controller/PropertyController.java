@@ -38,7 +38,7 @@ public class PropertyController
 	
 	@GetMapping(value = "/currentActive")
 	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<Long> getCurrentActiveProperty(
+	public ResponseEntity<Property> getCurrentActiveProperty(
 			@RequestParam() Long userId){
 		try {
 			return ResponseEntity
