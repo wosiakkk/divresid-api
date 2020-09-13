@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,7 @@ import com.ufpr.es.divresidapi.model.Property;
 import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.PropertyService;
+import com.ufpr.es.divresidapi.service.UserService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
 import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 
@@ -29,6 +32,8 @@ public class PropertyController
 	
 	@Autowired
 	private PropertyService propertyService;
+	@Autowired
+	private UserService userSerive;
 	@Autowired
 	private LazyTableService<Property, User> lazyTableservice;
 
@@ -42,13 +47,15 @@ public class PropertyController
 		return this.lazyTableservice;
 	}
 	
+	@Transactional
 	@GetMapping(value = "/currentActive")
 	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<Property> getCurrentActiveProperty(
+	public ResponseEntity<PropertyDTO> getCurrentActiveProperty(
 			@RequestParam() Long userId){
 		try {
-			return ResponseEntity
-					.ok(this.propertyService.getCurrentActiveProperty(userId));
+			
+			PropertyDTO p = this.propertyService.getCurrentActiveProperty(userId);
+			return ResponseEntity.ok(p);
 		}catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -86,6 +93,21 @@ public class PropertyController
 			return ResponseEntity.status(HttpStatus.OK)
 					.body(updatedDto);
 		}catch (ServiceException e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@Transactional
+	@DeleteMapping(value = "/removeResident")
+	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<PropertyDTO> removeResidentFromProperty(
+			@RequestParam() Long userId,
+			@RequestParam() Long propertyId){
+		try {
+			this.propertyService.removeResidentFromProperty(userId, propertyId);
+			this.userSerive.setNewRole("admin", userId);
+			return ResponseEntity.ok().body(null);
+		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
