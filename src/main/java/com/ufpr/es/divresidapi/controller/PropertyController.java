@@ -42,13 +42,15 @@ public class PropertyController
 		return this.lazyTableservice;
 	}
 	
+	@Transactional
 	@GetMapping(value = "/currentActive")
 	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<Property> getCurrentActiveProperty(
+	public ResponseEntity<PropertyDTO> getCurrentActiveProperty(
 			@RequestParam() Long userId){
 		try {
-			return ResponseEntity
-					.ok(this.propertyService.getCurrentActiveProperty(userId));
+			
+			PropertyDTO p = this.propertyService.getCurrentActiveProperty(userId);
+			return ResponseEntity.ok(p);
 		}catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

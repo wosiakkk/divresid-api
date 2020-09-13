@@ -75,8 +75,10 @@ public class PropertyServiceImpl
 	}
 	
 	@Override
-	public Property getCurrentActiveProperty(Long userId) {
-		return this.propertyrepository.getCurrentActiveProperty(userId);
+	public PropertyDTO getCurrentActiveProperty(Long userId) {
+		return this.propertyConverter
+				.convertToDTO(this.propertyrepository
+									.getCurrentActiveProperty(userId));
 	}
 
 	@Override
