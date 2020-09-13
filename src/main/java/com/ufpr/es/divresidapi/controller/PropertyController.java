@@ -21,6 +21,7 @@ import com.ufpr.es.divresidapi.model.Property;
 import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.PropertyService;
+import com.ufpr.es.divresidapi.service.UserService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
 import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 
@@ -31,6 +32,8 @@ public class PropertyController
 	
 	@Autowired
 	private PropertyService propertyService;
+	@Autowired
+	private UserService userSerive;
 	@Autowired
 	private LazyTableService<Property, User> lazyTableservice;
 
@@ -102,6 +105,7 @@ public class PropertyController
 			@RequestParam() Long propertyId){
 		try {
 			this.propertyService.removeResidentFromProperty(userId, propertyId);
+			this.userSerive.setNewRole("admin", userId);
 			return ResponseEntity.ok().body(null);
 		} catch (ServiceException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
