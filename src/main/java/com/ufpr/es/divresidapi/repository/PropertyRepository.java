@@ -30,6 +30,14 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 	)
 	boolean existsResident(Long userId, Long propertyId);
 	
+	@Modifying
+	@Query(
+		nativeQuery = true,
+		value = "DELETE FROM property_residents p "
+				+ "WHERE p.user_id = ?1 AND p.property_id = ?2"
+	)
+	void removeResident(Long userId, Long propertyId);
+	
 	@Query(
 		nativeQuery = true,
 		value = "SELECT * FROM property "

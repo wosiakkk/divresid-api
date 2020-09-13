@@ -86,4 +86,9 @@ public class PropertyServiceImpl
 		this.propertyrepository.setNonActivePropertiesToFalse(idActive);
 	}
 
+	@Override
+	public void removeResidentFromProperty(Long userId, Long propertyId) {
+		this.propertyrepository.removeResident(userId, propertyId);
+	}
+
 }
