@@ -2040,53 +2040,7 @@
 					"response": []
 				},
 				{
-					"name": "5 - Excluir Imóvel",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "9368ca81-09ec-4491-8d86-1b891836066b",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 500ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(500);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{tokenAdmin}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{urlAuthApi}}properties/{{idCreated}}",
-							"host": [
-								"{{urlAuthApi}}properties"
-							],
-							"path": [
-								"{{idCreated}}"
-							]
-						},
-						"description": "Requisição para excluir um imóvel cadastrado"
-					},
-					"response": []
-				},
-				{
-					"name": "6 - Buscar imóvel ativo",
+					"name": "5 - Buscar imóvel ativo",
 					"event": [
 						{
 							"listen": "test",
@@ -2141,6 +2095,52 @@
 						"description": "Requisição para buscar o imóvel atual ativo de um usuário"
 					},
 					"response": []
+				},
+				{
+					"name": "6 - Excluir Imóvel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9368ca81-09ec-4491-8d86-1b891836066b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}properties/{{idCreated}}",
+							"host": [
+								"{{urlAuthApi}}properties"
+							],
+							"path": [
+								"{{idCreated}}"
+							]
+						},
+						"description": "Requisição para excluir um imóvel cadastrado"
+					},
+					"response": []
 				}
 			],
 			"description": "Requisições para testar end points de Properties.",
@@ -2160,7 +2160,124 @@
 			"name": "5 - Invites",
 			"item": [
 				{
-					"name": "1 - Criando Convite",
+					"name": "1 - Criando temp imóvel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "14f2952a-04b2-47d2-be5f-b5058a9323d7",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"var idTempProperty = jsonData.id;",
+									"",
+									"postman.setEnvironmentVariable(\"idTempProperty\", idTempProperty);",
+									"",
+									"pm.test(\"Verificando nome do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Imóvel de Teste Convite Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a descrição do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.description).to.eql(\"Imóvel usado para teste\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o nome do dono do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.landLordName).to.eql(\"Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o telefone do dono do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.landLordPhone).to.eql(\"41999837800\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o CEP do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.zipCode).to.eql(\"80630200\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a rua do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.street).to.eql(\"Rua Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o complemento do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.addressDetails).to.eql(\"Complemento Postman\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o número do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.number).to.eql(\"100\");",
+									"});",
+									"",
+									"pm.test(\"Verificando a cidade do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.city).to.eql(\"Curitiba\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o estado da cidade do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.state).to.eql(\"Paraná\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o status do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.active).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Verificando o user id do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.user.id).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": null,  \n  \"name\": \"Imóvel de Teste Convite Postman\",\n  \"description\": \"Imóvel usado para teste\",\n  \"landLordName\": \"Postman\",\n  \"landLordPhone\": \"41999837800\",\n  \"zipCode\": \"80630200\",\n  \"street\": \"Rua Postman\",\n  \"addressDetails\": \"Complemento Postman\",\n  \"number\": \"100\",\n  \"city\": \"Curitiba\",\n  \"state\": \"Paraná\",\n  \"active\": true,\n  \"user\": {\n    \"id\": 1\n  },\n  \"residents\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlAuthApi}}properties",
+							"host": [
+								"{{urlAuthApi}}properties"
+							]
+						},
+						"description": "Requisição para criar um imóvel temporário para testar as requisições de convites"
+					},
+					"response": []
+				},
+				{
+					"name": "2 - Criando Convite",
 					"event": [
 						{
 							"listen": "test",
@@ -2188,7 +2305,7 @@
 									"",
 									"pm.test(\"Verificando id de imóvel\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.idProperty.id).to.eql(68);",
+									"    pm.expect(jsonData.idProperty.id).to.eql(+pm.environment.get(\"idTempProperty\"));",
 									"});",
 									"",
 									"pm.test(\"Verificando status\", function () {",
@@ -2219,7 +2336,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": null,\n    \"idFrom\": {\n        \"id\": 1\n    },\n    \"idTo\": {\n        \"id\": 20\n    },\n    \"idProperty\": {\n        \"id\": 68\n    },\n    \"accepted\": false\n}",
+							"raw": "{\n    \"id\": null,\n    \"idFrom\": {\n        \"id\": 1\n    },\n    \"idTo\": {\n        \"id\": 20\n    },\n    \"idProperty\": {\n        \"id\": {{idTempProperty}}\n    },\n    \"accepted\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2237,7 +2354,7 @@
 					"response": []
 				},
 				{
-					"name": "2 - Buscando Convite criado",
+					"name": "3 - Buscando Convite criado",
 					"event": [
 						{
 							"listen": "test",
@@ -2260,7 +2377,7 @@
 									"",
 									"pm.test(\"Verificando id de imóvel\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.idProperty.id).to.eql(68);",
+									"    pm.expect(jsonData.idProperty.id).to.eql(+pm.environment.get(\"idTempProperty\"));",
 									"});",
 									"",
 									"pm.test(\"Verificando status\", function () {",
@@ -2303,7 +2420,7 @@
 					"response": []
 				},
 				{
-					"name": "3 - Aceitar convite",
+					"name": "4 - Aceitar convite",
 					"event": [
 						{
 							"listen": "test",
@@ -2326,7 +2443,7 @@
 									"",
 									"pm.test(\"Verificando id de imóvel\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.idProperty.id).to.eql(68);",
+									"    pm.expect(jsonData.idProperty.id).to.eql(+pm.environment.get(\"idTempProperty\"));",
 									"});",
 									"",
 									"pm.test(\"Verificando status\", function () {",
@@ -2357,7 +2474,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"{{idCreated}}\",\n    \"idFrom\": {\n        \"id\": 1\n    },\n    \"idTo\": {\n        \"id\": 20\n    },\n    \"idProperty\": {\n        \"id\": 68\n    },\n    \"accepted\": true\n}",
+							"raw": "{\n    \"id\": {{idCreated}},\n    \"idFrom\": {\n        \"id\": 1\n    },\n    \"idTo\": {\n        \"id\": 20\n    },\n    \"idProperty\": {\n        \"id\": {{idTempProperty}}\n    },\n    \"accepted\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2378,7 +2495,7 @@
 					"response": []
 				},
 				{
-					"name": "4 - Listar Convites",
+					"name": "5 - Listar Convites",
 					"event": [
 						{
 							"listen": "test",
@@ -2425,7 +2542,7 @@
 					"response": []
 				},
 				{
-					"name": "5 - Excluir Convite",
+					"name": "6 - Excluir Convite",
 					"event": [
 						{
 							"listen": "test",
@@ -2467,6 +2584,52 @@
 							]
 						},
 						"description": "Requisição para excluir convite"
+					},
+					"response": []
+				},
+				{
+					"name": "7 - Excluir temp Porperty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "70eef004-9b05-4385-bb50-646351481fc1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{urlAuthApi}}properties/{{idTempProperty}}",
+							"host": [
+								"{{urlAuthApi}}properties"
+							],
+							"path": [
+								"{{idTempProperty}}"
+							]
+						},
+						"description": "Requisição para excluir imóvel temporario usado para teste de convite"
 					},
 					"response": []
 				}
