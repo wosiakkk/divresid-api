@@ -9,12 +9,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ufpr.es.divresidapi.dto.UserDTO;
+import com.ufpr.es.divresidapi.model.ERole;
 import com.ufpr.es.divresidapi.model.Property;
+import com.ufpr.es.divresidapi.model.Role;
 import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.UserService;
@@ -52,6 +56,20 @@ public class UserController
 		}catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@PutMapping(value = "/newRole")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<UserDTO> setNewUserRole(@RequestBody User user) 
+			throws ServiceException{
+		String roleName ="";
+		for (Role er : user.getRoles()) {
+			if(er.getName().toString()!=null)
+				roleName = er.getName().toString();
+		}
+		
+		return ResponseEntity
+				.ok(this.userService.setNewRole(roleName, user.getId()));
 	}
 
 }
