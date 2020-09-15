@@ -79,9 +79,14 @@ public class UserServiceImpl
 	public UserDTO setNewRole(String roleName, Long userId) 
 			throws ServiceException {
 		Role newRole =  new Role();
-		if(roleName.equalsIgnoreCase("resident"))
+		if(roleName.equalsIgnoreCase("resident") ||
+				roleName.equalsIgnoreCase("ROLE_RESIDENT"))
 			newRole = this.roleRepository
 				.findByName(ERole.ROLE_RESIDENT).get();
+		else if(roleName.equalsIgnoreCase("moderator") ||
+				roleName.equalsIgnoreCase("ROLE_MODERATOR"))
+			newRole = this.roleRepository
+				.findByName(ERole.ROLE_MODERATOR).get();
 		else
 			newRole = this.roleRepository
 				.findByName(ERole.ROLE_ADMIN).get();
