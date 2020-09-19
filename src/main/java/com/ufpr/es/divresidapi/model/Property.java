@@ -92,6 +92,9 @@ public class Property implements Serializable{
 	@Column
 	private boolean active;
 	
+	@Column
+	private String rules;
+	
 	public Property() {}
 	
 	public Property(Long id,
@@ -122,7 +125,7 @@ public class Property implements Serializable{
 			@NotBlank(message = "Campo deve ser preenchido!") 
 			@Size(max = 150, message = "Máximo 150 caracteres!") 
 			String state,
-			User user, List<User> residents, boolean active) {
+			User user, List<User> residents, boolean active, String rules) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -138,6 +141,7 @@ public class Property implements Serializable{
 		this.user = user;
 		this.residents = residents;
 		this.active = active;
+		this.rules = rules;
 	}
 
 
@@ -251,6 +255,14 @@ public class Property implements Serializable{
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	
+	public String getRules() {
+		return rules;
+	}
+
+	public void setRules(String rules) {
+		this.rules = rules;
 	}
 
 	@Override

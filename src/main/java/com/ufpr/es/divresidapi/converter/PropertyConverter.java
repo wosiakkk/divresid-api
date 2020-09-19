@@ -15,7 +15,7 @@ public class PropertyConverter implements
 				dto.getLandLordName(), dto.getLandLordPhone(), dto.getZipCode(),
 				dto.getStreet(), dto.getAddressDetails(), dto.getNumber(),
 				dto.getCity(), dto.getState(), dto.getUser(), dto.getResidents(),
-				dto.isActive());
+				dto.isActive(), dto.getRules());
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class PropertyConverter implements
 				model.getLandLordPhone(), model.getZipCode(), model.getStreet(),
 				model.getAddressDetails(), model.getNumber(), model.getCity(),
 				model.getState(), model.getUser(), model.getResidents(),
-				model.isActive());
+				model.isActive(), model.getRules());
 	}
 
 }
