@@ -92,6 +92,9 @@ public class Property implements Serializable{
 	@Column
 	private boolean active;
 	
+	@Column
+	private String rules;
+	
 	public Property() {}
 	
 	public Property(Long id,
@@ -251,6 +254,14 @@ public class Property implements Serializable{
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	
+	public String getRules() {
+		return rules;
+	}
+
+	public void setRules(String rules) {
+		this.rules = rules;
 	}
 
 	@Override
