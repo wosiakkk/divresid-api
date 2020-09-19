@@ -20,6 +20,7 @@ public class PropertyDTO {
 	private User user;
 	private List<User> residents;
 	private boolean active;
+	private String rules;
 	
 	
 	public PropertyDTO() { }
@@ -29,7 +30,7 @@ public class PropertyDTO {
 			String landLordName, String landLordPhone,
 			String zipCode, String street, String addressDetails, 
 			String number, String city, String state, User user,
-			List<User> residents, boolean active) {
+			List<User> residents, boolean active, String rules) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -45,90 +46,127 @@ public class PropertyDTO {
 		this.user = user;
 		this.residents = residents;
 		this.active = active;
+		this.rules = rules;
 	}
 
 	public Long getId() {
 		return id;
 	}
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getDescription() {
 		return description;
 	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 	public String getLandLordName() {
 		return landLordName;
 	}
+	
 	public void setLandLordName(String landLordName) {
 		this.landLordName = landLordName;
 	}
+	
 	public String getLandLordPhone() {
 		return landLordPhone;
 	}
+	
 	public void setLandLordPhone(String landLordPhone) {
 		this.landLordPhone = landLordPhone;
 	}
+	
 	public String getZipCode() {
 		return zipCode;
 	}
+	
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
+	
 	public String getStreet() {
 		return street;
 	}
+	
 	public void setStreet(String street) {
 		this.street = street;
 	}
+	
 	public String getAddressDetails() {
 		return addressDetails;
 	}
+	
 	public void setAddressDetails(String addressDetails) {
 		this.addressDetails = addressDetails;
 	}
+	
 	public String getNumber() {
 		return number;
 	}
+	
 	public void setNumber(String number) {
 		this.number = number;
 	}
+	
 	public String getCity() {
 		return city;
 	}
+	
 	public void setCity(String city) {
 		this.city = city;
 	}
+	
 	public String getState() {
 		return state;
 	}
+	
 	public void setState(String state) {
 		this.state = state;
 	}
+	
 	public User getUser() {
 		return user;
 	}
+	
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
 	public List<User> getResidents() {
 		return residents;
 	}
+	
 	public void setResidents(List<User> residents) {
 		this.residents = residents;
 	}
+	
 	public boolean isActive() {
 		return active;
 	}
+	
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	
+	public String getRules() {
+		return rules;
+	}
+	
+	public void setRules(String rules) {
+		this.rules = rules;
+	}
+	
 }

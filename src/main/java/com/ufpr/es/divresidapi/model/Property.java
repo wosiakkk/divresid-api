@@ -125,7 +125,7 @@ public class Property implements Serializable{
 			@NotBlank(message = "Campo deve ser preenchido!") 
 			@Size(max = 150, message = "Máximo 150 caracteres!") 
 			String state,
-			User user, List<User> residents, boolean active) {
+			User user, List<User> residents, boolean active, String rules) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -141,6 +141,7 @@ public class Property implements Serializable{
 		this.user = user;
 		this.residents = residents;
 		this.active = active;
+		this.rules = rules;
 	}
 
 
