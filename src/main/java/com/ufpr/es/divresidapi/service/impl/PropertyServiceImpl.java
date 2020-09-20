@@ -80,6 +80,14 @@ public class PropertyServiceImpl
 				.convertToDTO(this.propertyrepository
 									.getCurrentActiveProperty(userId));
 	}
+	
+	@Override
+	public PropertyDTO getCurrentActivePropertyOfResident(Long userId) {
+		return this.propertyConverter
+				.convertToDTO(this.propertyrepository
+									.getCurrentActivePropertyOfResident(userId));
+	}
+
 
 	@Override
 	public void setNonActivePropertiesToFalse(Long idActive) {
