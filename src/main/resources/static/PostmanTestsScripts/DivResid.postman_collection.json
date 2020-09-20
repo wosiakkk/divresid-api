@@ -933,6 +933,72 @@
 						"description": "Requisição para acessar conteúdo restrido do adminstrador com chave de mesmo nível"
 					},
 					"response": []
+				},
+				{
+					"name": "Login - Logando com um usuário administrador Para testes Newman",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cfadc485-2d63-44db-b915-040a849beafa",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"var token = jsonData.accessToken;",
+									"postman.setEnvironmentVariable(\"tokenAdmin\", token);",
+									"",
+									"pm.test(\"Verificando o username do usuário admin\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.username).to.eql(\"admin\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o email do usuário admin\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.email).to.eql(\"admin@divresid.com\");",
+									"});",
+									"",
+									"pm.test(\"Verificando role do usuário admin\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.roles[0]).to.eql(\"ROLE_ADMIN\");",
+									"});",
+									"",
+									"pm.test(\"Verificando o tokentype\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.tokenType).to.eql(\"Bearer\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlSignin}}",
+							"host": [
+								"{{urlSignin}}"
+							]
+						},
+						"description": "Requisição para logar com credenciais válidas e receber o token de autorização."
+					},
+					"response": []
 				}
 			],
 			"description": "Requisições de testes para criação e login JWT e Spring Security",
@@ -1695,6 +1761,11 @@
 									"    pm.expect(jsonData.active).to.eql(true);",
 									"});",
 									"",
+									"pm.test(\"Verificando as regras do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.rules).to.eql(\"texto de regras\");",
+									"});",
+									"",
 									"pm.test(\"Verificando o user id do Imóvel\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.user.id).to.eql(1);",
@@ -1730,7 +1801,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": null,  \n  \"name\": \"Imóvel de Teste Postman\",\n  \"description\": \"Imóvel usado para teste\",\n  \"landLordName\": \"Postman\",\n  \"landLordPhone\": \"41999837800\",\n  \"zipCode\": \"80630200\",\n  \"street\": \"Rua Postman\",\n  \"addressDetails\": \"Complemento Postman\",\n  \"number\": \"100\",\n  \"city\": \"Curitiba\",\n  \"state\": \"Paraná\",\n  \"active\": true,\n  \"user\": {\n    \"id\": 1\n  },\n  \"residents\": [\n      {\"id\": 20},\n      {\"id\": 21},\n      {\"id\": 22}\n  ]\n}",
+							"raw": "{\n  \"id\": null,  \n  \"name\": \"Imóvel de Teste Postman\",\n  \"description\": \"Imóvel usado para teste\",\n  \"landLordName\": \"Postman\",\n  \"landLordPhone\": \"41999837800\",\n  \"zipCode\": \"80630200\",\n  \"street\": \"Rua Postman\",\n  \"addressDetails\": \"Complemento Postman\",\n  \"number\": \"100\",\n  \"city\": \"Curitiba\",\n  \"state\": \"Paraná\",\n  \"active\": true,\n  \"rules\": \"texto de regras\",\n  \"user\": {\n    \"id\": 1\n  },\n  \"residents\": [\n      {\"id\": 20},\n      {\"id\": 21},\n      {\"id\": 22}\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1817,6 +1888,11 @@
 									"pm.test(\"Verificando o status do Imóvel\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.active).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Verificando as regras do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.rules).to.eql(\"texto de regras\");",
 									"});",
 									"",
 									"pm.test(\"Verificando o user id do Imóvel\", function () {",
@@ -1984,6 +2060,11 @@
 									"    pm.expect(jsonData.active).to.eql(true);",
 									"});",
 									"",
+									"pm.test(\"Verificando as regras do Imóvel\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.rules).to.eql(\"texto regras atualizado\");",
+									"});",
+									"",
 									"pm.test(\"Verificando o user id do Imóvel\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.user.id).to.eql(1);",
@@ -2019,7 +2100,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": \"{{idCreated}}\",  \n  \"name\": \"Imóvel de Teste Postman Update\",\n  \"description\": \"Imóvel usado para teste Update\",\n  \"landLordName\": \"Postman\",\n  \"landLordPhone\": \"41999837800\",\n  \"zipCode\": \"80630200\",\n  \"street\": \"Rua Postman\",\n  \"addressDetails\": \"Complemento Postman\",\n  \"number\": \"100\",\n  \"city\": \"Curitiba\",\n  \"state\": \"Paraná\",\n  \"active\": true,\n  \"user\": {\n    \"id\": 1\n  },\n  \"residents\": [\n      {\"id\": 20},\n      {\"id\": 21},\n      {\"id\": 22}\n  ]\n}",
+							"raw": "{\n  \"id\": \"{{idCreated}}\",  \n  \"name\": \"Imóvel de Teste Postman Update\",\n  \"description\": \"Imóvel usado para teste Update\",\n  \"landLordName\": \"Postman\",\n  \"landLordPhone\": \"41999837800\",\n  \"zipCode\": \"80630200\",\n  \"street\": \"Rua Postman\",\n  \"addressDetails\": \"Complemento Postman\",\n  \"number\": \"100\",\n  \"city\": \"Curitiba\",\n  \"state\": \"Paraná\",\n  \"active\": true,\n  \"rules\": \"texto regras atualizado\",\n  \"user\": {\n    \"id\": 1\n  },\n  \"residents\": [\n      {\"id\": 20},\n      {\"id\": 21},\n      {\"id\": 22}\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
