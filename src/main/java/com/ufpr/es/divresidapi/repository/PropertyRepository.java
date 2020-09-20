@@ -45,6 +45,15 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 	)
 	Property getCurrentActiveProperty(Long userId);
 	
+	@Query(
+		nativeQuery = true,
+		value = "SELECT * FROM property INNER JOIN property_residents "
+				+ "ON property.id = property_residents.property_id "
+				+ "AND property_residents.user_id = ?1 "
+				+ "WHERE property.active = true;"
+	)
+	Property getCurrentActivePropertyOfResident(Long userId);
+	
 	@Modifying
 	@Query(
 		nativeQuery = true,

@@ -49,12 +49,27 @@ public class PropertyController
 	
 	@Transactional
 	@GetMapping(value = "/currentActive")
-	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<PropertyDTO> getCurrentActiveProperty(
 			@RequestParam() Long userId){
 		try {
 			
 			PropertyDTO p = this.propertyService.getCurrentActiveProperty(userId);
+			return ResponseEntity.ok(p);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@Transactional
+	@GetMapping(value = "/currentActiveOfResident")
+	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<PropertyDTO> getCurrentActivePropertyOfResident(
+			@RequestParam() Long userId){
+		try {
+			
+			PropertyDTO p = this.propertyService
+					.getCurrentActivePropertyOfResident(userId);
 			return ResponseEntity.ok(p);
 		}catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -82,7 +97,7 @@ public class PropertyController
 	@Override
 	@Transactional
 	@PutMapping(value = "/{id}")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('RESIDENT')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<PropertyDTO> update(
 			@RequestBody PropertyDTO dto) {
 		try {
