@@ -33,7 +33,7 @@ public class AmountDivider {
 			e.setDate(dto.getDate());
 			e.setPaid(false);
 			e.setCategory(dto.getCategory());
-			e.setUser(dto.getUser());
+			e.setUser(user);
 			entries.add(e);
 		}
 		return entries;

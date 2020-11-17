@@ -63,7 +63,8 @@ public class EntryServiceImpl
 	public List<EntryDTO> findAllByUser(User user) throws ServiceException {
 		List<EntryDTO> dtos = new ArrayList<>();
 		List<Entry> model =this.entryRepository.findAllByUser(user);
-		model.forEach(entry -> dtos.add(this.getConverter().convertToDTO(entry)));
+		model.forEach(entry -> dtos.add(this.getConverter()
+				.convertToDTO(entry)));
 		return dtos;
 	}
 
@@ -81,9 +82,16 @@ public class EntryServiceImpl
 	}
 
 	@Override
-	public Page<Entry> listAllPageableByMonthAndYearAndUser(Pageable pageable, Integer month, Integer year, Long user)
+	public Page<Entry> listAllPageableByMonthAndYearAndUser(Pageable pageable,
+			Integer month, Integer year, Long user)
 			throws ServiceException {
-		return this.entryRepository.findAllByUserAndMonthAndYear(user, month, year, pageable);
+		return this.entryRepository.findAllByUserAndMonthAndYear(user, month,
+				year, pageable);
+	}
+
+	@Override
+	public List<Entry> saveAll(List<Entry> entities) throws ServiceException {
+		return this.entryRepository.saveAll(entities);
 	}
 
 }
