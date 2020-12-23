@@ -45,6 +45,9 @@ public class Entry implements Serializable {
 	@Column
 	private boolean paid;
 	
+	@Column		
+	private boolean collective;
+	
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
@@ -57,7 +60,7 @@ public class Entry implements Serializable {
 	
 	public Entry(Long id, @NotBlank String name, @Max(250) String description,
 				 String type, float amount, LocalDate date,
-				 boolean paid, Category category, User user
+				 boolean paid, Category category, User user, boolean collective
 				) {
 		super();
 		this.id = id;
@@ -69,6 +72,7 @@ public class Entry implements Serializable {
 		this.paid = paid;
 		this.category = category;
 		this.user = user;
+		this.collective = collective;
 	}
 
 	public Long getId() {
@@ -141,6 +145,14 @@ public class Entry implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public boolean isCollective() {
+		return collective;
+	}
+
+	public void setCollective(boolean collective) {
+		this.collective = collective;
 	}
 
 	@Override
