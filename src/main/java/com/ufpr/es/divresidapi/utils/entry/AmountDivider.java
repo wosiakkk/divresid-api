@@ -34,6 +34,7 @@ public class AmountDivider {
 			e.setPaid(false);
 			e.setCategory(dto.getCategory());
 			e.setUser(user);
+			e.setCollective(true);
 			entries.add(e);
 		}
 		return entries;

@@ -12,7 +12,7 @@ public class EntryConverter implements ResourceConverter<Entry, EntryDTO> {
 	public Entry convertToModel(EntryDTO dto) {
 		return new Entry(dto.getId(), dto.getName(), dto.getDescription(),
 				dto.getType(), dto.getAmount(), dto.getDate(), dto.isPaid(),
-				dto.getCategory(), dto.getUser());
+				dto.getCategory(), dto.getUser(), dto.isCollective());
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class EntryConverter implements ResourceConverter<Entry, EntryDTO> {
 		return new EntryDTO(model.getId(), model.getName(),
 				model.getDescription(), model.getType(), model.getAmount(),
 				model.getDate(), model.isPaid(), model.getCategory(),
-				model.getUser());
+				model.getUser(), model.isCollective());
 	}
 
 }

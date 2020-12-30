@@ -14,6 +14,7 @@ public class EntryDTO {
 	private float amount;
 	private LocalDate date;
 	private boolean paid;
+	private boolean collective;
 	private Category category;
 	private Long categoryId;
 	private User user;
@@ -23,7 +24,7 @@ public class EntryDTO {
 	public EntryDTO(
 			Long id, String name, String description, 
 			String type, float amount, LocalDate date, boolean paid,
-			Category category, User user
+			Category category, User user, boolean collective
 		) {
 		super();
 		this.id = id;
@@ -36,6 +37,7 @@ public class EntryDTO {
 		this.category = category;
 		this.categoryId = category.getId();
 		this.user = user;
+		this.collective = collective;
 	}
 	
 
@@ -90,7 +92,6 @@ public class EntryDTO {
 	public Long getCategoryId() {
 		return categoryId;
 	}
-
 	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
 	}
@@ -99,6 +100,12 @@ public class EntryDTO {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public boolean isCollective() {
+		return collective;
+	}
+	public void setCollective(boolean collective) {
+		this.collective = collective;
 	}
 	
 }

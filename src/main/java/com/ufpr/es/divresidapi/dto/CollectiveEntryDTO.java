@@ -10,6 +10,7 @@ import com.ufpr.es.divresidapi.model.User;
 
 public class CollectiveEntryDTO {
 	
+	private Long id;
 	private String name;
 	private String description;
 	private String type;
@@ -20,6 +21,40 @@ public class CollectiveEntryDTO {
 	private List<User> residents;
 	private User user;
 	
+	
+	public CollectiveEntryDTO(Long id, String name, String description, 
+			String type, float amount, LocalDate date,Category category,
+			Property property, List<User> residents, User user) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.type = type;
+		this.amount = amount;
+		this.date = date;
+		this.category = category;
+		this.property = property;
+		this.residents = residents;
+		this.user = user;
+	}
+	
+	public CollectiveEntryDTO(Long id, float amount, 
+			Property property, User user) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.property = property;
+		this.user = user;
+	}
+	
+	public CollectiveEntryDTO() {}	
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}	
 	public String getName() {
 		return name;
 	}
