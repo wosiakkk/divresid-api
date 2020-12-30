@@ -93,22 +93,4 @@ public class EntryController
 		}
 	}
 	
-	@PostMapping(value = "/collective")
-	@PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-	@Transactional
-	public ResponseEntity<List<EntryDTO>> 
-		generateCollectiveEntries(@RequestBody CollectiveEntryDTO dto){
-		try {
-			AmountDivider ad =  new AmountDivider();
-			List<Entry> entries = ad.prepare(dto);
-			List<Entry> persistedEntries =  this.entryService.saveAll(entries);
-			List<EntryDTO> dtos = new ArrayList<>();
-			persistedEntries
-				.forEach(e -> dtos.add(this.entryConverter.convertToDTO(e)));
-
-			return ResponseEntity.status(HttpStatus.CREATED).body(dtos);
-		} catch (ServiceException e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
 }

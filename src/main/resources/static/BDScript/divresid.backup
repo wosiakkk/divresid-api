@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.24
 -- Dumped by pg_dump version 9.5.24
 
--- Started on 2020-12-23 11:51:16 -03
+-- Started on 2020-12-30 17:11:49 -03
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,7 +19,7 @@ SET row_security = off;
 
 DROP DATABASE divresid;
 --
--- TOC entry 2247 (class 1262 OID 16384)
+-- TOC entry 2248 (class 1262 OID 16384)
 -- Name: divresid; Type: DATABASE; Schema: -; Owner: postgres
 --
 
@@ -49,7 +49,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2250 (class 0 OID 0)
+-- TOC entry 2251 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -113,9 +113,12 @@ CREATE TABLE public.collectives (
     id bigint NOT NULL,
     amount double precision,
     property bigint,
-    "user" bigint,
+    user_id bigint,
     date timestamp without time zone,
-    description character varying
+    description character varying,
+    name character varying,
+    type character varying,
+    category_id bigint
 );
 
 
@@ -270,7 +273,7 @@ CREATE SEQUENCE public.roles_id_seq
 ALTER TABLE public.roles_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2251 (class 0 OID 0)
+-- TOC entry 2252 (class 0 OID 0)
 -- Dependencies: 182
 -- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -323,7 +326,7 @@ CREATE SEQUENCE public.users_id_seq
 ALTER TABLE public.users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2252 (class 0 OID 0)
+-- TOC entry 2253 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -348,7 +351,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- TOC entry 2226 (class 0 OID 16385)
+-- TOC entry 2227 (class 0 OID 16385)
 -- Dependencies: 181
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -380,7 +383,7 @@ INSERT INTO public.categories (id, description, name, user_id) VALUES (24, 'Gast
 
 
 --
--- TOC entry 2253 (class 0 OID 0)
+-- TOC entry 2254 (class 0 OID 0)
 -- Dependencies: 188
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -389,23 +392,27 @@ SELECT pg_catalog.setval('public.categories_id_seq', 18, false);
 
 
 --
--- TOC entry 2241 (class 0 OID 16635)
+-- TOC entry 2242 (class 0 OID 16635)
 -- Dependencies: 196
 -- Data for Name: collective_entries; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public.collective_entries (collective_id, entry_id) VALUES (198, 195);
+INSERT INTO public.collective_entries (collective_id, entry_id) VALUES (198, 196);
+INSERT INTO public.collective_entries (collective_id, entry_id) VALUES (198, 197);
 
 
 --
--- TOC entry 2240 (class 0 OID 16620)
+-- TOC entry 2241 (class 0 OID 16620)
 -- Dependencies: 195
 -- Data for Name: collectives; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public.collectives (id, amount, property, user_id, date, description, name, type, category_id) VALUES (198, 180.5, 68, 1, '2020-12-30 00:00:00', 'Refatoração Coletivo', 'Refatoração Coletivo', 'expense', 1);
 
 
 --
--- TOC entry 2234 (class 0 OID 16439)
+-- TOC entry 2235 (class 0 OID 16439)
 -- Dependencies: 189
 -- Data for Name: entries; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -423,19 +430,28 @@ INSERT INTO public.entries (id, amount, date, description, name, paid, type, cat
 INSERT INTO public.entries (id, amount, date, description, name, paid, type, category_id, user_id, collective) VALUES (57, 30, '2020-07-03 00:00:00', 'Cordas novas', 'Violão', false, 'expense', 16, 1, false);
 INSERT INTO public.entries (id, amount, date, description, name, paid, type, category_id, user_id, collective) VALUES (59, 850, '2020-07-08 00:00:00', 'Website wordpress', 'Trabalho extra para Empresa', true, 'revenue', 58, 1, false);
 INSERT INTO public.entries (id, amount, date, description, name, paid, type, category_id, user_id, collective) VALUES (54, 1050, '2020-07-03 00:00:00', 'Freela feito para empresa x', 'Freela', true, 'revenue', 58, 1, false);
-
-
---
--- TOC entry 2254 (class 0 OID 0)
--- Dependencies: 187
--- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.hibernate_sequence', 165, true);
+INSERT INTO public.entries (id, amount, date, description, name, paid, type, category_id, user_id, collective) VALUES (166, 50.1666679382324219, '2020-12-23 00:00:00', 'Coletivo NEW CODE', 'Coletivo NEW CODE', false, 'expense', 1, 1, true);
+INSERT INTO public.entries (id, amount, date, description, name, paid, type, category_id, user_id, collective) VALUES (167, 50.1666679382324219, '2020-12-23 00:00:00', 'Coletivo NEW CODE', 'Coletivo NEW CODE', false, 'expense', 1, 20, true);
+INSERT INTO public.entries (id, amount, date, description, name, paid, type, category_id, user_id, collective) VALUES (168, 50.1666679382324219, '2020-12-23 00:00:00', 'Coletivo NEW CODE', 'Coletivo NEW CODE', false, 'expense', 1, 21, true);
+INSERT INTO public.entries (id, amount, date, description, name, paid, type, category_id, user_id, collective) VALUES (169, 50.1666679382324219, '2020-12-23 00:00:00', 'Coletivo NEW CODE 22', 'Coletivo NEW CODE 22', false, 'expense', 1, 1, true);
+INSERT INTO public.entries (id, amount, date, description, name, paid, type, category_id, user_id, collective) VALUES (170, 50.1666679382324219, '2020-12-23 00:00:00', 'Coletivo NEW CODE 22', 'Coletivo NEW CODE 22', false, 'expense', 1, 20, true);
+INSERT INTO public.entries (id, amount, date, description, name, paid, type, category_id, user_id, collective) VALUES (171, 50.1666679382324219, '2020-12-23 00:00:00', 'Coletivo NEW CODE 22', 'Coletivo NEW CODE 22', false, 'expense', 1, 21, true);
+INSERT INTO public.entries (id, amount, date, description, name, paid, type, category_id, user_id, collective) VALUES (195, 60.1666679382324219, '2020-12-30 00:00:00', 'Refatoração Coletivo', 'Refatoração Coletivo', false, 'expense', 1, 1, true);
+INSERT INTO public.entries (id, amount, date, description, name, paid, type, category_id, user_id, collective) VALUES (196, 60.1666679382324219, '2020-12-30 00:00:00', 'Refatoração Coletivo', 'Refatoração Coletivo', false, 'expense', 1, 20, true);
+INSERT INTO public.entries (id, amount, date, description, name, paid, type, category_id, user_id, collective) VALUES (197, 60.1666679382324219, '2020-12-30 00:00:00', 'Refatoração Coletivo', 'Refatoração Coletivo', false, 'expense', 1, 21, true);
 
 
 --
 -- TOC entry 2255 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.hibernate_sequence', 198, true);
+
+
+--
+-- TOC entry 2256 (class 0 OID 0)
 -- Dependencies: 194
 -- Name: invite_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -444,7 +460,7 @@ SELECT pg_catalog.setval('public.invite_id_seq', 1, false);
 
 
 --
--- TOC entry 2238 (class 0 OID 16580)
+-- TOC entry 2239 (class 0 OID 16580)
 -- Dependencies: 193
 -- Data for Name: invites; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -455,7 +471,7 @@ INSERT INTO public.invites (id, user_id_from, user_id_to, property_id, accepted)
 
 
 --
--- TOC entry 2235 (class 0 OID 16464)
+-- TOC entry 2236 (class 0 OID 16464)
 -- Dependencies: 190
 -- Data for Name: property; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -468,7 +484,7 @@ INSERT INTO public.property (id, name, description, land_lord_name, land_lord_ph
 
 
 --
--- TOC entry 2256 (class 0 OID 0)
+-- TOC entry 2257 (class 0 OID 0)
 -- Dependencies: 192
 -- Name: property_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -477,7 +493,7 @@ SELECT pg_catalog.setval('public.property_id_seq', 1, false);
 
 
 --
--- TOC entry 2236 (class 0 OID 16477)
+-- TOC entry 2237 (class 0 OID 16477)
 -- Dependencies: 191
 -- Data for Name: property_residents; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -487,7 +503,7 @@ INSERT INTO public.property_residents (property_id, user_id) VALUES (68, 29);
 
 
 --
--- TOC entry 2228 (class 0 OID 16392)
+-- TOC entry 2229 (class 0 OID 16392)
 -- Dependencies: 183
 -- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -499,7 +515,7 @@ INSERT INTO public.roles (id, name) VALUES (4, 'ROLE_RESIDENT');
 
 
 --
--- TOC entry 2257 (class 0 OID 0)
+-- TOC entry 2258 (class 0 OID 0)
 -- Dependencies: 182
 -- Name: roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -508,7 +524,7 @@ SELECT pg_catalog.setval('public.roles_id_seq', 1, false);
 
 
 --
--- TOC entry 2229 (class 0 OID 16398)
+-- TOC entry 2230 (class 0 OID 16398)
 -- Dependencies: 184
 -- Data for Name: user_roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -528,7 +544,7 @@ INSERT INTO public.user_roles (user_id, role_id) VALUES (36, 3);
 
 
 --
--- TOC entry 2231 (class 0 OID 16405)
+-- TOC entry 2232 (class 0 OID 16405)
 -- Dependencies: 186
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -547,7 +563,7 @@ INSERT INTO public.users (id, email, name, password, username) VALUES (36, 'redi
 
 
 --
--- TOC entry 2258 (class 0 OID 0)
+-- TOC entry 2259 (class 0 OID 0)
 -- Dependencies: 185
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -646,7 +662,16 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2110 (class 2606 OID 16638)
+-- TOC entry 2110 (class 2606 OID 16659)
+-- Name: category_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.collectives
+    ADD CONSTRAINT category_fk FOREIGN KEY (category_id) REFERENCES public.categories(id) NOT VALID;
+
+
+--
+-- TOC entry 2111 (class 2606 OID 16638)
 -- Name: collective_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -655,7 +680,7 @@ ALTER TABLE ONLY public.collective_entries
 
 
 --
--- TOC entry 2111 (class 2606 OID 16643)
+-- TOC entry 2112 (class 2606 OID 16643)
 -- Name: entry_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -750,7 +775,7 @@ ALTER TABLE ONLY public.property
 --
 
 ALTER TABLE ONLY public.collectives
-    ADD CONSTRAINT user_fk FOREIGN KEY ("user") REFERENCES public.users(id) NOT VALID;
+    ADD CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public.users(id) NOT VALID;
 
 
 --
@@ -781,7 +806,7 @@ ALTER TABLE ONLY public.property_residents
 
 
 --
--- TOC entry 2249 (class 0 OID 0)
+-- TOC entry 2250 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -792,8 +817,9 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2020-12-23 11:51:16 -03
+-- Completed on 2020-12-30 17:11:49 -03
 
 --
 -- PostgreSQL database dump complete
 --
+

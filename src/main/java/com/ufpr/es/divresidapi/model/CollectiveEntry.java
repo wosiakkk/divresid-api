@@ -30,9 +30,6 @@ public class CollectiveEntry implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "property")
 	private Property property;
-	@ManyToOne
-	@JoinColumn(name = "user")
-	private User user;
 	@Column
 	private LocalDate date;
 	@Column
@@ -41,6 +38,9 @@ public class CollectiveEntry implements Serializable{
 	private String name;
 	@Column
 	private String type;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
@@ -53,23 +53,38 @@ public class CollectiveEntry implements Serializable{
 	
 	public CollectiveEntry() {}
 
+	
 	public CollectiveEntry(Long id, float amount, Property property, 
-			User user, List<Entry> generatedEntries) {
+			User user, LocalDate date, String description,
+			String name, String type, Category category, 
+			List<Entry> generatedEntries) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.property = property;
 		this.user = user;
+		this.date = date;
+		this.description = description;
+		this.name = name;
+		this.type = type;
+		this.category = category;
 		this.generatedEntries = generatedEntries;
 	}
-	
-	public CollectiveEntry(Long id, float amount, 
-			Property property, User user) {
+
+
+	public CollectiveEntry(Long id, float amount, Property property, 
+			User user, LocalDate date, String description,
+			String name, String type, Category category) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.property = property;
 		this.user = user;
+		this.date = date;
+		this.description = description;
+		this.name = name;
+		this.type = type;
+		this.category = category;
 	}
 
 	public Long getId() {
@@ -126,6 +141,31 @@ public class CollectiveEntry implements Serializable{
 
 	public void setGeneratedEntries(List<Entry> generatedEntries) {
 		this.generatedEntries = generatedEntries;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	@Override
