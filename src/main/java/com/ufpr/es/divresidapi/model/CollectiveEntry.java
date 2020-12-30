@@ -26,7 +26,7 @@ public class CollectiveEntry implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@Column
-	private double amount;
+	private float amount;
 	@ManyToOne
 	@JoinColumn(name = "property")
 	private Property property;
@@ -37,6 +37,13 @@ public class CollectiveEntry implements Serializable{
 	private LocalDate date;
 	@Column
 	private String description;
+	@Column
+	private String name;
+	@Column
+	private String type;
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category;
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "collective_entries",
 			   joinColumns = @JoinColumn(name = "collective_id"),
@@ -46,13 +53,23 @@ public class CollectiveEntry implements Serializable{
 	
 	public CollectiveEntry() {}
 
-	public CollectiveEntry(Long id, double amount, Property property, User user, List<Entry> generatedEntries) {
+	public CollectiveEntry(Long id, float amount, Property property, 
+			User user, List<Entry> generatedEntries) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.property = property;
 		this.user = user;
 		this.generatedEntries = generatedEntries;
+	}
+	
+	public CollectiveEntry(Long id, float amount, 
+			Property property, User user) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.property = property;
+		this.user = user;
 	}
 
 	public Long getId() {
@@ -63,11 +80,11 @@ public class CollectiveEntry implements Serializable{
 		this.id = id;
 	}
 
-	public double getAmount() {
+	public float getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
 
