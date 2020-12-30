@@ -37,6 +37,8 @@ public class CollectiveEntryController
 	@Autowired
 	private EntryService entryService;
 	@Autowired
+	private LazyTableService<CollectiveEntry, User> lazyTableService;
+	@Autowired
 	private CollectiveEntryConverter collectiveConverter;
 	
 	
@@ -48,8 +50,7 @@ public class CollectiveEntryController
 
 	@Override
 	protected LazyTableService<CollectiveEntry, User> getLazyTableService() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.lazyTableService;
 	}
 	
 	@Override
@@ -73,26 +74,5 @@ public class CollectiveEntryController
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	/*
-	 * 
-	 * 	@PostMapping(value = "/collective")
-	@PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-	@Transactional
-	public ResponseEntity<List<EntryDTO>> 
-		generateCollectiveEntries(@RequestBody CollectiveEntryDTO dto){
-		try {
-			AmountDivider ad =  new AmountDivider();
-			List<Entry> entries = ad.prepare(dto);
-			List<Entry> persistedEntries =  this.entryService.saveAll(entries);
-			List<EntryDTO> dtos = new ArrayList<>();
-			persistedEntries
-				.forEach(e -> dtos.add(this.entryConverter.convertToDTO(e)));
 
-			return ResponseEntity.status(HttpStatus.CREATED).body(dtos);
-		} catch (ServiceException e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	 * */
 }
