@@ -38,11 +38,17 @@ public class CollectiveEntryDTO {
 		this.user = user;
 	}
 	
-	public CollectiveEntryDTO(Long id, float amount, 
+	public CollectiveEntryDTO(Long id, String name, String description, 
+			String type, float amount, LocalDate date,Category category,
 			Property property, User user) {
 		super();
 		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.type = type;
 		this.amount = amount;
+		this.date = date;
+		this.category = category;
 		this.property = property;
 		this.user = user;
 	}

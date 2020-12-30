@@ -43,4 +43,10 @@ public class CollectiveEntryServiceImpl
 		return this.collectiveRepository;
 	}
 
+	@Override
+	public CollectiveEntry saveModel(CollectiveEntry model) 
+			throws ServiceException {
+		return this.collectiveRepository.save(model);
+	}
+
 }
