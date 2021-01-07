@@ -17,9 +17,11 @@ public class CollectiveEntryDTO {
 	private float amount;
 	private LocalDate date;
 	private Category category;
+	private Long categoryId;
 	private Property property;
 	private List<User> residents;
 	private User user;
+	private List<Entry> generatedEntries;
 	
 	
 	public CollectiveEntryDTO(Long id, String name, String description, 
@@ -33,14 +35,16 @@ public class CollectiveEntryDTO {
 		this.amount = amount;
 		this.date = date;
 		this.category = category;
+		this.categoryId = category.getId();
 		this.property = property;
 		this.residents = residents;
 		this.user = user;
+		
 	}
 	
 	public CollectiveEntryDTO(Long id, String name, String description, 
 			String type, float amount, LocalDate date,Category category,
-			Property property, User user) {
+			Property property, User user, List<Entry> generatedEntries) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -49,8 +53,10 @@ public class CollectiveEntryDTO {
 		this.amount = amount;
 		this.date = date;
 		this.category = category;
+		this.categoryId = category.getId();
 		this.property = property;
 		this.user = user;
+		this.generatedEntries = generatedEntries;
 	}
 	
 	public CollectiveEntryDTO() {}	
@@ -114,6 +120,18 @@ public class CollectiveEntryDTO {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+	public Long getCategoryId() {
+		return categoryId;
+	}
+	public void setGeneratedEntries(List<Entry> generatedEntries) {
+		this.generatedEntries = generatedEntries;
+	}
+	public List<Entry> getGeneratedEntries() {
+		return generatedEntries;
 	}
 	
 }

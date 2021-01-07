@@ -111,6 +111,16 @@ public class InviteServiceImpl
 		this.propertyService.update(property);
 	}
 	
+	protected void addAdmAsResidentToPropertyInCreate
+		(Long propertyId, Long admId) throws ServiceException {
+		PropertyDTO property = this.propertyService
+				.findById(propertyId);
+		property.setResidents(new ArrayList<>());
+		property.getResidents().add(this.userConverter
+				.convertToModel(this.userService.findById(admId)));
+		this.propertyService.update(property);
+	}
+	
 	private void updateResidentRole(Invite invite) throws ServiceException {
 		this.userService.setNewRole("resident", invite.getIdTo().getId());
 	}

@@ -27,9 +27,24 @@ public class PropertyServiceImpl
 	
 	@Autowired
 	private PropertyConverter propertyConverter;
-	
 	@Autowired
 	private PropertyRepository propertyrepository;
+	@Autowired
+	private InviteServiceImpl inviteService;
+	
+	
+	@Override
+	public PropertyDTO save(PropertyDTO dto) throws ServiceException {
+		Property property = propertyrepository
+				.save(propertyConverter.convertToModel(dto));
+		//adding adm as resident in property
+		inviteService
+			.addAdmAsResidentToPropertyInCreate(
+					property.getId(),
+					property.getUser().getId()
+			);
+		return propertyConverter.convertToDTO(property);
+	}
 
 	@Override
 	public List<PropertyDTO> findAllByUser(User user) throws ServiceException {
