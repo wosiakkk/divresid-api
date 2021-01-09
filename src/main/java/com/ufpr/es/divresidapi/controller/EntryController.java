@@ -27,7 +27,7 @@ import com.ufpr.es.divresidapi.service.EntryService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
 import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
 import com.ufpr.es.divresidapi.service.lazyloading.LazyTableWithDateFilterService;
-import com.ufpr.es.divresidapi.utils.entry.AmountDivider;
+import com.ufpr.es.divresidapi.utils.entry.AmountDividerController;
 
 @RestController
 @RequestMapping(value = "api/auth/entries")

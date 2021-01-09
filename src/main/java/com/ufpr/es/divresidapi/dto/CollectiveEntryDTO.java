@@ -17,10 +17,34 @@ public class CollectiveEntryDTO {
 	private float amount;
 	private LocalDate date;
 	private Category category;
+	private Long categoryId;
 	private Property property;
 	private List<User> residents;
+	private List<User> selectedResidents;
+	private List<Entry> generatedEntries;
 	private User user;
 	
+	
+	//all atributes
+	public CollectiveEntryDTO(Long id, String name, String description,
+				String type, float amount, LocalDate date,
+				Category category, Long categoryId, Property property,
+				List<User> residents, List<User> selectedResidents,
+				List<Entry> generatedEntries, User user) {
+			this.id = id;
+			this.name = name;
+			this.description = description;
+			this.type = type;
+			this.amount = amount;
+			this.date = date;
+			this.category = category;
+			this.categoryId = categoryId;
+			this.property = property;
+			this.residents = residents;
+			this.selectedResidents = selectedResidents;
+			this.generatedEntries = generatedEntries;
+			this.user = user;
+		}	
 	
 	public CollectiveEntryDTO(Long id, String name, String description, 
 			String type, float amount, LocalDate date,Category category,
@@ -33,14 +57,16 @@ public class CollectiveEntryDTO {
 		this.amount = amount;
 		this.date = date;
 		this.category = category;
+		this.categoryId = category.getId();
 		this.property = property;
 		this.residents = residents;
 		this.user = user;
+		
 	}
 	
 	public CollectiveEntryDTO(Long id, String name, String description, 
 			String type, float amount, LocalDate date,Category category,
-			Property property, User user) {
+			Property property, User user, List<Entry> generatedEntries) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -49,12 +75,14 @@ public class CollectiveEntryDTO {
 		this.amount = amount;
 		this.date = date;
 		this.category = category;
+		this.categoryId = category.getId();
 		this.property = property;
 		this.user = user;
+		this.generatedEntries = generatedEntries;
 	}
 	
-	public CollectiveEntryDTO() {}	
-	
+	public CollectiveEntryDTO() {}
+
 	public Long getId() {
 		return id;
 	}
@@ -115,5 +143,22 @@ public class CollectiveEntryDTO {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+	public Long getCategoryId() {
+		return categoryId;
+	}
+	public void setGeneratedEntries(List<Entry> generatedEntries) {
+		this.generatedEntries = generatedEntries;
+	}
+	public List<Entry> getGeneratedEntries() {
+		return generatedEntries;
+	}
+	public List<User> getSelectedResidents() {
+		return selectedResidents;
+	}
+	public void setSelectedResidents(List<User> selectedResidents) {
+		this.selectedResidents = selectedResidents;
+	}
 }

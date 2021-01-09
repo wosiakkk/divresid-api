@@ -22,7 +22,7 @@ public class CollectiveEntryConverter
 		return new CollectiveEntryDTO(model.getId(), model.getName(), 
 				model.getDescription(), model.getType(), model.getAmount(), 
 				model.getDate(), model.getCategory(), model.getProperty(), 
-				model.getUser());
+				model.getUser(), model.getGeneratedEntries());
 	}
 
 }

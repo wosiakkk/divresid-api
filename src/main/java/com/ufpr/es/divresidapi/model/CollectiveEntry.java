@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -44,7 +45,7 @@ public class CollectiveEntry implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
 	@JoinTable(name = "collective_entries",
 			   joinColumns = @JoinColumn(name = "collective_id"),
 			   inverseJoinColumns = @JoinColumn(name = "entry_id"))
