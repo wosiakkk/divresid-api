@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import com.ufpr.es.divresidapi.model.Entry;
 import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.repository.CategoryRepository;
 import com.ufpr.es.divresidapi.repository.CollectiveEntryRepository;
+import com.ufpr.es.divresidapi.repository.EntryRepository;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.CollectiveEntryService;
 import com.ufpr.es.divresidapi.service.EntryService;
@@ -48,6 +50,8 @@ public class CollectiveEntryController
 	private CollectiveEntryRepository collectiveRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private EntryRepository entryRepository;
 	@Autowired
 	private AmountDividerController amountDividerController;
 
@@ -96,6 +100,7 @@ public class CollectiveEntryController
 		}
 	}
 	
+	@Transactional
 	private CollectiveEntryDTO prepareAndExecuteActionsInEntriesForUpdate
 		(CollectiveEntryDTO dto) throws ServiceException {
 		
@@ -118,29 +123,20 @@ public class CollectiveEntryController
 		List<Entry> entriesCr =
 				runCreateEntriesForUpdateColl(beforeUpdate, dto, newAmountValue);
 		
-		/*if(entriesCr != null && entriesUp != null) {
+		if(entriesCr != null && entriesUp != null) {
 			entriesCr.addAll(entriesUp);
-			dto.setGeneratedEntries(entriesCr);
-		} else if(entriesCr!= null)
-			dto.setGeneratedEntries(entriesCr);
-		else if(entriesUp != null)
-			dto.setGeneratedEntries(entriesUp);*/
-		
-	//	if(entriesCr!= null)
-		//	dto.setGeneratedEntries(entriesCr);
-		
-		
-		
-		if(entriesCr!= null)
 			model.setGeneratedEntries(entriesCr);
+		} else if(entriesCr!= null)
+			model.setGeneratedEntries(entriesCr);
+		else if(entriesUp != null)
+			model.setGeneratedEntries(entriesUp);
+		
 		model.setCategory(category);
-		
-		
 		
 		return collectiveConverter.convertToDTO(collectiveService.saveModel(model));
 	}
 	
-	
+
 	private void runDeleteEntriesForUpdateColl(CollectiveEntry beforeUpdate,
 			CollectiveEntryDTO dto) throws ServiceException {
 		List<Entry> entriesToDelete = amountDividerController
@@ -151,7 +147,7 @@ public class CollectiveEntryController
 		for (Entry entry : entriesToDelete) {
 			collectiveRepository
 				.deleteGeneratedEntryAssoc(dto.getId(), entry.getId());
-			entryService.delete(entry.getId());
+			this.entryRepository.deleteById(entry.getId());
 		}
 	}
 	
