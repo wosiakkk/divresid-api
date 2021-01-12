@@ -1,5 +1,6 @@
 package com.ufpr.es.divresidapi.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,12 @@ import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.repository.CollectiveEntryRepository;
 import com.ufpr.es.divresidapi.service.CollectiveEntryService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableWithDateFilterService;
 
 @Service
 public class CollectiveEntryServiceImpl 
 	extends BaseResourceServiceImpl<CollectiveEntry, CollectiveEntryDTO, Long> 
-	implements CollectiveEntryService, LazyTableService<CollectiveEntry, User> {
+	implements CollectiveEntryService, LazyTableWithDateFilterService<CollectiveEntry, User> {
 	
 	@Autowired
 	private CollectiveEntryConverter collectiveConverter;
@@ -68,6 +69,28 @@ public class CollectiveEntryServiceImpl
 	@Override
 	public Long getNumberOfEntities(User user) throws ServiceException {
 		return collectiveRepository.countByUser(user);
+	}
+
+	@Override
+	public List<CollectiveEntryDTO> findAllByUserAndMonthAndYear
+		(Long user, Integer month, Integer year)
+			throws ServiceException {
+		List<CollectiveEntryDTO> dtos = new ArrayList<CollectiveEntryDTO>();
+		List<CollectiveEntry> models = new ArrayList<CollectiveEntry>();
+		models = this.collectiveRepository
+				.findAllByUserAndMonthAndYear(user, month, year);
+		models.forEach(m ->{
+			dtos.add(this.collectiveConverter.convertToDTO(m));
+		});
+		return dtos;
+	}
+
+	@Override
+	public Page<CollectiveEntry> listAllPageableByMonthAndYearAndUser
+		(Pageable pageable, Integer month, Integer year,Long user)
+				throws ServiceException {
+		return this.collectiveRepository
+				.findAllByUserAndMonthAndYear(user, month, year, pageable);
 	}
 
 

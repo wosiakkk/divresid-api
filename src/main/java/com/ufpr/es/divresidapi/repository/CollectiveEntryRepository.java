@@ -32,4 +32,25 @@ public interface CollectiveEntryRepository
 	)
 	void deleteGeneratedEntryAssoc(Long collectiveId, Long entryId);
 
+	@Query(
+			nativeQuery = true,
+			value = "SELECT * FROM collectives e "
+					+ "WHERE e.user_id=?1 "
+					+ "AND EXTRACT(MONTH FROM e.date)=?2 "
+					+ "AND EXTRACT(YEAR FROM e.date)=?3 "
+		)
+	List<CollectiveEntry> findAllByUserAndMonthAndYear
+		(Long userId, Integer month, Integer year);
+	
+	@Query(
+			nativeQuery = true,
+			value = "SELECT * FROM collectives e "
+					+ "WHERE e.user_id=?1 "
+					+ "AND EXTRACT(MONTH FROM e.date)=?2 "
+					+ "AND EXTRACT(YEAR FROM e.date)=?3 /*#{#pageable}*/"
+		)
+	Page<CollectiveEntry> findAllByUserAndMonthAndYear
+			(Long userId, Integer month, Integer year,Pageable pageable);
+	
+	
 }
