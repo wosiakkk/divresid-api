@@ -34,7 +34,7 @@ public interface CollectiveEntryRepository
 
 	@Query(
 			nativeQuery = true,
-			value = "SELECT * FROM collective_entries e "
+			value = "SELECT * FROM collectives e "
 					+ "WHERE e.user_id=?1 "
 					+ "AND EXTRACT(MONTH FROM e.date)=?2 "
 					+ "AND EXTRACT(YEAR FROM e.date)=?3 "
@@ -44,7 +44,7 @@ public interface CollectiveEntryRepository
 	
 	@Query(
 			nativeQuery = true,
-			value = "SELECT * FROM collective_entries e "
+			value = "SELECT * FROM collectives e "
 					+ "WHERE e.user_id=?1 "
 					+ "AND EXTRACT(MONTH FROM e.date)=?2 "
 					+ "AND EXTRACT(YEAR FROM e.date)=?3 /*#{#pageable}*/"
