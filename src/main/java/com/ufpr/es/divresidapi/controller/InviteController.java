@@ -20,7 +20,7 @@ import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.InviteService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 
 @RestController
 @RequestMapping(value = "api/auth/invites")
@@ -30,7 +30,7 @@ public class InviteController
 	@Autowired
 	private InviteService inviteService;
 	@Autowired
-	private LazyTableService<Invite, User> lazyTableService;
+	private LazyTableServiceByUser<Invite, User> lazyTableService;
 	
 	@Override
 	protected BaseResourceService<InviteDTO, Long> getBaseResourceService() {
@@ -38,7 +38,7 @@ public class InviteController
 	}
 
 	@Override
-	protected LazyTableService<Invite, User> getLazyTableService() {
+	protected LazyTableServiceByUser<Invite, User> getLazyTableService() {
 		return this.lazyTableService;
 	}
 	

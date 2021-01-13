@@ -32,7 +32,7 @@ import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.CollectiveEntryService;
 import com.ufpr.es.divresidapi.service.EntryService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 import com.ufpr.es.divresidapi.service.lazyloading.LazyTableWithDateFilterService;
 import com.ufpr.es.divresidapi.utils.entry.AmountDividerController;
 
@@ -69,7 +69,7 @@ public class CollectiveEntryController
 	}
 
 	@Override
-	protected LazyTableService<CollectiveEntry, User> getLazyTableService() {
+	protected LazyTableServiceByUser<CollectiveEntry, User> getLazyTableService() {
 		return this.lazyTableService;
 	}
 

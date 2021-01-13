@@ -19,12 +19,12 @@ import com.ufpr.es.divresidapi.repository.RoleRepository;
 import com.ufpr.es.divresidapi.repository.UserRepository;
 import com.ufpr.es.divresidapi.service.UserService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 
 @Service
 public class UserServiceImpl 
 	extends BaseResourceServiceImpl<User, UserDTO, Long>
-	implements UserService, LazyTableService<User, Property>{
+	implements UserService, LazyTableServiceByUser<User, Property>{
 
 	@Autowired
 	private UserConverter userConverter;

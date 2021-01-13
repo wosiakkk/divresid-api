@@ -9,7 +9,7 @@ import com.ufpr.es.divresidapi.model.Property;
 import com.ufpr.es.divresidapi.model.PropertyItem;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.PropertyItemService;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 
 @RestController
 @RequestMapping("api/auth/inventory")
@@ -26,7 +26,7 @@ public class PropertyItemController
 	}
 
 	@Override
-	protected LazyTableService<PropertyItem, Property> getLazyTableService() {
+	protected LazyTableServiceByUser<PropertyItem, Property> getLazyTableService() {
 		// TODO Auto-generated method stub
 		return null;
 	}

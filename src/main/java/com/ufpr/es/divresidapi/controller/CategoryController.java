@@ -9,7 +9,8 @@ import com.ufpr.es.divresidapi.model.Category;
 import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.CategoryService;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByProperty;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 
 
 @RestController
@@ -20,7 +21,7 @@ public class CategoryController
 	@Autowired
 	private CategoryService categoryService;
 	@Autowired
-	private LazyTableService<Category, User> lazyTableService;
+	private LazyTableServiceByUser<Category, User> lazyTableService;
 	
 	@Override
 	protected BaseResourceService<CategoryDTO, Long> getBaseResourceService() {
@@ -28,8 +29,9 @@ public class CategoryController
 	}
 
 	@Override
-	protected LazyTableService<Category,User> getLazyTableService() {
+	protected LazyTableServiceByUser<Category,User> getLazyTableService() {
 		return this.lazyTableService;
 	}
+
 
 }
