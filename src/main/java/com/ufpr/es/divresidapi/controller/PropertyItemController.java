@@ -15,25 +15,29 @@ import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 @RestController
 @RequestMapping("api/auth/inventory")
 public class PropertyItemController 
-	extends PropertyItemBaseRestController<PropertyItem, PropertyItemDTO, Property, Long> {
+	extends PropertyItemBaseRestController<PropertyItem, 
+		PropertyItemDTO, Property, Long> {
 
 	@Autowired
 	private PropertyItemService propertyItemService;
 	
 	
 	@Override
-	protected BaseResourceService<PropertyItemDTO, Long> getBaseResourceService() {
+	protected BaseResourceService<PropertyItemDTO, Long> 
+		getBaseResourceService() {
 		return this.propertyItemService;
 	}
 
 	@Override
-	protected LazyTableServiceByUser<PropertyItem, Property> getLazyTableService() {
+	protected LazyTableServiceByUser<PropertyItem, Property> 
+		getLazyTableService() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected LazyTableServiceByProperty<PropertyItem, Property> getPropertyLazyTableService() {
+	protected LazyTableServiceByProperty<PropertyItem, Property> 
+		getPropertyLazyTableService() {
 		// TODO Auto-generated method stub
 		return null;
 	}

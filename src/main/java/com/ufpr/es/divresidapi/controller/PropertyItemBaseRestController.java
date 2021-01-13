@@ -20,7 +20,7 @@ public abstract class PropertyItemBaseRestController
 	protected abstract LazyTableServiceByProperty<TENTITY, TENTITYCOUNT>
 		getPropertyLazyTableService();
 	
-	@GetMapping(value = "/pagination/inventory")
+	@GetMapping(value = "/pagination/items")
 	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<Page<TENTITY>> listAllPageable(Pageable pageable,
 			String searchString, Property property){
@@ -42,6 +42,8 @@ public abstract class PropertyItemBaseRestController
 		}
 	}
 	
+	@GetMapping(value = "/pagination/count")
+	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<Long> getNumberOfEntites(TENTITYCOUNT t){
 		try {
 			return ResponseEntity.ok(this.getPropertyLazyTableService()
