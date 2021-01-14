@@ -23,7 +23,7 @@ import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.UserService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 
 @RestController
 @RequestMapping(value = "api/auth/residents")
@@ -33,7 +33,7 @@ public class UserController
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private LazyTableService<User, Property> lazyTableService;
+	private LazyTableServiceByUser<User, Property> lazyTableService;
 	
 	@Override
 	protected BaseResourceService<UserDTO, Long> getBaseResourceService() {
@@ -41,7 +41,7 @@ public class UserController
 	}
 
 	@Override
-	protected LazyTableService<User,Property> getLazyTableService() {
+	protected LazyTableServiceByUser<User,Property> getLazyTableService() {
 		return this.lazyTableService;
 	}
 	

@@ -25,7 +25,7 @@ import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.EntryService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 import com.ufpr.es.divresidapi.service.lazyloading.LazyTableWithDateFilterService;
 import com.ufpr.es.divresidapi.utils.entry.AmountDividerController;
 
@@ -47,7 +47,7 @@ public class EntryController
 	}
 
 	@Override
-	protected LazyTableService<Entry,User> getLazyTableService() {
+	protected LazyTableServiceByUser<Entry,User> getLazyTableService() {
 		return this.lazyTableService;
 	}
 	

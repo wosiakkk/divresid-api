@@ -19,14 +19,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 
 
 
 public abstract class BaseRestController<TENTITY, TDTO,TENTITYCOUNT, TID> {
 	
 	protected abstract BaseResourceService< TDTO, TID> getBaseResourceService();
-	protected abstract LazyTableService<TENTITY,TENTITYCOUNT> getLazyTableService();
+	protected abstract LazyTableServiceByUser<TENTITY,TENTITYCOUNT> 
+		getLazyTableService();
+
 	
 
 	@GetMapping
@@ -71,6 +73,7 @@ public abstract class BaseRestController<TENTITY, TDTO,TENTITYCOUNT, TID> {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
 	
 	@GetMapping(value = "/pagination/count")
 	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")

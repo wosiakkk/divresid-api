@@ -22,13 +22,13 @@ import com.ufpr.es.divresidapi.service.InviteService;
 import com.ufpr.es.divresidapi.service.PropertyService;
 import com.ufpr.es.divresidapi.service.UserService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 
 @Service
 public class InviteServiceImpl 
 	extends BaseResourceServiceImpl<Invite, InviteDTO, Long>
 	implements InviteService,
-				LazyTableService<Invite, User>{
+				LazyTableServiceByUser<Invite, User>{
 	
 	@Autowired
 	private InviteConverter inviteConverter;

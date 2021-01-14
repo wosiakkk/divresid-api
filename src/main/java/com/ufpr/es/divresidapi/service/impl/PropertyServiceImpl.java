@@ -17,13 +17,13 @@ import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.repository.PropertyRepository;
 import com.ufpr.es.divresidapi.service.PropertyService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 
 @Service
 public class PropertyServiceImpl 
 	extends BaseResourceServiceImpl<Property, PropertyDTO, Long> 
 	implements	PropertyService,
-				LazyTableService<Property, User> {
+				LazyTableServiceByUser<Property, User> {
 	
 	@Autowired
 	private PropertyConverter propertyConverter;

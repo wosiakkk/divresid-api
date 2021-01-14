@@ -17,14 +17,14 @@ import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.repository.CategoryRepository;
 import com.ufpr.es.divresidapi.service.CategoryService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableService;
+import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 import com.ufpr.es.divresidapi.service.lazyloading.LazyTableWithDateFilterService;
 
 @Service
 public class CategoryServiceImpl 
 	extends BaseResourceServiceImpl<Category, CategoryDTO, Long> 
 	implements	CategoryService, 
-				LazyTableService<Category, User> {
+				LazyTableServiceByUser<Category, User> {
 	
 	@Autowired
 	private CategoryConverter categoryConverter;
