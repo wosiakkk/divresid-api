@@ -2,6 +2,7 @@ package com.ufpr.es.divresidapi.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -52,7 +53,7 @@ public class PropertyItem implements Serializable{
 	@JoinColumn(name = "user_resp_id")
 	private User user;
 	
-	@OneToOne(mappedBy = "propertyItem", optional = true)
+	@OneToOne(mappedBy = "propertyItem")
 	@JsonManagedReference
     private PropertyItemImage image;
 

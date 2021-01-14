@@ -8,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Base64Utils;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,14 +68,21 @@ public class PropertyItemController
 		@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
 		public ResponseEntity<PropertyItemImage> upload(
 				@RequestParam("file") MultipartFile file,
-				@RequestParam("idItem") String id){
+				@RequestParam("idItem") String id,
+				@RequestParam("idImage") String idImage){
 			
 			try {
 				String base64Image = Base64Utils.encodeToString(file.getBytes());
 				PropertyItemImage image = new PropertyItemImage();
 				image.setBase64Image(base64Image);
-				return ResponseEntity.ok(this.propertyItemService
-						.saveImage(image, Long.valueOf(id)));
+				
+				if(Long.valueOf(idImage) != 0) {
+					image.setId(Long.valueOf(idImage));
+					return ResponseEntity.ok(this.propertyItemService
+							.updateImage(image, Long.valueOf(id)));
+				} else
+					return ResponseEntity.ok(this.propertyItemService
+							.saveImage(image, Long.valueOf(id)));
 				
 			} catch (IOException | NumberFormatException | ServiceException e) {
 				e.printStackTrace();
@@ -81,5 +90,16 @@ public class PropertyItemController
 			}
 			
 		}
+	
+	@Override
+	@PutMapping(value = "/{id}")
+	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<PropertyItemDTO> update(@RequestBody PropertyItemDTO dto){
+		try {
+			return ResponseEntity.ok(this.propertyItemService.update(dto));
+		} catch (ServiceException e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
 }

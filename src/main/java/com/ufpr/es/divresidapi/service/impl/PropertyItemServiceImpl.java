@@ -90,4 +90,23 @@ public class PropertyItemServiceImpl
 		return propertyImageRepository.save(image);
 	}
 
+	@Override
+	public PropertyItemImage updateImage(PropertyItemImage image, 
+			Long propertyId) throws ServiceException {
+		PropertyItem item = propertyItemRepository.findById(propertyId).get();
+		image.setPropertyItem(item);
+		return propertyImageRepository.save(image);
+	}
+	
+	
+	@Override
+	public PropertyItemDTO update(PropertyItemDTO dto) throws ServiceException {
+		//inicializar para persist birecional
+		PropertyItem model = this.propertyItemConverter.convertToModel(dto);
+		PropertyItemImage image =  model.getImage();
+		image.setPropertyItem(model);
+		return this.propertyItemConverter
+				.convertToDTO(this.propertyItemRepository.save(model));
+	}
+
 }

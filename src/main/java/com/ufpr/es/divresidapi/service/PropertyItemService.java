@@ -9,5 +9,8 @@ public interface PropertyItemService
 	
 	PropertyItemImage saveImage(PropertyItemImage image, Long propertyId) 
 			throws ServiceException;
+	
+	PropertyItemImage updateImage(PropertyItemImage image, Long propertyId)
+			throws ServiceException;
 
 }
