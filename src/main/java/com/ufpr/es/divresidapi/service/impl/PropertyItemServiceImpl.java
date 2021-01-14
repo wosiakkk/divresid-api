@@ -14,7 +14,9 @@ import com.ufpr.es.divresidapi.converter.ResourceConverter;
 import com.ufpr.es.divresidapi.dto.PropertyItemDTO;
 import com.ufpr.es.divresidapi.model.Property;
 import com.ufpr.es.divresidapi.model.PropertyItem;
+import com.ufpr.es.divresidapi.model.PropertyItemImage;
 import com.ufpr.es.divresidapi.model.User;
+import com.ufpr.es.divresidapi.repository.PropertyItemImageRepository;
 import com.ufpr.es.divresidapi.repository.PropertyItemRepository;
 import com.ufpr.es.divresidapi.service.PropertyItemService;
 import com.ufpr.es.divresidapi.service.exception.ServiceException;
@@ -30,6 +32,8 @@ public class PropertyItemServiceImpl
 	private PropertyItemConverter propertyItemConverter;
 	@Autowired
 	private PropertyItemRepository propertyItemRepository;
+	@Autowired
+	private PropertyItemImageRepository propertyImageRepository;
 
 
 
@@ -76,6 +80,14 @@ public class PropertyItemServiceImpl
 	@Override
 	public Long getNumberOfEntities(Property property) throws ServiceException {
 		return propertyItemRepository.countByProperty(property);
+	}
+
+	@Override
+	public PropertyItemImage saveImage(PropertyItemImage image,
+			Long propertyId) throws ServiceException {
+		PropertyItem item = propertyItemRepository.findById(propertyId).get();
+		image.setPropertyItem(item);
+		return propertyImageRepository.save(image);
 	}
 
 }

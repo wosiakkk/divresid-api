@@ -4,16 +4,19 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "property_item")
@@ -49,11 +52,17 @@ public class PropertyItem implements Serializable{
 	@JoinColumn(name = "user_resp_id")
 	private User user;
 	
+	@OneToOne(mappedBy = "propertyItem", optional = true)
+	@JsonManagedReference
+    private PropertyItemImage image;
+
+	
 	
 	public PropertyItem(Long id,
 			@NotBlank(message = "Campo deve ser preenchido!") @Size(max = 50, message = "Máximo 50 caracteres!") String name,
 			@NotBlank(message = "Campo deve ser preenchido!") @Size(max = 150, message = "Máximo 150 caracteres!") String description,
-			User owner, Property property, User user) {
+			User owner, Property property, User user,
+			PropertyItemImage image) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -61,6 +70,7 @@ public class PropertyItem implements Serializable{
 		this.owner = owner;
 		this.property = property;
 		this.user = user;
+		this.image = image;
 	}
 
 	public PropertyItem() {}
@@ -111,6 +121,14 @@ public class PropertyItem implements Serializable{
 	
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public PropertyItemImage getImage() {
+		return image;
+	}
+	
+	public void setImage(PropertyItemImage image) {
+		this.image = image;
 	}
 
 	@Override

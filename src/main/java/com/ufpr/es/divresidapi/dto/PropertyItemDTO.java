@@ -1,6 +1,7 @@
 package com.ufpr.es.divresidapi.dto;
 
 import com.ufpr.es.divresidapi.model.Property;
+import com.ufpr.es.divresidapi.model.PropertyItemImage;
 import com.ufpr.es.divresidapi.model.User;
 
 public class PropertyItemDTO {
@@ -11,9 +12,12 @@ public class PropertyItemDTO {
 	private User owner;
 	private Property property;
 	private User user;
+	private PropertyItemImage image;
+	
 	
 	public PropertyItemDTO(Long id, String name, String description,
-			User owner, Property property, User user) {
+			User owner, Property property,
+			User user, PropertyItemImage image) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -21,6 +25,7 @@ public class PropertyItemDTO {
 		this.owner = owner;
 		this.property = property;
 		this.user = user;
+		this.image = image;
 	}
 	
 	public PropertyItemDTO() {}
@@ -60,6 +65,12 @@ public class PropertyItemDTO {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public PropertyItemImage getImage() {
+		return image;
+	}
+	public void setImage(PropertyItemImage image) {
+		this.image = image;
 	}
 
 }
