@@ -10,14 +10,17 @@ public class PropertyItemDTO {
 	private String description;
 	private User owner;
 	private Property property;
+	private User user;
 	
-	public PropertyItemDTO(Long id, String name, String description, User owner, Property property) {
+	public PropertyItemDTO(Long id, String name, String description,
+			User owner, Property property, User user) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.owner = owner;
 		this.property = property;
+		this.user = user;
 	}
 	
 	public PropertyItemDTO() {}
@@ -51,6 +54,12 @@ public class PropertyItemDTO {
 	}
 	public void setProperty(Property property) {
 		this.property = property;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

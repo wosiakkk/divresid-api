@@ -45,17 +45,22 @@ public class PropertyItem implements Serializable{
 	@JsonIgnore
 	private Property property;
 	
+	@ManyToOne
+	@JoinColumn(name = "user_resp_id")
+	private User user;
+	
 	
 	public PropertyItem(Long id,
 			@NotBlank(message = "Campo deve ser preenchido!") @Size(max = 50, message = "Máximo 50 caracteres!") String name,
 			@NotBlank(message = "Campo deve ser preenchido!") @Size(max = 150, message = "Máximo 150 caracteres!") String description,
-			User owner, Property property) {
+			User owner, Property property, User user) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.owner = owner;
 		this.property = property;
+		this.user = user;
 	}
 
 	public PropertyItem() {}
@@ -98,6 +103,14 @@ public class PropertyItem implements Serializable{
 
 	public void setProperty(Property property) {
 		this.property = property;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override

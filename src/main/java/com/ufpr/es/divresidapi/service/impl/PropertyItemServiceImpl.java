@@ -1,5 +1,6 @@
 package com.ufpr.es.divresidapi.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class PropertyItemServiceImpl
 	public Page<PropertyItem> listAllPageableAndProperty(Pageable pageable, 
 			Property property) throws ServiceException {
 		return this.propertyItemRepository
-				.listAllPageableAndProperty(pageable, property);
+				.findAllByProperty(pageable, property);
 	}
 
 	@Override
@@ -62,8 +63,14 @@ public class PropertyItemServiceImpl
 	@Override
 	public List<PropertyItemDTO> findAllByUser(User user) 
 			throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		List<PropertyItemDTO> dtos = new ArrayList<PropertyItemDTO>();
+		List<PropertyItem> models = 
+				this.propertyItemRepository.findAllByUser(user);
+		models.forEach(
+			model -> 
+				dtos.add(this.propertyItemConverter.convertToDTO(model))
+		);
+		return dtos;
 	}
 
 	@Override

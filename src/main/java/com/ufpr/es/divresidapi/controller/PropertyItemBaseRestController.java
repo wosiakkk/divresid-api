@@ -14,15 +14,16 @@ import com.ufpr.es.divresidapi.service.exception.ServiceException;
 import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByProperty;
 
 public abstract class PropertyItemBaseRestController
-	<TENTITY, TDTO,TENTITYCOUNT, TID> 
-	extends BaseRestController<TENTITY, TDTO, TENTITYCOUNT, TID>{
+	<TENTITY, TDTO,TENTITYCOUNT,TENTITYCOUNTUSER, TID> 
+	extends BaseRestController<TENTITY, TDTO, TENTITYCOUNTUSER, TID>{
 
 	protected abstract LazyTableServiceByProperty<TENTITY, TENTITYCOUNT>
 		getPropertyLazyTableService();
 	
+	
 	@GetMapping(value = "/pagination/items")
 	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<Page<TENTITY>> listAllPageable(Pageable pageable,
+	public ResponseEntity<Page<TENTITY>> listAllPageableItems(Pageable pageable,
 			String searchString, Property property){
 		
 		try {
@@ -42,9 +43,9 @@ public abstract class PropertyItemBaseRestController
 		}
 	}
 	
-	@GetMapping(value = "/pagination/count")
+	@GetMapping(value = "/pagination/items/count")
 	@PreAuthorize("hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<Long> getNumberOfEntites(TENTITYCOUNT t){
+	public ResponseEntity<Long> getNumberOfItems(TENTITYCOUNT t){
 		try {
 			return ResponseEntity.ok(this.getPropertyLazyTableService()
 					.getNumberOfEntities(t));

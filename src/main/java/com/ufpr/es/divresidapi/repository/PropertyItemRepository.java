@@ -1,5 +1,7 @@
 package com.ufpr.es.divresidapi.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +18,8 @@ public interface PropertyItemRepository
 	Page<PropertyItem> findAllByNameContainingAndProperty(String name, 
 			Property property, Pageable pageable);
 	Page<PropertyItem> findAllByUser(Pageable pageable, User user);
-	Page<PropertyItem> listAllPageableAndProperty(Pageable pageable, 
+	List<PropertyItem> findAllByUser(User user);
+	Page<PropertyItem> findAllByProperty(Pageable pageable, 
 			Property property);
 	Long countByProperty(Property property);
 
