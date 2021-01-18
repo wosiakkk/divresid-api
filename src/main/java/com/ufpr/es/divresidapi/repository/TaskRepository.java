@@ -14,7 +14,7 @@ import com.ufpr.es.divresidapi.model.User;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long>{
 	
-	Page<Task> findAllByDescriptionContainingAndProperty(String description,
+	Page<Task> findAllByNameContainingAndProperty(String description,
 			Property property, Pageable pageable);
 	Page<Task> findAllByProperty(Pageable pageable,
 			Property property);

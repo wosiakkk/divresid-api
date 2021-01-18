@@ -58,7 +58,7 @@ public class TaskServiceImpl
 	@Override
 	public Page<Task> findAllByNameContainingAndProperty(String searchString, Property property, Pageable pageable) {
 		return this.taskRepository
-				.findAllByDescriptionContainingAndProperty(
+				.findAllByNameContainingAndProperty(
 						searchString, property, pageable
 				);
 	}

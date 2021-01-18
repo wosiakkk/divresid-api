@@ -8,7 +8,7 @@ import com.ufpr.es.divresidapi.model.User;
 public class TaskDTO {
 
 	private Long id;
-	private String description;
+	private String name;
 	private boolean done;
 	private LocalDate date;
 	private User targetUser;
@@ -16,11 +16,11 @@ public class TaskDTO {
 	private User user;
 	
 	
-	public TaskDTO(Long id, String description, boolean done, LocalDate date, User targetUser, Property property,
-			User user) {
+	public TaskDTO(Long id, String name, boolean done, LocalDate date,
+			User targetUser, Property property, User user) {
 		super();
 		this.id = id;
-		this.description = description;
+		this.name = name;
 		this.done = done;
 		this.date = date;
 		this.targetUser = targetUser;
@@ -38,11 +38,11 @@ public class TaskDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getDescription() {
-		return description;
+	public String getName() {
+		return name;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public boolean isDone() {
 		return done;

@@ -25,7 +25,8 @@ public class TaskController
 	
 
 	@Override
-	protected LazyTableServiceByProperty<Task, Property> getPropertyLazyTableService() {
+	protected LazyTableServiceByProperty<Task, Property> 
+		getPropertyLazyTableService() {
 		return this.lazyTableService;
 	}
 

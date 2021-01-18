@@ -25,7 +25,7 @@ public class Task implements Serializable{
 	private Long id;
 	
 	@Column
-	private String description;
+	private String name;
 	
 	@Column
 	private boolean done;
@@ -49,11 +49,11 @@ public class Task implements Serializable{
 	
 	
 	
-	public Task(Long id, String description, boolean done, LocalDate date, User targetUser, Property property,
+	public Task(Long id, String name, boolean done, LocalDate date, User targetUser, Property property,
 			User user) {
 		super();
 		this.id = id;
-		this.description = description;
+		this.name = name;
 		this.done = done;
 		this.date = date;
 		this.targetUser = targetUser;
@@ -72,12 +72,12 @@ public class Task implements Serializable{
 		this.id = id;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getName() {
+		return name;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public boolean isDone() {
