@@ -40,7 +40,7 @@ public class Task implements Serializable{
 	
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name="user_id_to")
+	@JoinColumn(name="property_id")
 	private Property property;
 	
 	@ManyToOne
