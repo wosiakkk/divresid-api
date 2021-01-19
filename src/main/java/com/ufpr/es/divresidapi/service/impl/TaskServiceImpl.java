@@ -68,4 +68,10 @@ public class TaskServiceImpl
 		return this.taskRepository.countByProperty(t);
 	}
 
+	@Override
+	public void updateTaskStatus(Long id, boolean status) 
+			throws ServiceException {
+		this.taskRepository.updateTaskStatus(id, status);
+	}
+
 }
