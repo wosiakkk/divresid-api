@@ -26,6 +26,8 @@ public interface TaskRepository extends JpaRepository<Task, Long>{
 	Page<Task> findAllByUser(Pageable pageable, User user);
 	Long countByProperty(Property property);
 	
+	List<Task> findAllByPropertyAndDone(Property property, boolean done);
+	
 	
 	
 	@Modifying

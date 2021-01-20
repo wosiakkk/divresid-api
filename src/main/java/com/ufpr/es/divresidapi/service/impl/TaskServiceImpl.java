@@ -74,4 +74,17 @@ public class TaskServiceImpl
 		this.taskRepository.updateTaskStatus(id, status);
 	}
 
+	@Override
+	public List<TaskDTO> getAllActive(Long propertyId) throws ServiceException {
+		Property property = new Property();
+		property.setId(propertyId);
+		List<Task> models = 
+				this.taskRepository.findAllByPropertyAndDone(property, false);
+
+		List<TaskDTO> dtos = new ArrayList<>();
+		models.forEach(m ->{
+			dtos.add(this.taskConverter.convertToDTO(m));
+		});
+		return dtos;
+	}
 }
