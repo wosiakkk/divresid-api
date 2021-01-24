@@ -10,4 +10,7 @@ import com.ufpr.es.divresidapi.service.exception.ServiceException;
 public interface UserService extends BaseResourceService<UserDTO, Long>{
 	UserDTO findUserByEmail(String email) throws ServiceException;
 	UserDTO setNewRole(String roleName, Long userId) throws ServiceException;
+	UserDTO setNewPass(String currentPass, String newpass, Long userId) 
+														throws ServiceException;
 }
+	
