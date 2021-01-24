@@ -9,7 +9,6 @@ import com.ufpr.es.divresidapi.model.Category;
 import com.ufpr.es.divresidapi.model.User;
 import com.ufpr.es.divresidapi.service.BaseResourceService;
 import com.ufpr.es.divresidapi.service.CategoryService;
-import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByProperty;
 import com.ufpr.es.divresidapi.service.lazyloading.LazyTableServiceByUser;
 
 
