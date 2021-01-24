@@ -83,21 +83,16 @@ public class UserServiceImpl
 	@Override
 	public UserDTO setNewPass(String currentPass, String newpass, Long userId)
 			throws ServiceException {
-		String curretPasswordEncoded = encoder.encode(currentPass);
-		User checkUser = checkIfPasswordIsCorrect(curretPasswordEncoded, userId);
-		if(checkUser != null) {
+		User currentUser =  this.userRepository.findById(userId).get();
+		if(encoder.matches(currentPass, currentUser.getPassword())) {
 			String newPassEncoded =  encoder.encode(newpass);
-			checkUser.setPassword(newPassEncoded);
+			currentUser.setPassword(newPassEncoded);
 			return this.userConverter
-					.convertToDTO(this.userRepository.save(checkUser));
+					.convertToDTO(this.userRepository.save(currentUser));
 		}
 		return null;
 	}
 	
-	private User checkIfPasswordIsCorrect(String currentPass, Long userId) {
-		return this.userRepository
-				.findByPasswordAndId(currentPass, userId).get();
-	}
 	
 	/*!!!!!!!!!!*/
 	@Override
