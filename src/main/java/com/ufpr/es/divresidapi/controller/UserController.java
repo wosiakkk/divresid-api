@@ -9,12 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ufpr.es.divresidapi.dto.NewPassUptReqDTO;
 import com.ufpr.es.divresidapi.dto.UserDTO;
 import com.ufpr.es.divresidapi.model.ERole;
 import com.ufpr.es.divresidapi.model.Property;
@@ -71,5 +73,19 @@ public class UserController
 		return ResponseEntity
 				.ok(this.userService.setNewRole(roleName, user.getId()));
 	}
+	
 
+	@PostMapping(value = "/newPass")
+	@PreAuthorize("hasRole('USER') or hasRole('RESIDENT') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<UserDTO> setNewPassword(
+			@RequestBody NewPassUptReqDTO newpass) throws ServiceException{
+		UserDTO dto = this.userService
+				.setNewPass(newpass.getCurrentPass(),
+						newpass.getNewPass(), newpass.getUserId());
+		if(dto != null)
+			return ResponseEntity.ok(dto);
+		else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ufpr.es.divresidapi.converter.ResourceConverter;
@@ -32,6 +33,8 @@ public class UserServiceImpl
 	private UserRepository userRepository;
 	@Autowired
 	private RoleRepository roleRepository;
+	@Autowired
+	PasswordEncoder encoder;
 	
 	@Override
 	public UserDTO findUserByEmail(String email) throws ServiceException {
@@ -49,31 +52,6 @@ public class UserServiceImpl
 		return this.userRepository;
 	}
 
-	/*!!!!!!!!!!*/
-	@Override
-	public List<UserDTO> findAllByUser(User user) throws ServiceException {
-		/*Problema de modelagem de interface, método sem utilidade, refatorar*/
-		return null;
-	}
-
-	@Override
-	public Page<User> listAllPageableAndUser(Pageable pageable, User user) 
-			throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Page<User> findAllByNameContainingAndUser(String searchString,
-			User user, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Long getNumberOfEntities(Property property) throws ServiceException {
-		return null;//this.userRepository.countByProperty(property);
-	}
 
 	@Override
 	public UserDTO setNewRole(String roleName, Long userId) 
@@ -100,6 +78,46 @@ public class UserServiceImpl
 		//UserDTO dto = this.update(this.userConverter.convertToDTO(u));
 		
 		return dto;
+	}
+
+	@Override
+	public UserDTO setNewPass(String currentPass, String newpass, Long userId)
+			throws ServiceException {
+		User currentUser =  this.userRepository.findById(userId).get();
+		if(encoder.matches(currentPass, currentUser.getPassword())) {
+			String newPassEncoded =  encoder.encode(newpass);
+			currentUser.setPassword(newPassEncoded);
+			return this.userConverter
+					.convertToDTO(this.userRepository.save(currentUser));
+		}
+		return null;
+	}
+	
+	
+	/*!!!!!!!!!!*/
+	@Override
+	public List<UserDTO> findAllByUser(User user) throws ServiceException {
+		/*Problema de modelagem de interface, método sem utilidade, refatorar*/
+		return null;
+	}
+
+	@Override
+	public Page<User> listAllPageableAndUser(Pageable pageable, User user) 
+			throws ServiceException {
+		/*Problema de modelagem de interface, método sem utilidade, refatorar*/
+		return null;
+	}
+
+	@Override
+	public Page<User> findAllByNameContainingAndUser(String searchString,
+			User user, Pageable pageable) {
+		/*Problema de modelagem de interface, método sem utilidade, refatorar*/
+		return null;
+	}
+
+	@Override
+	public Long getNumberOfEntities(Property property) throws ServiceException {
+		return null;//this.userRepository.countByProperty(property);
 	}
 
 }
