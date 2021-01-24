@@ -11,13 +11,14 @@ public class GoalConverter implements ResourceConverter<Goal, GoalDTO> {
 	@Override
 	public Goal convertToModel(GoalDTO dto) {
 		return new Goal(dto.getId(), dto.getName(), dto.getValue(), 
-				dto.getDate(), dto.getUser());
+				dto.getDate(), dto.getUser(), dto.isDone());
 	}
 
 	@Override
 	public GoalDTO convertToDTO(Goal model) {
 		return new GoalDTO(model.getId(), model.getName(), 
-				model.getValue(), model.getDate(), model.getUser());
+				model.getValue(), model.getDate(), model.getUser(),
+				model.isDone());
 	}
 
 }

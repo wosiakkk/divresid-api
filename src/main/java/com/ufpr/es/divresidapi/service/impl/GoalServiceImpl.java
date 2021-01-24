@@ -69,4 +69,17 @@ public class GoalServiceImpl
 		return this.goalRepository.countByUser(t);
 	}
 
+	@Override
+	public List<GoalDTO> getAllActive(Long userId) throws ServiceException {
+		User user = new User();
+		user.setId(userId);
+		List<Goal> models =
+				this.goalRepository.findAllByUserAndDone(user, false);
+		List<GoalDTO> dtos = new ArrayList<>();
+		models.forEach(m ->
+			dtos.add(this.goalConverter.convertToDTO(m))
+		);
+		return dtos;
+	}
+
 }

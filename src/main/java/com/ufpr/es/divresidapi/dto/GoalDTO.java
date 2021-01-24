@@ -9,17 +9,19 @@ public class GoalDTO {
 	private Long id;
 	private String name;
 	private float value;
+	private boolean done;
 	private LocalDate date;
 	private User user;
 	
 	public GoalDTO(Long id,String name, float value, LocalDate date,
-			User user) {
+			User user, boolean done) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.value = value;
 		this.date = date;
 		this.user = user;
+		this.done = done;
 	}
 	
 	public GoalDTO() {}
@@ -62,6 +64,14 @@ public class GoalDTO {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public boolean isDone() {
+		return done;
+	}
+	
+	public void setDone(boolean done) {
+		this.done = done;
 	}
 	
 }

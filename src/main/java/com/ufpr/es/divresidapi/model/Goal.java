@@ -31,6 +31,9 @@ public class Goal implements Serializable{
 	private float value;
 	
 	@Column
+	private boolean done;
+	
+	@Column
 	private LocalDate date;
 	
 	@ManyToOne
@@ -38,14 +41,16 @@ public class Goal implements Serializable{
 	private User user;
 	
 	
-	public Goal(Long id, @NotBlank(message = "Campo deve ser preenchido!") String name, float value, LocalDate date,
-			User user) {
+	public Goal(Long id, 
+			@NotBlank(message = "Campo deve ser preenchido!") String name,
+			float value, LocalDate date, User user, boolean done) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.value = value;
 		this.date = date;
 		this.user = user;
+		this.done = done;
 	}
 	
 	public Goal() {}
@@ -88,6 +93,14 @@ public class Goal implements Serializable{
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public boolean isDone() {
+		return done;
+	}
+	
+	public void setDone(boolean done) {
+		this.done = done;
 	}
 
 }
